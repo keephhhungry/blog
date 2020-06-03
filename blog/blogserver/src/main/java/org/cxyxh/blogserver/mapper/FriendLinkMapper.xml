@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.FriendLinkMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.FriendLink">
+        <id column="i_friend_link" property="ifriendLink" jdbcType="INTEGER"/>
+        <result column="link_name" property="linkName" jdbcType="VARCHAR"/>
+        <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+    </resultMap>
+
+    <!--根据页码和关键字 查询友链-->
+    <select id="getFriendLinkByPage" resultMap="BaseResultMap">
+        select * from t_friend_link
+        <where>
+            <if test="keyword !=null and keyword!=''">
+                link_name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据关键字 查询数据条数-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from t_friend_link
+        <where>
+            <if test="keyword !=null and keyword!=''">
+                link_name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--根据ID 删除友链-->
+    <delete id="deleteFriendLinkById" parameterType="java.lang.Integer">
+        delete from t_friend_link where i_friend_link = #{ifriendLink}
+    </delete>
+
+    <!--根据友链对象 新增友链-->
+    <insert id="addFriendLink" parameterType="org.cxyxh.blogserver.model.FriendLink">
+        insert into t_friend_link
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="linkName != null">
+                link_name,
+            </if>
+            <if test="linkUrl != null">
+                link_url,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="linkName != null">
+                #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=DATE},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据友链ID 修改该对象-->
+    <update id="updateFriendLinkById" parameterType="org.cxyxh.blogserver.model.FriendLink">
+        update t_friend_link
+        <set>
+            <if test="linkName != null">
+                link_name = #{linkName,jdbcType=VARCHAR},
+            </if>
+            <if test="linkUrl != null">
+                link_url = #{linkUrl,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=DATE},
+            </if>
+        </set>
+        where i_friend_link = #{ifriendLink,jdbcType=INTEGER}
+    </update>
+</mapper>

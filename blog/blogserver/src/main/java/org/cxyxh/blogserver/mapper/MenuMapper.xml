@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.MenuMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.Menu">
+        <id column="i_menu" property="imenu" jdbcType="INTEGER"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
+        <result column="component" property="component" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <association property="meta" javaType="org.cxyxh.blogserver.model.Meta">
+            <result column="keepAlive" property="keepAlive" jdbcType="INTEGER"/>
+            <result column="requireAuth" property="requireAuth" jdbcType="INTEGER"/>
+        </association>
+    </resultMap>
+
+    <!--登录的时候查找该用户的菜单-->
+    <select id="getMenusByHrUser" resultMap="getMenusByHrUserResultMap">
+        SELECT DISTINCT
+			m1.*,
+			m2.i_menu AS i_menu2,
+			m2.component AS component2,
+			m2.enabled AS enabled,
+			m2.icon AS icon2,
+			m2.keep_alive AS keep_alive2,
+			m2.name AS name2,
+			m2.parent_id AS parent_id2,
+			m2.require_auth AS require_auth2,
+			m2.path AS path2
+		FROM
+			t_menu m1,
+			t_menu m2,
+			t_user_role ur,
+			t_role_menu rm
+		WHERE
+			m1.i_menu = m2.parent_id
+			AND ur.i_role = rm.i_role
+			AND rm.i_menu = m2.i_menu
+			AND m2.enabled = 1
+			AND ur.i_user = #{iuser}
+		ORDER BY
+			m1.i_menu,
+			m2.i_menu
+    </select>
+
+    <!--登录的时候查找该用户的菜单  对应的resultMap-->
+    <resultMap id="getMenusByHrUserResultMap" type="org.cxyxh.blogserver.model.Menu" extends="BaseResultMap">
+        <collection property="children" ofType="org.cxyxh.blogserver.model.Menu">
+            <id column="i_menu2" property="imenu" jdbcType="INTEGER"/>
+            <result column="component2" property="component" jdbcType="VARCHAR"/>
+            <result column="enabled2" property="enabled" jdbcType="INTEGER"/>
+            <result column="icon2" property="icon" jdbcType="VARCHAR"/>
+            <result column="name2" property="name" jdbcType="VARCHAR"/>
+            <result column="parent_id2" property="parentId" jdbcType="INTEGER"/>
+            <result column="path2" property="path" jdbcType="VARCHAR"/>
+            <association property="meta" javaType="org.cxyxh.blogserver.model.Meta">
+                <result column="keep_alive2" property="keepAlive" jdbcType="INTEGER"/>
+                <result column="require_auth2" property="requireAuth" jdbcType="INTEGER"/>
+            </association>
+        </collection>
+    </resultMap>
+
+    <!--根据用户访问的路径，查询该路径可以访问的角色-->
+    <select id="getAllMenusWithRole" resultMap="getAllMenusWithRoleResultMap">
+        SELECT
+            m.*,
+            r.i_role,
+            r.name as rname,
+            r.name_zh as rnamezh
+        FROM
+            t_role r,
+            t_role_menu rm,
+            t_menu m
+        WHERE
+            r.i_role = rm.i_role
+            AND m.i_menu = rm.i_menu
+        ORDER BY
+            m.i_menu
+    </select>
+
+    <!--根据用户访问的路径，查询该路径可以访问的角色  对应的resultMap-->
+    <resultMap id="getAllMenusWithRoleResultMap" type="org.cxyxh.blogserver.model.Menu" extends="BaseResultMap">
+        <collection property="roles" ofType="org.cxyxh.blogserver.model.Role">
+            <id column="i_role" property="irole"/>
+            <result column="rname" property="name"/>
+            <result column="rnamezh" property="nameZh"/>
+        </collection>
+    </resultMap>
+
+    <!--根据关键字 查询菜单-->
+    <select id="getAllMenu" resultMap="BaseResultMap">
+        select * from t_menu
+        <where>
+            <if test="keyword !=null and keyword!=''">
+                and name like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+
+</mapper>

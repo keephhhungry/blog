@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.RoleMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.Role">
+        <id column="i_role" property="irole" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="name_zh" property="nameZh" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+    </resultMap>
+
+    <!--根据关键字 查询所有的角色-->
+    <select id="getAllRole" resultMap="BaseResultMap">
+        select * from t_role
+        <where>
+            <if test="keyword !=null and keyword!=''">
+                and name_zh like concat('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增角色-->
+    <insert id="addRole" parameterType="org.cxyxh.blogserver.model.Role">
+        insert into t_role
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                name,
+            </if>
+            <if test="nameZh != null">
+                name_zh,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameZh != null">
+                #{nameZh,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=DATE},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--删除角色-->
+    <delete id="deleteRole" parameterType="java.lang.Integer">
+        delete from t_role where i_role = #{irole}
+    </delete>
+
+    <!--更新角色-->
+    <update id="updateRole" parameterType="org.cxyxh.blogserver.model.Role">
+        update t_role
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="nameZh != null">
+                name_zh = #{nameZh,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=INTEGER},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=DATE},
+            </if>
+        </set>
+        where i_role = #{irole,jdbcType=INTEGER}
+    </update>
+</mapper>
