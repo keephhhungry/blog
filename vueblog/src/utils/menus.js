@@ -42,8 +42,6 @@ export const formatRoutes = (routes) => {
                     require(['../views/permission/' + component + '.vue'], resolve);
                 } else if (component.startsWith("Article")) {
                     require(['../views/article/' + component + '.vue'], resolve);
-                } else if (component.startsWith("Log")) {
-                    require(['../views/log/' + component + '.vue'], resolve);
                 } else if (component.startsWith("Analysis")) {
                     require(['../views/analysis/' + component + '.vue'], resolve);
                 }else if (component.startsWith("System")) {

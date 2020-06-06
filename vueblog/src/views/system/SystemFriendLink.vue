@@ -10,7 +10,7 @@
                         style="width: 400px;margin-right: 10px"
                         v-model="keyword"
                         @keydown.enter.native="initFriendLinks"
-                        :clearable="true" >
+                        :clearable="true">
                 </el-input>
                 <el-button size="small"
                            type="primary"
@@ -31,7 +31,7 @@
                 </el-button>
             </div>
         </div>
-        <!-- 表格-->
+        <!-- 表格及分页-->
         <div style="margin-top: 10px">
             <el-table
                     :data="friendLinks"
@@ -84,6 +84,16 @@
                     </template>
                 </el-table-column>
             </el-table>
+            <!--分页-->
+            <div style="display: flex;justify-content: flex-end;margin-top: 10px">
+                <el-pagination
+                        background
+                        @current-change="currentChange"
+                        @size-change="sizeChange"
+                        layout="sizes, prev, pager, next, jumper, ->, total, slot"
+                        :total="total">
+                </el-pagination>
+            </div>
         </div>
         <!-- 弹窗-->
         <el-dialog
@@ -142,6 +152,9 @@
                     linkName: [{required: true, message: '请输入友链名称', trigger: 'blur'}],
                     linkUrl: [{required: true, message: '请输入友链地址', trigger: 'blur'}],
                 },
+                page: 1,
+                size: 10,
+                total: 0,
             }
         },
         mounted() {
@@ -210,12 +223,24 @@
             // 获取友链
             initFriendLinks() {
                 this.loading = true;
-                this.getRequest("/system/friendlink/?keyword=" + this.keyword).then(resp => {
+                let url = "/system/friendlink/?page=" + this.page + "&size=" + this.size + "&keyword=" + this.keyword;
+                this.getRequest(url).then(resp => {
                     this.loading = false;
                     if (resp) {
                         this.friendLinks = resp.data;
+                        this.total = resp.total;
                     }
                 })
+            },
+            //改变页数
+            currentChange(currentPage) {
+                this.page = currentPage;
+                this.initFriendLinks('advanced');
+            },
+            //每页数量改变
+            sizeChange(currentSize) {
+                this.size = currentSize;
+                this.initFriendLinks();
             },
             //刷新
             refresh() {

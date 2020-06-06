@@ -1,8 +1,13 @@
 package org.cxyxh.blogserver;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import org.cxyxh.blogserver.model.ArticleType;
 import org.cxyxh.blogserver.model.FriendLink;
+import org.cxyxh.blogserver.model.Log;
 import org.cxyxh.blogserver.model.User;
+import org.cxyxh.blogserver.service.ArticleTypeService;
 import org.cxyxh.blogserver.service.FriendLinkService;
+import org.cxyxh.blogserver.service.LogService;
 import org.cxyxh.blogserver.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +27,43 @@ class BlogserverApplicationTests {
 	@Autowired
 	FriendLinkService friendLinkService;
 
+	@Autowired
+	ArticleTypeService articleTypeService;
+
+	@Autowired
+	LogService logService;
+
 	@Test
 	void contextLoads() {
-		addFriendLink();
+		addLog();
+	}
+
+	void addLog(){
+		for (int i = 0 ; i<50;i++){
+			Log log = new Log();
+			log.setIuser(2);
+			log.setAddress("测试地址"+i);
+			log.setBrowser("测试浏览器"+i);
+			log.setGmtCreate(new Date());
+			log.setGmtModified(new Date());
+			log.setIp("测试IP"+i);
+			log.setLogType(3);
+			log.setOperatingSystem("操作系统"+i);
+			log.setOperationalParameter("操作参数"+i);
+			log.setRemark("备注"+i);
+			log.setUrl("路径+"+i);
+			logService.addLog(log);
+		}
+	}
+
+	void addArticleType(){
+		for (int i = 0 ; i<50;i++){
+			ArticleType articleType = new ArticleType();
+			articleType.setTypeName("测试"+i);
+			articleType.setGmtModified(new Date());
+			articleType.setGmtCreate(new Date());
+			articleTypeService.addArticleType(articleType);
+		}
 	}
 
 	void addFriendLink(){

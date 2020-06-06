@@ -11,5 +11,14 @@ package org.cxyxh.blogserver.utils;
  */
 public class DefaultParams {
 
+	/* 默认密码 */
 	public static final String DEFAULT_PASSWORD = "123";
+
+	/* 登录日志 */
+	public static final Integer LOGIN_LOG = 1;
+	/* 前台日志 */
+	public static final Integer VISIT_LOG = 2;
+	/* 后台日志 */
+	public static final Integer OPERATE_LOG = 3;
+
 }
