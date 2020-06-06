@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.LeaveMessageMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.LeaveMessage">
+        <id column="i_leave_message" property="ileaveMessage" jdbcType="INTEGER"/>
+        <result column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="message_context" property="messageContext" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <association property="user" javaType="org.cxyxh.blogserver.model.User">
+            <id column="iuser" property="iuser2" jdbcType="VARCHAR"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--根据日志的类型ID,页码，每页展示数量和日志对象 查询相关的日志集合-->
+    <select id="getLeaveMessageByPage" resultMap="BaseResultMap">
+        select username,l.* from t_leave_message l,t_user u where l.i_user = u.i_user
+        <if test="leaveMessage !=null">
+            <if test="leaveMessage.user!=null">
+                <if test="leaveMessage.user.username !=null and leaveMessage.user.username!=''">
+                    and u.username = #{leaveMessage.user.username}
+                </if>
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据日志类型，日志对象，创建时间，查看日志的数量-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from t_leave_message l,t_user u where l.i_user = u.i_user
+        <if test="leaveMessage !=null">
+            <if test="leaveMessage.user!=null">
+                <if test="leaveMessage.user.username !=null and leaveMessage.user.username!=''">
+                    and u.username = #{leaveMessage.user.username}
+                </if>
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+    </select>
+
+</mapper>

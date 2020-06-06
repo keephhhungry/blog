@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.CommentMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.Comment">
+        <id column="i_comment" property="icomment" jdbcType="INTEGER"/>
+        <result column="i_article" property="iarticle" jdbcType="INTEGER"/>
+        <result column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="comment_context" property="commentContext" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+    </resultMap>
+
+</mapper>

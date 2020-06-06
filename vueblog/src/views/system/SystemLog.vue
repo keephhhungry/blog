@@ -189,7 +189,7 @@
             //改变页数
             currentChange(currentPage) {
                 this.page = currentPage;
-                this.initLogs('advanced');
+                this.initLogs();
             },
             //每页数量改变
             sizeChange(currentSize) {
