@@ -17,16 +17,19 @@ public class ArticleType {
 
 	/* 主键 */
 	private Integer iarticleType;
-	/* 类型名称 */
 
+	/* 类型名称 */
 	private String typeName;
 
+	/* 文章数量 */
+	private Integer articleNum;
+
 	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 
 	public Integer getIarticleType() {
@@ -61,11 +64,20 @@ public class ArticleType {
 		this.gmtModified = gmtModified;
 	}
 
+	public Integer getArticleNum() {
+		return articleNum;
+	}
+
+	public void setArticleNum(Integer articleNum) {
+		this.articleNum = articleNum;
+	}
+
 	@Override
 	public String toString() {
 		final StringBuffer sb = new StringBuffer("ArticleType{");
 		sb.append("iarticleType=").append(iarticleType);
 		sb.append(", typeName='").append(typeName).append('\'');
+		sb.append(", articleNum=").append(articleNum);
 		sb.append(", gmtCreate=").append(gmtCreate);
 		sb.append(", gmtModified=").append(gmtModified);
 		sb.append('}');

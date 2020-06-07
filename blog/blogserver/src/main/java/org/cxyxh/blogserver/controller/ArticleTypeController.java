@@ -1,12 +1,12 @@
 package org.cxyxh.blogserver.controller;
 
-import org.cxyxh.blogserver.model.ArticleType;
-import org.cxyxh.blogserver.model.FriendLink;
-import org.cxyxh.blogserver.model.RespBean;
-import org.cxyxh.blogserver.model.RespPageBean;
+import org.cxyxh.blogserver.model.*;
+import org.cxyxh.blogserver.service.ArticleService;
 import org.cxyxh.blogserver.service.ArticleTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @ProjectName: blog
@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/article/type")
 public class ArticleTypeController {
 
+	@Autowired
+	ArticleService articleService;
 	@Autowired
 	ArticleTypeService articleTypeService;
 
@@ -45,10 +47,36 @@ public class ArticleTypeController {
 	 */
 	@DeleteMapping("/{iarticleType}")
 	public RespBean deleteArticleTypeById(@PathVariable Integer iarticleType) {
-		if (articleTypeService.deleteArticleTypeById(iarticleType) == 1) {
-			return RespBean.ok("删除成功");
+		// 无法删除 "其他" 分组
+		if (iarticleType == 1) {
+			return RespBean.error("该分组为默认类型，无法删除");
 		} else {
-			return RespBean.error("删除失败");
+			// 查看该类型下是否有文章
+			List<Integer> ids =  articleService.getArticelsByTypeId(iarticleType);
+			if (ids.size() == 0) {
+				if (articleTypeService.deleteArticleTypeById(iarticleType) == 1) {
+					return RespBean.ok("删除成功");
+				} else {
+					return RespBean.error("删除失败");
+				}
+			} else {
+				return RespBean.error("删除失败，该类型下仍有文章", -1);
+			}
+		}
+	}
+
+	/**
+	 * 根据ID 强制删除文章类型，并且把该类型下的文章转移至"其他"类型下
+	 *
+	 * @param iarticleType 文章类型ID
+	 * @return
+	 */
+	@DeleteMapping("enforce/{iarticleType}")
+	public RespBean enforceDeleteArticleTypeById(@PathVariable Integer iarticleType) {
+		if(articleTypeService.enforceDeleteArticleTypeById(iarticleType)){
+			return RespBean.ok("强制删除成功");
+		}else {
+			return RespBean.ok("强制删除失败");
 		}
 	}
 

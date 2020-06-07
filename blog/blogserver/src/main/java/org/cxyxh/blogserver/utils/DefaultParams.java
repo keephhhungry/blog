@@ -21,4 +21,7 @@ public class DefaultParams {
 	/* 后台日志 */
 	public static final Integer OPERATE_LOG = 3;
 
+	/* 默认文章类型id */
+	public static final Integer DEFAULT_ARTICLE_TYPE = 1;
+
 }

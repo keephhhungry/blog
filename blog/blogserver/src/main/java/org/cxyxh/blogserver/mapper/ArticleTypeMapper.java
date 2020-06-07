@@ -59,4 +59,10 @@ public interface ArticleTypeMapper {
 	 */
 	Integer updateArticleTypeById(ArticleType articleType);
 
+	/**
+	 * 获取全部文章类型
+	 *
+	 * @return
+	 */
+	List<ArticleType> getArticleType();
 }

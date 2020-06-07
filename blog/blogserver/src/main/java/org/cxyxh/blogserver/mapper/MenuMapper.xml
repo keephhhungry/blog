@@ -12,8 +12,8 @@
         <result column="icon" property="icon" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
         <result column="enabled" property="enabled" jdbcType="INTEGER"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="meta" javaType="org.cxyxh.blogserver.model.Meta">
             <result column="keepAlive" property="keepAlive" jdbcType="INTEGER"/>
             <result column="requireAuth" property="requireAuth" jdbcType="INTEGER"/>

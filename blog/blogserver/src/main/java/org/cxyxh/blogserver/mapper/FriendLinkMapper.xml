@@ -8,8 +8,8 @@
         <result column="link_name" property="linkName" jdbcType="VARCHAR"/>
         <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--根据页码和关键字 查询友链-->

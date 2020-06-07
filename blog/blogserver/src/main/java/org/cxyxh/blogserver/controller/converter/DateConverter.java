@@ -19,7 +19,7 @@ import java.util.Date;
 @Component
 public class DateConverter implements Converter<String, Date> {
 
-	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
 	@Override
 	public Date convert(String source) {

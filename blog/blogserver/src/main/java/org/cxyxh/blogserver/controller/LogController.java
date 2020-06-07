@@ -39,11 +39,11 @@ public class LogController {
 	 */
 	@GetMapping("/")
 	public RespPageBean getLoginLogByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Log log, Date[] createDateScope) {
-		System.out.println("log="+log.toString());
 		if(createDateScope!=null){
 			System.out.println("createDateScope="+createDateScope.toString());
 
 		}
+		RespPageBean bean = logService.getLogByPage(page, size, log, createDateScope);
 		return logService.getLogByPage(page, size, log, createDateScope);
 	}
 

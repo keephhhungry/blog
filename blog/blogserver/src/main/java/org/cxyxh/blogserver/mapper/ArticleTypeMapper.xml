@@ -6,8 +6,8 @@
     <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.ArticleType">
         <id column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
         <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--根据页码和关键字 查询文章类型-->
@@ -78,4 +78,11 @@
         </set>
         where i_article_type = #{iarticleType,jdbcType=INTEGER}
     </update>
+
+    <!--查询全部文章类型-->
+    <select id="getArticleType" resultMap="BaseResultMap">
+        select * from t_article_type
+    </select>
+
+
 </mapper>

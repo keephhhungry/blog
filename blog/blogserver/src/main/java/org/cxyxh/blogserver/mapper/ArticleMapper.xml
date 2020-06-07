@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.ArticleMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.Article">
+        <id column="i_article" property="iarticle" jdbcType="INTEGER"/>
+        <result column="article_author" property="articleAuthor" jdbcType="VARCHAR"/>
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
+        <result column="article_introduction" property="articleIntroduction" jdbcType="VARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="VARCHAR"/>
+        <result column="i_article_type" property="iarticleType" jdbcType="VARCHAR"/>
+        <result column="is_top" property="isTop" jdbcType="INTEGER"/>
+        <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
+        <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
+        <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="collect_num" property="collectNum" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <association property="articleType" javaType="org.cxyxh.blogserver.model.ArticleType">
+            <id column="i_article_type2" property="i_article_type" jdbcType="VARCHAR"/>
+            <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--根据页码，每页展示数量，文章对象，创建时间 查询文章-->
+    <select id="getArticleByPage" resultMap="BaseResultMap">
+        select a1.*,a2.type_name from t_article a1,t_article_type a2 where a1.i_article_type = a2.i_article_type and
+        status = 1
+        <if test="article !=null">
+            <if test="article.articleTitle !=null and article.articleTitle!=''">
+                and article_title like concat('%',#{article.articleTitle},'%')
+            </if>
+            <if test="article.iarticleType !=null and article.iarticleType!=''">
+                and i_article_type = #{article.iarticleType}
+            </if>
+            <if test="article.isOriginal !=null and article.isOriginal!=''">
+                and is_original = #{article.isOriginal}
+            </if>
+            <if test="article.isReptile !=null and article.isReptile!=''">
+                and is_reptile = #{article.isReptile}
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+        order by is_top desc,gmt_create desc
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据文章对象，创建时间，查询文章总数-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from t_article where status = 1
+        <if test="article !=null">
+            <if test="article.articleTitle !=null and article.articleTitle!=''">
+                and article_title like concat('%',#{article.articleTitle},'%')
+            </if>
+            <if test="article.iarticleType !=null and article.iarticleType!=''">
+                and i_article_type = #{article.iarticleType}
+            </if>
+            <if test="article.isOriginal !=null and article.isOriginal!=''">
+                and is_original = #{article.isOriginal}
+            </if>
+            <if test="article.isReptile !=null and article.isReptile!=''">
+                and is_reptile = #{article.isReptile}
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+    </select>
+
+    <!--查看该文章类型下 文章数量-->
+    <select id="getArticleNum" parameterType="java.lang.Integer">
+        select count(*) from t_article where i_article_type = #{iarticleType}
+    </select>
+
+    <!--查询该文章类型下 文章的id集合-->
+    <select id="getArticelsByTypeId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select i_article from t_article where i_article_type = #{iarticleType}
+    </select>
+
+    <!--批量修改文章的类型至其他-->
+    <update id="updateArticleType">
+        update
+        t_article
+        set i_article_type = #{iarticleType}
+        WHERE
+        i_article IN
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </update>
+
+    <!--根据ID 删除文章-->
+    <update id="deleteArticleById" parameterType="java.lang.Integer">
+        update t_article set status = 0 where i_article = #{iarticle}
+    </update>
+</mapper>

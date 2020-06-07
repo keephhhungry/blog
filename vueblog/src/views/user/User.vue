@@ -135,7 +135,7 @@
                                 end-placeholder="结束日期">
                         </el-date-picker>
                     </el-col>
-                    <el-col :span="1" style="margin-right: 10px">
+                    <el-col :span="1" style="margin-left: 25px">
                         <el-button size="mini" icon="el-icon-search" type="primary" @click="initUsers('advanced')">搜索
                         </el-button>
                     </el-col>

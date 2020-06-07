@@ -14,10 +14,10 @@ import java.util.Date;
  * @Date: 2020/6/3 22:19
  * @Version: 1.0
  */
-public class Comment {
+public class ArticleComment {
 
 	/* 主键 */
-	private Integer icomment;
+	private Integer iarticleComment;
 
 	/* 文章id */
 	private Integer iarticle;
@@ -44,11 +44,11 @@ public class Comment {
 	private String address;
 
 	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 
 	/* 用户 */
@@ -59,8 +59,8 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		final StringBuffer sb = new StringBuffer("Comment{");
-		sb.append("icomment=").append(icomment);
+		final StringBuffer sb = new StringBuffer("ArticleComment{");
+		sb.append("iarticleComment=").append(iarticleComment);
 		sb.append(", iarticle=").append(iarticle);
 		sb.append(", iuser=").append(iuser);
 		sb.append(", commentContext='").append(commentContext).append('\'');
@@ -77,12 +77,12 @@ public class Comment {
 		return sb.toString();
 	}
 
-	public Integer getIcomment() {
-		return icomment;
+	public Integer getIarticleComment() {
+		return iarticleComment;
 	}
 
-	public void setIcomment(Integer icomment) {
-		this.icomment = icomment;
+	public void setIarticleComment(Integer iarticleComment) {
+		this.iarticleComment = iarticleComment;
 	}
 
 	public Integer getIarticle() {

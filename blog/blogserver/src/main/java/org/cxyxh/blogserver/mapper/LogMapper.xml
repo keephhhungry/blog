@@ -14,8 +14,8 @@
         <result column="operational_parameter" property="operationalParameter" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
         <result column="log_type" property="logType" jdbcType="INTEGER"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="user" javaType="org.cxyxh.blogserver.model.User">
             <id column="iuser" property="iuser2" jdbcType="VARCHAR"/>
             <result column="username" property="username" jdbcType="VARCHAR"/>

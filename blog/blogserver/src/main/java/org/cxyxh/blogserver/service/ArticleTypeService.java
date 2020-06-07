@@ -1,6 +1,7 @@
 package org.cxyxh.blogserver.service;
 
 import org.cxyxh.blogserver.model.ArticleType;
+import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
 
 /**
@@ -33,6 +34,13 @@ public interface ArticleTypeService {
 	Integer deleteArticleTypeById(Integer iarticleType);
 
 	/**
+	 * 强制删除文章类型
+	 *
+	 * @param iarticleType 文章类型ID
+	 */
+	Boolean enforceDeleteArticleTypeById(Integer iarticleType);
+
+	/**
 	 * 根据文章类型对象 新增文章类型
 	 *
 	 * @param articleType 文章类型对象
@@ -47,4 +55,21 @@ public interface ArticleTypeService {
 	 * @return
 	 */
 	Integer updateArticleTypeById(ArticleType articleType);
+
+	/**
+	 * 获取全部文章类型
+	 *
+	 * @return
+	 */
+	RespPageBean getArticleType();
+
+	/**
+	 * 根据文章id，置顶文章
+	 *
+	 * @param iaricle
+	 * @return
+	 */
+	Integer topAricleById(Integer iaricle);
+
+
 }

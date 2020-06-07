@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 首行功能按钮-->
-        <div >
+        <div>
             <div>
                 <el-input
                         placeholder="请输入用户名称。。。"
@@ -86,6 +86,18 @@
                         align="center"
                         label="创建时间">
                 </el-table-column>
+                <el-table-column
+                        label="操作"
+                        align="center"
+                        width="250">
+                    <template slot-scope="scope">
+                        <el-button
+                                size="mini"
+                                type="danger"
+                                @click="deleteLeaveMessage(scope.row)">删除
+                        </el-button>
+                    </template>
+                </el-table-column>
             </el-table>
             <!--分页-->
             <div style="display: flex;justify-content: flex-end;margin-top: 10px">
@@ -108,9 +120,9 @@
             return {
                 loading: false,
                 leaveMessages: [],
-                searchValue:{
-                    keyword:null,
-                    createDateScope:null,
+                searchValue: {
+                    keyword: null,
+                    createDateScope: null,
                 },
                 page: 1,
                 size: 10,
@@ -121,7 +133,7 @@
             this.initLeaveMessages();
         },
         methods: {
-            // 获取友链
+            // 获取留言
             initLeaveMessages() {
                 this.loading = true;
                 let url = '/system/leavemessage/?page=' + this.page + '&size=' + this.size;
@@ -138,6 +150,42 @@
                         this.total = resp.total;
                     }
                 })
+            },
+            //删除留言
+            deleteLeaveMessage(data) {
+                this.$confirm('此操作将永久删除【' + data.user.username + '】这条留言, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.deleteRequest("/system/leavemessage/" + data.ileaveMessage).then(resp => {
+                        if (resp && resp.obj == -1) {
+                            this.$confirm('删除失败，该留言下有回复，是否强制删除该留言及相关回复?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                this.deleteRequest("/system/leavemessage/enforce/" + data.ileaveMessage).then(resp => {
+                                    if (resp) {
+                                        this.initLeaveMessages();
+                                    }
+                                })
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'info',
+                                    message: '已取消删除'
+                                });
+                            });
+                        }else{
+                            this.initLeaveMessages();
+                        }
+                    })
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
             },
             //改变页数
             currentChange(currentPage) {

@@ -1,8 +1,10 @@
 package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+
 
 /**
  * @ProjectName: blog
@@ -40,11 +42,13 @@ public class LeaveMessage {
 	private String address;
 
 	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@DateTimeFormat(pattern="yyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+	@DateTimeFormat(pattern="yyy-MM-dd HH:mm:ss")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 
 	/* 用户 */

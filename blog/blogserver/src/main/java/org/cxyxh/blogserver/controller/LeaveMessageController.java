@@ -37,13 +37,14 @@ public class LeaveMessageController {
 	 */
 	@GetMapping("/")
 	public RespPageBean getLeaveMessageByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, LeaveMessage leaveMessage, Date[] createDateScope) {
-		System.out.println("leaveMessage=" + leaveMessage.toString());
 		if (createDateScope != null) {
 			System.out.println("createDateScope=" + createDateScope.toString());
 
 		}
+		RespPageBean bean = leaveMessageService.getLeaveMessageByPage(page, size, leaveMessage, createDateScope);
 		return leaveMessageService.getLeaveMessageByPage(page, size, leaveMessage, createDateScope);
 	}
+
 
 	/**
 	 * 根据留言ID，删除留言
@@ -53,8 +54,29 @@ public class LeaveMessageController {
 	 */
 	@DeleteMapping("/{ileaveMessage}")
 	public RespBean deleteLeaveMessageById(@PathVariable Integer ileaveMessage) {
-		if (leaveMessageService.deleteLeaveMessageById(ileaveMessage) == 1) {
-			return RespBean.ok("删除成功!");
+		int num = leaveMessageService.getLeaveMessageChildrenById(ileaveMessage);
+		//如果没有子留言
+		if(num == 0 ){
+			if (leaveMessageService.deleteLeaveMessageById(ileaveMessage) == 1) {
+				return RespBean.ok("删除成功!");
+			}
+			return RespBean.error("删除失败!");
+		}else{
+			return RespBean.error("删除失败，该留言下有回复",-1);
+		}
+
+	}
+
+	/**
+	 * 根据留言id，不管是否有下级，强制删除留言
+	 * @param ileaveMessage
+	 * @return
+	 */
+	@DeleteMapping("/enforce/{ileaveMessage}")
+	public RespBean enforceDeleteLeaveMessageById(@PathVariable Integer ileaveMessage) {
+		int num = leaveMessageService.enforceDeleteLeaveMessageById(ileaveMessage);
+		if (num != 0) {
+			return RespBean.ok("成功删除"+num+"条数据");
 		}
 		return RespBean.error("删除失败!");
 	}

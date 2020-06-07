@@ -1,12 +1,13 @@
 package org.cxyxh.blogserver.service.impl;
 
+import org.cxyxh.blogserver.mapper.ArticleMapper;
 import org.cxyxh.blogserver.mapper.ArticleTypeMapper;
-import org.cxyxh.blogserver.model.ArticleType;
-import org.cxyxh.blogserver.model.FriendLink;
-import org.cxyxh.blogserver.model.RespPageBean;
+import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.ArticleTypeService;
+import org.cxyxh.blogserver.utils.DefaultParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,8 @@ import java.util.List;
 public class ArticleTypeServiceImpl implements ArticleTypeService {
 
 	@Autowired
+	ArticleMapper articleMapper;
+	@Autowired
 	ArticleTypeMapper articleTypeMapper;
 
 	/**
@@ -39,7 +42,7 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 		if (page != null && size != null) {
 			page = (page - 1) * size;
 		}
-		List<ArticleType> articleTypes = articleTypeMapper.getArticleTypeByPage( page,  size, keyword);
+		List<ArticleType> articleTypes = articleTypeMapper.getArticleTypeByPage(page, size, keyword);
 		Long total = articleTypeMapper.getTotal(keyword);
 		RespPageBean bean = new RespPageBean();
 		bean.setData(articleTypes);
@@ -56,6 +59,27 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	@Override
 	public Integer deleteArticleTypeById(Integer iarticleType) {
 		return articleTypeMapper.deleteArticleTypeById(iarticleType);
+	}
+
+	/**
+	 * 强制删除文章类型
+	 *
+	 * @param iarticleType 文章类型ID
+	 */
+	@Transactional
+	@Override
+	public Boolean enforceDeleteArticleTypeById(Integer iarticleType) {
+		//1.先把该类型下的文章id全部找到
+		List<Integer> ids = articleMapper.getArticelsByTypeId(iarticleType);
+		//2.先把该类型下的文章全部转移到 "其他" 类型下
+		Integer result1 = articleMapper.updateArticleType(ids, DefaultParams.DEFAULT_ARTICLE_TYPE);
+		//3.把改类型删除掉
+		Integer result2 = deleteArticleTypeById(iarticleType);
+		if (result1 != 0 && result2 == 1) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -81,4 +105,36 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	public Integer updateArticleTypeById(ArticleType articleType) {
 		return articleTypeMapper.updateArticleTypeById(articleType);
 	}
+
+	/**
+	 * 获取全部文章类型
+	 *
+	 * @return
+	 */
+	@Override
+	public RespPageBean getArticleType() {
+		List<ArticleType> articleTypes = articleTypeMapper.getArticleType();
+		RespPageBean respPageBean = new RespPageBean();
+		respPageBean.setData(articleTypes);
+		return respPageBean;
+	}
+
+	/**
+	 * 根据文章id，置顶文章
+	 *
+	 * @param iaricle
+	 * @return
+	 */
+	@Override
+	@Transactional
+	public Integer topAricleById(Integer iaricle) {
+		//先取消原先置顶
+//		if(articleTypeMapper.cancleTopAricle()==1){
+//			//再置顶当前文章
+//			if(){
+//		}
+		return null;
+	}
+
+
 }

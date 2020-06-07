@@ -12,8 +12,8 @@
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
-        <result column="gmt_create" property="gmtCreate" jdbcType="DATE"/>
-        <result column="gmt_modified" property="gmtModified" jdbcType="DATE"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="user" javaType="org.cxyxh.blogserver.model.User">
             <id column="iuser" property="iuser2" jdbcType="VARCHAR"/>
             <result column="username" property="username" jdbcType="VARCHAR"/>
@@ -51,6 +51,33 @@
         <if test="createDateScope !=null">
             and l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
         </if>
+    </select>
+
+    <!--查看该留言是否有子留言-->
+    <select id="getLeaveMessageChildrenById" resultType="java.lang.Integer">
+        select count(*) from t_leave_message where parent_id = #{ileaveMessage}
+    </select>
+
+    <!--根据留言id删除留言-->
+    <delete id="deleteLeaveMessageById" parameterType="java.lang.Integer">
+        delete from t_leave_message where i_leave_message = #{ileaveMessage}
+    </delete>
+
+    <!--根据留言id,批量删除留言-->
+    <delete id="deleteLeaveMessageByIds">
+        DELETE
+        FROM
+        t_leave_message
+        WHERE
+        i_leave_message IN
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--根据父id,查找子id-->
+    <select id="getLeaveMessageChildren" resultType="java.lang.Integer">
+        select i_leave_message from t_leave_message where parent_id = #{ileaveMessage}
     </select>
 
 </mapper>

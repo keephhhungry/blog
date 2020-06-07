@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.ArticleCommentMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.ArticleComment">
+        <id column="i_article_comment" property="iarticleComment" jdbcType="INTEGER"/>
+        <result column="i_article" property="iarticle" jdbcType="INTEGER"/>
+        <result column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="comment_context" property="commentContext" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <association property="user" javaType="org.cxyxh.blogserver.model.User">
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+        </association>
+        <association property="article" javaType="org.cxyxh.blogserver.model.Article">
+            <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--根据页码，每页展示数量，评论对象，创建时间 查询评论-->
+    <select id="getArticleCommentByPage" resultMap="BaseResultMap">
+        SELECT
+        username,
+        article_title,
+        a2.*
+        FROM
+        t_article a1,
+        t_article_comment a2,
+        t_user u
+        WHERE
+        a1.i_article = a2.i_article
+        AND a2.i_user = u.i_user
+        <if test="articleComment !=null">
+            <if test="articleComment.user!=null">
+                <if test="articleComment.user.username !=null and articleComment.user.username!=''">
+                    and username like concat ('%',#{articleComment.user.username},'%')
+                </if>
+            </if>
+            <if test="articleComment.article!=null">
+                <if test="articleComment.article.articleTitle !=null and articleComment.article.articleTitle!=''">
+                    and article_title like concat ('%',#{articleComment.article.articleTitle},'%')
+                </if>
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and a2.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据文章对象，创建时间，查询文章总数-->
+    <select id="getTotal" resultType="java.lang.Long">
+        SELECT
+        count(*)
+        FROM
+        t_article a1,
+        t_article_comment a2,
+        t_user u
+        WHERE
+        a1.i_article = a2.i_article
+        AND a2.i_user = u.i_user
+        <if test="articleComment !=null">
+            <if test="articleComment.user!=null">
+                <if test="articleComment.user.username !=null and articleComment.user.username!=''">
+                    and username like concat ('%',#{articleComment.user.username},'%')
+                </if>
+            </if>
+            <if test="articleComment.article!=null">
+                <if test="articleComment.article.articleTitle !=null and articleComment.article.articleTitle!=''">
+                    and article_title like concat ('%',#{articleComment.article.articleTitle},'%')
+                </if>
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and a2.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+    </select>
+
+    <!--查看该评论是否有子评论-->
+    <select id="getArticleCommentChildrenById" resultType="java.lang.Integer">
+        select count(*) from t_article_comment where parent_id = #{iarticleComment}
+    </select>
+
+    <!--根据评论id删除评论-->
+    <delete id="deleteArticleCommentById" parameterType="java.lang.Integer">
+        delete from t_article_comment where i_article_comment = #{iarticleComment}
+    </delete>
+
+    <!--根据评论id,批量删除评论-->
+    <delete id="deleteArticleCommentByIds">
+        DELETE
+        FROM
+        t_article_comment
+        WHERE
+        i_article_comment IN
+        <foreach collection="ids" item="id" close=")" open="(" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
+    </delete>
+
+    <!--根据父id,查找子id-->
+    <select id="getArticleCommentChildren" resultType="java.lang.Integer">
+        select i_article_comment from t_article_comment where parent_id = #{iarticleComment}
+    </select>
+    
+    
+</mapper>

@@ -27,7 +27,7 @@
                 <el-button size="small"
                            type="primary"
                            icon="el-icon-circle-plus-outline"
-                           @click="showAddArticleTypeDialog">添加友链
+                           @click="showAddArticleTypeDialog">添加分组
                 </el-button>
             </div>
         </div>
@@ -132,7 +132,7 @@
             this.initArticleTypes();
         },
         methods: {
-            //更新 /新增 友链信息
+            //更新 //新增 文章类型
             updateArticleType() {
                 // 更新友链数据
                 if (this.articleType.iarticleType) {
@@ -147,7 +147,7 @@
                         }
                     });
                 } else {
-                    // 新增友链数据
+                    // 新增文章类型
                     this.$refs['articleTypeForm'].validate(valid => {
                         if (valid) {
                             this.postRequest("/article/type/", this.articleType).then(resp => {
@@ -160,15 +160,32 @@
                     });
                 }
             },
-            //删除友链
+            //删除文章类型
             deleteArticleType(data) {
-                this.$confirm('此操作将永久删除【' + data.typeName + '】友链, 是否继续?', '提示', {
+                this.$confirm('此操作将永久删除【' + data.typeName + '】分组, 是否继续?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
                     this.deleteRequest("/article/type/" + data.iarticleType).then(resp => {
-                        if (resp) {
+                        if (resp && resp.obj == -1) {
+                            this.$confirm('删除失败，该类型下有文章，是否强制删除该类型，并且将类型的文章转移至"其他"类型中?', '提示', {
+                                confirmButtonText: '确定',
+                                cancelButtonText: '取消',
+                                type: 'warning'
+                            }).then(() => {
+                                this.deleteRequest("/article/type/enforce/" + data.iarticleType).then(resp => {
+                                    if (resp) {
+                                        this.initArticleTypes();
+                                    }
+                                })
+                            }).catch(() => {
+                                this.$message({
+                                    type: 'info',
+                                    message: '已取消删除'
+                                });
+                            });
+                        }else{
                             this.initArticleTypes();
                         }
                     })
@@ -181,17 +198,17 @@
             },
             //展示编辑框
             showUpdateArticleTypeDialog(data) {
-                this.dialogTitle = '编辑友链';
+                this.dialogTitle = '编辑文章类型';
                 Object.assign(this.articleType, data);
                 this.dialogVisible = true;
             },
             //展示添加框
             showAddArticleTypeDialog() {
-                this.dialogTitle = '添加友链';
+                this.dialogTitle = '添加文章类型';
                 this.cleanDialogData();
                 this.dialogVisible = true;
             },
-            // 获取友链
+            // 获取文章类型
             initArticleTypes() {
                 this.loading = true;
                 let url = "/article/type/?page=" + this.page + "&size=" + this.size + "&keyword=" + this.keyword;

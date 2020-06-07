@@ -36,4 +36,39 @@ public interface LeaveMessageMapper {
 	 * @return
 	 */
 	Long getTotal(@Param("leaveMessage") LeaveMessage leaveMessage, @Param("createDateScope") Date[] createDateScope);
+
+	/**
+	 * 查看该留言是否有子留言
+	 *
+	 * @param ileaveMessage 留言id
+	 * @return
+	 */
+	Integer getLeaveMessageChildrenById(Integer ileaveMessage);
+
+	/**
+	 * 根据ID删除留言
+	 *
+	 * @param ileaveMessage 留言id
+	 * @return
+	 */
+	Integer deleteLeaveMessageById(Integer ileaveMessage);
+
+
+	/**
+	 * 通过父id，查找子id
+	 *
+	 * @param ileaveMessage 父id
+	 * @return
+	 */
+	List<Integer> getLeaveMessageChildren(Integer ileaveMessage);
+
+	/**
+	 * 根据留言id，批量删除留言
+	 *
+	 * @param ids
+	 * @return
+	 */
+	Integer deleteLeaveMessageByIds(@Param("ids") List<Integer> ids);
+
+
 }
