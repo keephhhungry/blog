@@ -33,7 +33,8 @@
                 </el-button>
                 <el-button size="small"
                            type="primary"
-                           icon="el-icon-circle-plus-outline">添加文章
+                           icon="el-icon-circle-plus-outline"
+                           @click="addArticle">添加文章
                 </el-button>
             </div>
         </div>
@@ -345,6 +346,10 @@
                         this.articleTypes = resp.data;
                     }
                 })
+            },
+            //添加文章 跳转路由
+            addArticle(){
+                this.$router.replace('/views/article/artilceEdit');
             },
             //改变页数
             currentChange(currentPage) {

@@ -2,7 +2,7 @@
     <div>
         <el-container>
             <el-header class="homeHeader">
-                <div class="title">微人事</div>
+                <div class="title">程序员小黄</div>
                 <el-dropdown class="userInfo" @command="commandHandler">
                     <span class="el-dropdown-link">
                         {{user.name}}<i><img :src='user.userface' alt=""></i>
@@ -26,7 +26,6 @@
                                 {{child.name}}
                             </el-menu-item>
                         </el-submenu>
-
                     </el-menu>
                 </el-aside>
                 <el-main>
@@ -35,7 +34,7 @@
                         <el-breadcrumb-item>{{this.$router.currentRoute.name}}</el-breadcrumb-item>
                     </el-breadcrumb>
                     <div style="text-align: center" v-if="this.$router.currentRoute.path=='/home'">
-                        欢迎来到微人事
+                        欢迎来到程序员小黄博客
                     </div>
                     <router-view class="homeRouterView"/>
                 </el-main>

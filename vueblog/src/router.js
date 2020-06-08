@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import Home from './views/Home'
+import ArticleEdit from './views/article/ArticleEdit'
 
 Vue.use(Router)
 
@@ -16,7 +17,10 @@ export default new Router({
             path: '/home',
             name: 'Home',
             component: Home,
-            hidden:true
+            hidden:true,
+            children:[
+                { path: '/views/article/artilceEdit', component: ArticleEdit}
+            ]
         }
     ]
 })
