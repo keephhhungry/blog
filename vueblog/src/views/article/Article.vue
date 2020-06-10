@@ -349,7 +349,7 @@
             },
             //添加文章 跳转路由
             addArticle(){
-                this.$router.replace('/views/article/artilceEdit');
+                this.$router.push('/views/article/artilceEdit');
             },
             //改变页数
             currentChange(currentPage) {
