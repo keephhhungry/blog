@@ -10,7 +10,7 @@
                         style="width: 400px;margin-right: 10px"
                         v-model="keyword"
                         @keydown.enter.native="initRoles"
-                        :clearable="true" >
+                        :clearable="true">
                 </el-input>
                 <el-button size="small"
                            type="primary"
@@ -64,21 +64,26 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150px">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        width="150px">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="success"
+                                icon="el-icon-edit"
+                                class="tableButton"
                                 @click="showUpdateRoleDialog(scope.row)">编辑
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteRole(scope.row)">删除
                         </el-button>
                     </template>
@@ -249,5 +254,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton {
+        padding: 5px 7px
+    }
 </style>

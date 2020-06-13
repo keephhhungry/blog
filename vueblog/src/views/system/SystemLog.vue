@@ -117,7 +117,8 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150">
                 </el-table-column>
             </el-table>
             <!--分页-->
@@ -206,5 +207,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton{
+        padding:5px 7px
+    }
 </style>

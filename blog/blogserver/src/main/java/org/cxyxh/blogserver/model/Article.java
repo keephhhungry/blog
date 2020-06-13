@@ -31,7 +31,7 @@ public class Article {
 	private String articleContent;
 
 	/* 文章类型 */
-	private String iarticleType;
+	private Integer iarticleType;
 
 	/* 是否置顶 */
 	private Integer isTop;
@@ -128,11 +128,11 @@ public class Article {
 		this.articleContent = articleContent;
 	}
 
-	public String getIarticleType() {
+	public Integer getIarticleType() {
 		return iarticleType;
 	}
 
-	public void setIarticleType(String iarticleType) {
+	public void setIarticleType(Integer iarticleType) {
 		this.iarticleType = iarticleType;
 	}
 

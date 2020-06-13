@@ -7,7 +7,10 @@ export default new Vuex.Store({
   state: {
     routes:[
 
-    ]
+    ],
+    article:{
+
+    }
   },
   mutations: {
     initRoutes(state,data){

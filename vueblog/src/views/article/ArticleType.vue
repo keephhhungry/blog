@@ -247,5 +247,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton{
+        padding:5px 7px
+    }
 </style>

@@ -3,6 +3,7 @@ package org.cxyxh.blogserver.service.impl;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.cxyxh.blogserver.mapper.ArticleMapper;
 import org.cxyxh.blogserver.model.Article;
+import org.cxyxh.blogserver.model.ArticleComment;
 import org.cxyxh.blogserver.model.LeaveMessage;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.service.ArticleService;
@@ -70,5 +71,39 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<Integer> getArticelsByTypeId(Integer iarticleType) {
 		return articleMapper.getArticelsByTypeId(iarticleType);
+	}
+
+	/**
+	 * 新增文章
+	 *
+	 * @param article 文章对象
+	 * @return
+	 */
+	@Override
+	public Integer addArticle(Article article) {
+		article.setGmtCreate(new Date());
+		article.setGmtModified(new Date());
+		article.setLookNum(0);
+		article.setCollectNum(0);
+		article.setCommentNum(0);
+		article.setIsReptile(0);
+		article.setIsTop(0);
+		article.setStatus(1);
+		if(article.getArticleContent()==null ||article.getArticleContent().equals("")){
+			article.setArticleContent("这是默认内容");
+		}
+		return articleMapper.addArticle(article);
+	}
+
+	/**
+	 * 根据文章id 修改文章
+	 *
+	 * @param article
+	 * @return
+	 */
+	@Override
+	public Integer updateArticleById(Article article) {
+		article.setGmtModified(new Date());
+		return articleMapper.updateArticleById(article);
 	}
 }

@@ -64,21 +64,26 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        width="150">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="success"
+                                class="tableButton"
+                                icon="el-icon-edit"
                                 @click="showUpdateFriendLinkDialog(scope.row)">编辑
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
+                                class="tableButton"
+                                icon="el-icon-delete"
                                 @click="deleteFriendLink(scope.row)">删除
                         </el-button>
                     </template>
@@ -261,5 +266,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton{
+        padding:5px 7px
+    }
 </style>

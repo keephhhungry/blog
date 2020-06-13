@@ -101,7 +101,7 @@
                                 type="daterange"
                                 size="mini"
                                 :clearable="true"
-                                value-format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd HH:mm:ss"
                                 range-separator="至"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期">
@@ -150,7 +150,8 @@
                 <el-table-column
                         prop="isTop"
                         label="置顶"
-                        align="center">
+                        align="center"
+                        width="65px">
                     <template slot-scope="scope">
                         <el-tag size="mini" type="success" v-if="scope.row.isTop">是</el-tag>
                         <el-tag size="mini" type="danger" v-else>否</el-tag>
@@ -159,7 +160,8 @@
                 <el-table-column
                         prop="isOriginal"
                         label="原创"
-                        align="center">
+                        align="center"
+                        width="65px">
                     <template slot-scope="scope">
                         <el-tag size="mini" type="success" v-if="scope.row.isOriginal ">是</el-tag>
                         <el-tag size="mini" type="danger" v-else>否</el-tag>
@@ -168,7 +170,8 @@
                 <el-table-column
                         prop="isReptile"
                         label="爬虫"
-                        align="center">
+                        align="center"
+                        width="65px">
                     <template slot-scope="scope">
                         <el-tag size="mini" type="success" v-if="scope.row.isReptile">是</el-tag>
                         <el-tag size="mini" type="danger" v-else>否</el-tag>
@@ -177,42 +180,52 @@
                 <el-table-column
                         prop="lookNum"
                         label="查看数"
-                        align="center">
+                        align="center"
+                        width="65px">
                 </el-table-column>
                 <el-table-column
                         prop="commentNum"
                         label="评论数"
-                        align="center">
+                        align="center"
+                        width="65px">
                 </el-table-column>
                 <el-table-column
                         prop="collectNum"
                         label="收藏数"
-                        align="center">
+                        align="center"
+                        width="65px">
                 </el-table-column>
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
                         label="创建时间"
-                        width="200px">
+                        width="150px">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        fixed="right"
+                        width="220">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="success"
+                                icon="el-icon-top"
+                                class="tableButton"
                                 @click="topArticle(scope.row)">置顶
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="success"
-                                @click="showUpdateArticleDialog(scope.row)">编辑
+                                icon="el-icon-edit"
+                                class="tableButton"
+                                @click="editArticle(scope.row)">编辑
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteArticle(scope.row)">删除
                         </el-button>
                     </template>
@@ -290,6 +303,11 @@
                         message: '已取消置顶'
                     });
                 });
+            },
+            //编辑文章
+            editArticle(data){
+                this.$store.state.article = data;
+                this.addArticle();
             },
             //删除文章
             deleteArticle(data) {
@@ -391,5 +409,8 @@
     .showAdvanceSearchViewSpan {
         margin-right: 6px;
         font-size: 13px
+    }
+    .tableButton{
+        padding:5px 7px
     }
 </style>

@@ -9,7 +9,7 @@
         <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
         <result column="article_introduction" property="articleIntroduction" jdbcType="VARCHAR"/>
         <result column="article_content" property="articleContent" jdbcType="VARCHAR"/>
-        <result column="i_article_type" property="iarticleType" jdbcType="VARCHAR"/>
+        <result column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
         <result column="is_top" property="isTop" jdbcType="INTEGER"/>
         <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
         <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
@@ -44,7 +44,7 @@
             </if>
         </if>
         <if test="createDateScope !=null">
-            and gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+            and a1.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
         </if>
         order by is_top desc,gmt_create desc
         <if test="page !=null and size!=null">
@@ -100,4 +100,115 @@
     <update id="deleteArticleById" parameterType="java.lang.Integer">
         update t_article set status = 0 where i_article = #{iarticle}
     </update>
+
+    <!--新增文章-->
+    <insert id="addArticle" parameterType="org.cxyxh.blogserver.model.Article">
+        insert into t_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="articleAuthor != null">
+                article_author,
+            </if>
+            <if test="articleTitle != null">
+                article_title,
+            </if>
+            <if test="articleIntroduction != null">
+                article_introduction,
+            </if>
+            <if test="articleContent != null">
+                article_content,
+            </if>
+            <if test="iarticleType != null">
+                i_article_type,
+            </if>
+            <if test="isOriginal != null">
+                is_original,
+            </if>
+            <if test="lookNum != null">
+                look_num,
+            </if>
+            <if test="commentNum != null">
+                comment_num,
+            </if>
+            <if test="collectNum != null">
+                collect_num,
+            </if>
+            <if test="status != null">
+                status ,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="articleAuthor != null">
+                #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleTitle != null">
+                #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleIntroduction != null">
+                #{articleIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null">
+                #{articleContent,jdbcType=VARCHAR},
+            </if>
+            <if test="iarticleType != null">
+                #{iarticleType,jdbcType=INTEGER},
+            </if>
+            <if test="isOriginal != null">
+                #{isOriginal,jdbcType=INTEGER},
+            </if>
+            <if test="lookNum != null">
+                #{lookNum,jdbcType=INTEGER},
+            </if>
+            <if test="commentNum != null">
+                #{commentNum,jdbcType=INTEGER},
+            </if>
+            <if test="collectNum != null">
+                #{collectNum,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=DATE},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=DATE},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据文章id 修改文章-->
+    <update id="updateArticleById" parameterType="org.cxyxh.blogserver.model.Article">
+        update t_article
+        <set>
+            <if test="articleAuthor != null">
+                article_author = #{articleAuthor,jdbcType=VARCHAR},
+            </if>
+            <if test="articleTitle != null">
+                article_title = #{articleTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="articleIntroduction != null">
+                article_introduction =  #{articleIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="articleContent != null">
+                article_content = #{articleContent,jdbcType=VARCHAR},
+            </if>
+            <if test="iarticleType != null">
+                i_article_type = #{iarticleType,jdbcType=INTEGER},
+            </if>
+            <if test="isOriginal != null">
+                is_original = #{isOriginal,jdbcType=INTEGER},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=DATE},
+            </if>
+        </set>
+        where i_article = #{iarticle,jdbcType=INTEGER}
+    </update>
+
 </mapper>

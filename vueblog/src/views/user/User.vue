@@ -129,7 +129,7 @@
                                 v-model="searchValue.createDateScope"
                                 type="daterange"
                                 size="mini"
-                                value-format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd HH:mm:ss"
                                 range-separator="至"
                                 start-placeholder="开始日期"
                                 end-placeholder="结束日期">
@@ -214,26 +214,33 @@
                         prop="gmtCreate"
                         label="创建时间"
                         align="center"
-                        width="100">
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        width="250"
+                        fixed="right">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="success"
+                                icon="el-icon-edit"
+                                class="tableButton"
                                 @click="showUpdateUserDialog(scope.row)">编辑
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="primary"
+                                icon="el-icon-setting"
+                                class="tableButton"
                                 @click="resetPassword(scope.row)">重置密码
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteUser(scope.row)">删除
                         </el-button>
                     </template>
@@ -337,18 +344,18 @@
                     <el-row>
                         <el-col :span="24">
                             <el-form-item label="角色:" prop="roles">
-<!--                                <div >-->
-<!--                                    <span style="margin-right: 5px">角色</span>-->
-                                    <el-switch
-                                            v-for="item in roles"
-                                            :key="item.irole"
-                                            v-model="value"
-                                            active-color="#13ce66"
-                                            inactive-color="#ff4949"
-                                            :active-text="item.nameZh"
-                                            style="margin-right: 20px">
-                                    </el-switch>
-<!--                                </div>-->
+                                <!--                                <div >-->
+                                <!--                                    <span style="margin-right: 5px">角色</span>-->
+                                <el-switch
+                                        v-for="item in roles"
+                                        :key="item.irole"
+                                        v-model="value"
+                                        active-color="#13ce66"
+                                        inactive-color="#ff4949"
+                                        :active-text="item.nameZh"
+                                        style="margin-right: 20px">
+                                </el-switch>
+                                <!--                                </div>-->
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -426,7 +433,7 @@
                     remark: "",
                     enabled: true,
                 },
-                roles:[],
+                roles: [],
                 rules: {
                     username: [{required: true, message: '请输入账号', trigger: 'blur'}],
                     name: [{required: true, message: '请输入姓名', trigger: 'blur'}],
@@ -615,7 +622,7 @@
                 })
             },
             // 查询角色数据
-            initRoles(){
+            initRoles() {
                 this.getRequest("/user/user/role/").then(resp => {
                     if (resp) {
                         this.roles = resp.obj;
@@ -652,5 +659,9 @@
     .showAdvanceSearchViewSpan {
         margin-right: 6px;
         font-size: 13px
+    }
+
+    .tableButton {
+        padding: 5px 7px
     }
 </style>

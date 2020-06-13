@@ -7,6 +7,7 @@
                         prefix-icon="el-icon-search"
                         size="small"
                         style="width: 700px;margin-right: 10px"
+                        v-model="article.articleTitle"
                         :clearable="true">
                 </el-input>
             </el-form-item>
@@ -32,11 +33,13 @@
                         prefix-icon="el-icon-search"
                         size="small"
                         style="width: 200px;margin-right: 10px"
+                        v-model="article.articleAuthor"
                         :clearable="true">
                 </el-input>
             </el-form-item>
             <el-form-item label="原创" prop="isOriginal">
-                <el-select v-model="article.isOriginal" size="small" style="width: 200px" placeholder="是否原创">
+                <el-select v-model="article.isOriginal" :clearable="true" size="small" style="width: 200px"
+                           placeholder="是否原创">
                     <el-option
                             v-for="item in isOriginals"
                             :key="item.value"
@@ -46,7 +49,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="类型" prop="iarticleType">
-                <el-select v-model="article.iarticleType" size="small" style="width: 200px" placeholder="文章类型">
+                <el-select v-model="article.iarticleType" :clearable="true" size="small" style="width: 200px"
+                           placeholder="文章类型">
                     <el-option
                             v-for="item in articleTypes"
                             :key="item.iarticleType"
@@ -64,9 +68,13 @@
                         v-model="article.articleIntroduction">
                 </el-input>
             </el-form-item>
+            <el-form-item label="内容" prop="articleContent">
+                <!--富文本编辑器-->
+                <tiny-mce ref="editor"
+                          v-model="article.articleContent"
+                ></tiny-mce>
+            </el-form-item>
         </el-form>
-        <!--富文本编辑器-->
-        <tiny-mce></tiny-mce>
     </div>
 </template>
 
@@ -101,7 +109,7 @@
                     articleIntroduction: '',
                     articleContent: '',
                     iarticleType: '',
-                    isOriginal: 1
+                    isOriginal: ''
                 },
                 isOriginals: [{
                     label: "原创",
@@ -115,6 +123,10 @@
         },
         mounted() {
             this.initArticleTypes();
+            if (this.$store.state.article) {
+                this.article = this.$store.state.article;
+            }
+
         },
         methods: {
             //初始化文章类型
@@ -133,17 +145,41 @@
             },
             //提交表单
             submitForm() {
-                this.$refs['ruleForm'].validate(valid => {
-                    if (valid) {
-                        alert("ok");
-                        // this.putRequest("/article/type/", this.articleType).then(resp => {
-                        //     if (resp) {
-                        //         this.dialogVisible = false;
-                        //         this.initArticleTypes();
-                        //     }
-                        // })
-                    }
-                });
+                // 更新友链数据
+                if (this.article.iarticle) {
+                    this.$refs['ruleForm'].validate(valid => {
+                        if (valid) {
+                            this.putRequest("/article/article/", this.article).then(resp => {
+                                if (resp) {
+                                    this.$store.state.article = null;
+                                    this.cleanData();
+                                }
+                            })
+                        }
+                    });
+                } else {
+                    // 新增文章类型
+                    this.$refs['ruleForm'].validate(valid => {
+                        if (valid) {
+                            this.postRequest("/article/article/", this.article).then(resp => {
+                                if (resp) {
+                                    this.cleanData();
+                                }
+                            })
+                        }
+                    });
+                }
+            },
+            //清除表单数据
+            cleanData() {
+                this.article = {
+                    articleAuthor: '',
+                    articleTitle: '',
+                    articleIntroduction: '',
+                    articleContent: '',
+                    iarticleType: '',
+                    isOriginal: 1
+                };
             }
         }
     };

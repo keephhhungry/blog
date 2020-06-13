@@ -81,4 +81,34 @@ public class ArticleController {
 			return RespBean.error("删除失败");
 		}
 	}
+
+	/**
+	 * 新增文章
+	 *
+	 * @param article 文章对象
+	 * @return
+	 */
+	@PostMapping("/")
+	public RespBean addArticle(@RequestBody Article article) {
+		if (articleService.addArticle(article) == 1) {
+			return RespBean.ok("新增成功");
+		} else {
+			return RespBean.error("新增失败");
+		}
+	}
+
+	/**
+	 * 根据文章id 修改文章
+	 *
+	 * @param article
+	 * @return
+	 */
+	@PutMapping("/")
+	public RespBean updateArticleById(@RequestBody Article article) {
+		if (articleService.updateArticleById(article) == 1) {
+			return RespBean.ok("修改成功");
+		} else {
+			return RespBean.error("修改失败");
+		}
+	}
 }

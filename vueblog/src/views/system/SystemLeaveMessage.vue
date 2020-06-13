@@ -84,16 +84,20 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        fixed="right"
+                        width="80">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteLeaveMessage(scope.row)">删除
                         </el-button>
                     </template>
@@ -207,5 +211,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton{
+        padding:5px 7px
+    }
 </style>

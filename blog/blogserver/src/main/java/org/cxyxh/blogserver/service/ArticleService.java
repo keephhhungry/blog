@@ -43,4 +43,20 @@ public interface ArticleService {
 	 * @return
 	 */
 	List<Integer> getArticelsByTypeId(Integer iarticleType);
+
+	/**
+	 * 新增文章
+	 *
+	 * @param article 文章对象
+	 * @return
+	 */
+	Integer addArticle(Article article);
+
+	/**
+	 * 根据文章id 修改文章
+	 *
+	 * @param article
+	 * @return
+	 */
+	Integer updateArticleById(Article article);
 }

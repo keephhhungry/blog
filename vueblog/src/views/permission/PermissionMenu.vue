@@ -10,7 +10,7 @@
                         style="width: 400px;margin-right: 10px"
                         v-model="keyword"
                         @keydown.enter.native="initMenus"
-                        :clearable="true" >
+                        :clearable="true">
                 </el-input>
                 <el-button size="small"
                            type="primary"
@@ -73,7 +73,8 @@
                 </el-table-column>
                 <el-table-column
                         align="center"
-                        label="状态">
+                        label="状态"
+                        width="65px">
                     <template slot-scope="scope">
                         <el-tag size="mini" type="success" v-if="scope.row.enabled">启用</el-tag>
                         <el-tag size="mini" type="danger" v-else>禁用</el-tag>
@@ -82,21 +83,26 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150px">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="250">
+                        width="150px">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="success"
+                                icon="el-icon-edit"
+                                class="tableButton"
                                 @click="showUpdateMenuDialog(scope.row)">编辑
                         </el-button>
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteMenu(scope.row)">删除
                         </el-button>
                     </template>
@@ -133,22 +139,22 @@
 <script>
     export default {
         name: "Menu",
-        data(){
-            return{
+        data() {
+            return {
                 loading: false,
                 dialogTitle: '',
                 dialogVisible: false,
-                menus:[],
-                menu:{
-                    url:'',
-                    path:'',
-                    component:'',
-                    name:'',
-                    icon:'',
-                    meta:'',
-                    parentId:'',
-                    isEnable:'',
-                    gmtCreate:'',
+                menus: [],
+                menu: {
+                    url: '',
+                    path: '',
+                    component: '',
+                    name: '',
+                    icon: '',
+                    meta: '',
+                    parentId: '',
+                    isEnable: '',
+                    gmtCreate: '',
                 },
                 keyword: '',
                 rules: {
@@ -226,7 +232,7 @@
                 this.getRequest("/permission/menu/?keyword=" + this.keyword).then(resp => {
                     this.loading = false;
                     if (resp) {
-                        this. menus = resp.obj;
+                        this.menus = resp.obj;
                     }
                 })
             },
@@ -238,15 +244,15 @@
             //清除dialog数据
             cleanDialogData() {
                 this.menu = {
-                    url:'',
-                    path:'',
-                    component:'',
-                    name:'',
-                    icon:'',
-                    meta:'',
-                    parentId:'',
-                    isEnable:'',
-                    gmtCreate:'',
+                    url: '',
+                    path: '',
+                    component: '',
+                    name: '',
+                    icon: '',
+                    meta: '',
+                    parentId: '',
+                    isEnable: '',
+                    gmtCreate: '',
                 };
                 this.dialogVisible = false;
             },
@@ -255,5 +261,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton {
+        padding: 5px 7px
+    }
 </style>

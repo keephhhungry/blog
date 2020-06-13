@@ -98,16 +98,19 @@
                 <el-table-column
                         prop="gmtCreate"
                         align="center"
-                        label="创建时间">
+                        label="创建时间"
+                        width="150px">
                 </el-table-column>
                 <el-table-column
                         label="操作"
                         align="center"
-                        width="100">
+                        width="80">
                     <template slot-scope="scope">
                         <el-button
                                 size="mini"
                                 type="danger"
+                                icon="el-icon-delete"
+                                class="tableButton"
                                 @click="deleteArticleComment(scope.row)">删除
                         </el-button>
                     </template>
@@ -194,7 +197,7 @@
                                     message: '已取消删除'
                                 });
                             });
-                        }else{
+                        } else {
                             this.initArticleComments();
                         }
                     })
@@ -225,5 +228,7 @@
 </script>
 
 <style scoped>
-
+    .tableButton {
+        padding: 5px 7px
+    }
 </style>
