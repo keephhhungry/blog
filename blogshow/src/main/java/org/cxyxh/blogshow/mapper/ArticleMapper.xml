@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogshow.mapper.ArticleMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogshow.model.Article">
+        <id column="i_article" property="iarticle" jdbcType="INTEGER"/>
+        <result column="article_author" property="articleAuthor" jdbcType="VARCHAR"/>
+        <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
+        <result column="article_introduction" property="articleIntroduction" jdbcType="VARCHAR"/>
+        <result column="article_content" property="articleContent" jdbcType="VARCHAR"/>
+        <result column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
+        <result column="is_top" property="isTop" jdbcType="INTEGER"/>
+        <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
+        <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
+        <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
+        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
+        <result column="collect_num" property="collectNum" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <association property="articleType" javaType="org.cxyxh.blogshow.model.ArticleType">
+            <id column="i_article_type2" property="i_article_type" jdbcType="VARCHAR"/>
+            <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--查询首页文章-->
+    <select id="getHomeArticle" resultMap="BaseResultMap">
+        select
+            a1.*,
+            a2.type_name
+        from
+            t_article a1,
+            t_article_type a2
+        where
+            a1.i_article_type = a2.i_article_type
+            and status = 1
+            <if test="iarticleType !=null and iarticleType!=''">
+                and a1.i_article_type = #{iarticleType}
+            </if>
+        order by
+            gmt_create desc
+            limit 0,
+            7
+    </select>
+
+    <!--根据文章对象，创建时间，查询文章总数-->
+    <select id="getHomeArticleNum" resultType="java.lang.Integer">
+        select count(*) from t_article
+    </select>
+
+    <!-- 查询热门文章-->
+    <select id="getHotArticle" resultMap="BaseResultMap">
+        select
+            a1.*,
+            a2.type_name
+        from
+            t_article a1,
+            t_article_type a2
+        where
+            a1.i_article_type = a2.i_article_type
+            and status = 1
+        order by
+            look_num desc
+            limit 0,
+            10
+    </select>
+</mapper>

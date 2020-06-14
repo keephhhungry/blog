@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogshow.mapper.ArticleTypeMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogshow.model.ArticleType">
+        <id column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
+        <result column="type_name" property="typeName" jdbcType="VARCHAR"/>
+        <result column="article_num" property="articleNum" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询全部文章类型-->
+    <select id="getArticleType" resultMap="BaseResultMap">
+        SELECT DISTINCT
+            t1.*,
+            ( SELECT count(*) FROM t_article AS t11 WHERE t11.i_article_type = t1.i_article_type ) article_num
+        FROM
+            t_article_type t1
+            LEFT JOIN t_article t2 ON t1.i_article_type = t2.i_article_type
+    </select>
+
+
+</mapper>

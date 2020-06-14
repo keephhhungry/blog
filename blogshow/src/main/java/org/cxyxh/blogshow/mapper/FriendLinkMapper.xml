@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogshow.mapper.FriendLinkMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogshow.model.FriendLink">
+        <id column="i_friend_link" property="ifriendLink" jdbcType="INTEGER"/>
+        <result column="link_name" property="linkName" jdbcType="VARCHAR"/>
+        <result column="link_url" property="linkUrl" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询全部的友链-->
+    <select id="getAllFriendLink" resultMap="BaseResultMap">
+        select * from t_friend_link
+    </select>
+
+</mapper>
