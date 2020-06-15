@@ -1,5 +1,9 @@
 <template>
     <div>
+        <!--返回上方-->
+        <div style="width: 100%;height: 100%;">
+            <el-backtop :bottom="60"></el-backtop>
+        </div>
         <el-container style="width: 100%">
             <!--中间-->
             <el-main
@@ -133,12 +137,6 @@
                     </el-col>
                 </el-row>
             </el-main>
-            <!--尾部-->
-            <el-footer
-                    class="cardBackground"
-                    style="height: 40px;text-align: center;text-align: inherit">
-                <span style="font-size: 14px;line-height:40px">©2020程序员小黄 备案号:000000</span>
-            </el-footer>
         </el-container>
     </div>
 </template>

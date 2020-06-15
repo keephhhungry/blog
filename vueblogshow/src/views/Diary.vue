@@ -1,25 +1,19 @@
 <template>
     <div>
+        <!--返回上方-->
+        <div style="width: 100%;height: 100%;">
+            <el-backtop :bottom="60"></el-backtop>
+        </div>
         <el-container>
             <el-main>
                 <div class="block" style="text-align: left;margin-top: 10px">
+                    <h4>建站日记记录</h4>
                     <el-timeline>
-                        <el-timeline-item timestamp="2018/4/12" placement="top" >
-                            <el-card>
-                                <h4>更新 Github 模板</h4>
-                                <p>王小虎 提交于 2018/4/12 20:46</p>
-                            </el-card>
-                        </el-timeline-item>
-                        <el-timeline-item timestamp="2018/4/3" placement="top">
-                            <el-card>
-                                <h4>更新 Github 模板</h4>
-                                <p>王小虎 提交于 2018/4/3 20:46</p>
-                            </el-card>
-                        </el-timeline-item>
-                        <el-timeline-item timestamp="2018/4/2" placement="top">
-                            <el-card>
-                                <h4>更新 Github 模板</h4>
-                                <p>王小虎 提交于 2018/4/2 20:46</p>
+                        <el-timeline-item :timestamp=item.gmtCreate placement="top" v-for="(item,index) in diaries"
+                                          :key="index">
+                            <el-card shadow="hover" body-style="padding: 1px 15px">
+                                <h4>{{item.diaryTitle}}</h4>
+                                <p style="word-break:break-word;">{{item.diaryContent}}</p>
                             </el-card>
                         </el-timeline-item>
                     </el-timeline>
@@ -31,15 +25,34 @@
 
 <script>
     export default {
-        name: "diary"
+        name: "diary",
+        data() {
+            return {
+                diaries: [],
+            }
+        },
+        mounted() {
+            this.initDiary();
+        },
+        methods: {
+            initDiary() {
+                this.getRequest("/diary/").then(resp => {
+                    if (resp) {
+                        this.diaries = resp.obj;
+                    }
+                })
+            }
+        }
     }
 </script>
 
 <style scoped>
-    .el-card{
-        width:auto;
+    .el-card {
+        width: auto;
+        max-width: 100%;
         display: inline-block;
-        height:auto;
+        height: auto;
         border: 1px solid #ccc;
     }
+
 </style>

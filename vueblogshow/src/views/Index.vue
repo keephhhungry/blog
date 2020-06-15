@@ -22,6 +22,12 @@
             </el-menu-item>
         </el-menu>
         <router-view/>
+        <!--尾部-->
+        <el-footer
+                class="cardBackground"
+                style="height: 40px;text-align: center;text-align: inherit">
+            <span style="font-size: 14px;line-height:40px">©2020程序员小黄 备案号:000000</span>
+        </el-footer>
     </div>
 </template>
 
