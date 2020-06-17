@@ -10,6 +10,9 @@ export default new Vuex.Store({
     ],
     article:{
 
+    },
+    diary:{
+
     }
   },
   mutations: {

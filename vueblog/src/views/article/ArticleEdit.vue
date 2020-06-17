@@ -141,26 +141,28 @@
             },
             //返回
             comeBack() {
+                this.$store.state.article = null;
                 this.$router.back(-1);
             },
             //提交表单
             submitForm() {
-                // 更新友链数据
+                // 修改文章
                 if (this.article.iarticle) {
                     this.$refs['ruleForm'].validate(valid => {
                         if (valid) {
+                            this.article.wordCount = this.$refs.editor.getWordCount();
                             this.putRequest("/article/article/", this.article).then(resp => {
                                 if (resp) {
-                                    this.$store.state.article = null;
                                     this.cleanData();
                                 }
                             })
                         }
                     });
                 } else {
-                    // 新增文章类型
+                    // 新增文章
                     this.$refs['ruleForm'].validate(valid => {
                         if (valid) {
+                            this.article.wordCount = this.$refs.editor.getWordCount();
                             this.postRequest("/article/article/", this.article).then(resp => {
                                 if (resp) {
                                     this.cleanData();

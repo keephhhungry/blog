@@ -54,7 +54,7 @@
                     language: 'zh_CN',//语言
                     skin_url: '/tinymce/skins/ui/oxide',// skin路径
                     height: 1000,//编辑器高度
-                    width:900,
+                    width: 900,
                     plugins: this.plugins,
                     toolbar: this.toolbar,
                     branding: false,//是否禁用“Powered by TinyMCE”
@@ -81,6 +81,10 @@
             //可以添加一些自己的自定义事件，如清空内容
             clear() {
                 this.myValue = ''
+            },
+            //获取字数
+            getWordCount() {
+                return tinyMCE.activeEditor.plugins["wordcount"].getCount();
             }
         },
         watch: {

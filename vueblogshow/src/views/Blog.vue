@@ -53,6 +53,7 @@
                     </el-col>
                     <!--博客-->
                     <el-col :span="19" style="text-align: left">
+                        <!--展示多条文章-->
                         <el-card class="box-card" style="margin-bottom: 20px" v-for="(item,index) in articles"
                                  :key="index">
                             <div>
@@ -69,9 +70,19 @@
                             <div style="margin-top: 5px">
                                 <span>{{item.articleIntroduction}}</span>
                             </div>
-                            <el-button type="info" size="mini" style="margin-top: 5px;padding: 5px 7px">
-                                阅读更多
-                            </el-button>
+                            <div style="text-align: right">
+                                <span style="margin-right: 10px"><i class="el-icon-star-off"></i>{{item.lookNum}}</span>
+                                <span style="margin-right: 10px"><i
+                                        class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
+                                <span style="margin-right: 30px"><i
+                                        class="el-icon-s-comment"></i>{{item.commentNum}}</span>
+                            </div>
+                        </el-card>
+                        <!--展示单条文章-->
+                        <el-card class="box-card" style="margin-bottom: 20px">
+                            <div>
+                                这是单条文章哦
+                            </div>
                         </el-card>
                     </el-col>
                 </el-row>

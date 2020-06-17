@@ -10,7 +10,8 @@ export default new Vuex.Store({
     ],
     article:{
 
-    }
+    },
+    defaultActive:"/views/Home",
   },
   mutations: {
     initRoutes(state,data){

@@ -21,8 +21,16 @@ Vue.use(ElementUI);
 
 Vue.config.productionTip = false
 
+router.beforeEach((to, from, next) => {
+    if (to.path == from.path) {
+        return;
+    }else{
+      next();
+    }
+})
+
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    store,
+    render: h => h(App)
 }).$mount('#app')

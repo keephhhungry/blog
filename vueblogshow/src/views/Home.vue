@@ -89,19 +89,21 @@
                                 <span style="color: darkgrey;font-size: 10px">{{item.gmtCreate}}   {{item.articleType.typeName}}</span>
                             </div>
                             <div style="margin-top: 5px">
-                                <el-link href="http://www.baidu.com"
-                                         target="_blank"
+                                <el-link
                                          type="info"
                                          :underline="false"
+                                         @click="forwardToBlog(item)"
                                          style="font-size: 30px">{{item.articleTitle}}
                                 </el-link>
                             </div>
                             <div style="margin-top: 5px">
                                 <span>{{item.articleIntroduction}}</span>
                             </div>
-                            <el-button type="info" size="mini" style="margin-top: 5px;padding: 5px 7px">
-                                阅读更多
-                            </el-button>
+                            <div style="text-align: right">
+                                <span style="margin-right: 10px"><i class="el-icon-star-off"></i>{{item.lookNum}}</span>
+                                <span style="margin-right: 10px"><i class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
+                                <span style="margin-right: 30px"><i class="el-icon-s-comment"></i>{{item.commentNum}}</span>
+                            </div>
                         </el-card>
                         <el-link href="http://www.baidu.com"
                                  target="_blank"
@@ -213,6 +215,12 @@
             openFriendLink(url) {
                 window.open(url, "_blank");
             },
+            //转发到博客页
+            forwardToBlog(article){
+                this.$store.state.article = article;
+                this.$router.push('/views/Blog');
+                this.$store.state.defaultActive = "/views/Blog";
+            }
         },
     }
 </script>

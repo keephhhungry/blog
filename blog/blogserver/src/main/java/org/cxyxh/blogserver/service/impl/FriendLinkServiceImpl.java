@@ -79,6 +79,7 @@ public class FriendLinkServiceImpl implements FriendLinkService{
 	 */
 	@Override
 	public Integer updateFriendLinkById(FriendLink friendLink) {
+		friendLink.setGmtModified(new Date());
 		return friendLinkMapper.updateFriendLinkById(friendLink);
 	}
 }

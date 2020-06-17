@@ -103,6 +103,7 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	 */
 	@Override
 	public Integer updateArticleTypeById(ArticleType articleType) {
+		articleType.setGmtModified(new Date());
 		return articleTypeMapper.updateArticleTypeById(articleType);
 	}
 

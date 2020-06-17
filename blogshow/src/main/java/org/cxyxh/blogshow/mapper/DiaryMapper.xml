@@ -7,13 +7,22 @@
         <id column="i_diary" property="idiary" jdbcType="INTEGER"/>
         <result column="diary_title" property="diaryTitle" jdbcType="VARCHAR"/>
         <result column="diary_content" property="diaryContent" jdbcType="VARCHAR"/>
+        <result column="word_count" property="wordCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <!--查询全部的友链-->
+    <!--查询日记-->
     <select id="getDiary" resultMap="BaseResultMap">
-        select * from t_diary order by gmt_create desc
+        select
+            *
+        from
+            t_diary
+        where
+            status = 1
+        order by
+            gmt_create desc
     </select>
 
 </mapper>

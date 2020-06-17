@@ -142,6 +142,12 @@
                         width="180">
                 </el-table-column>
                 <el-table-column
+                        prop="wordCount"
+                        label="字数"
+                        align="center"
+                        width="65px">
+                </el-table-column>
+                <el-table-column
                         prop="articleType.typeName"
                         label="分类"
                         align="center"
@@ -190,8 +196,8 @@
                         width="65px">
                 </el-table-column>
                 <el-table-column
-                        prop="collectNum"
-                        label="收藏数"
+                        prop="likeNum"
+                        label="点赞数"
                         align="center"
                         width="65px">
                 </el-table-column>

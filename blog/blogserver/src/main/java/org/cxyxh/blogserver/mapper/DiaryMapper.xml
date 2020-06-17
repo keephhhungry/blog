@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.DiaryMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogserver.model.Diary">
+        <id column="i_diary" property="idiary" jdbcType="INTEGER"/>
+        <result column="diary_title" property="diaryTitle" jdbcType="VARCHAR"/>
+        <result column="diary_content" property="diaryContent" jdbcType="VARCHAR"/>
+        <result column="word_count" property="wordCount" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--根据页码，每页展示数量，日记对象，创建时间 查询日记-->
+    <select id="getDiaryByPage" resultMap="BaseResultMap">
+        select * from t_diary where status = 1
+        <if test="diary !=null">
+            <if test="diary.diaryTitle !=null and diary.diaryTitle!=''">
+                and diary_title like concat('%',#{diary.diaryTitle},'%')
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+        order by gmt_create desc
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据日记对象，创建时间，查询日记总数-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from t_diary where status = 1
+        <if test="diary !=null">
+            <if test="diary.diaryTitle !=null and diary.diaryTitle!=''">
+                and diary_title like concat('%',#{diary.diaryTitle},'%')
+            </if>
+        </if>
+        <if test="createDateScope !=null">
+            and gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+    </select>
+
+    <!--根据日记id，删除日记 -->
+    <update id="deleteDiaryById" parameterType="java.lang.Integer">
+        update t_diary set status = 0 where i_diary = #{idiary}
+    </update>
+
+
+    <!--新增日记-->
+    <insert id="addDiary" parameterType="org.cxyxh.blogserver.model.Diary">
+        insert into t_diary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="diaryTitle != null">
+                diary_title,
+            </if>
+            <if test="diaryContent != null">
+                diary_content,
+            </if>
+            <if test="wordCount != null">
+                word_count,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="diaryTitle != null">
+                #{diaryTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="diaryContent != null">
+                #{diaryContent,jdbcType=VARCHAR},
+            </if>
+            <if test="wordCount != null">
+                #{wordCount,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据日记id 修改日记-->
+    <update id="updateDiaryById" parameterType="org.cxyxh.blogserver.model.Article">
+        update t_diary
+        <set>
+            <if test="diaryTitle != null">
+                diary_title = #{diaryTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="diaryContent != null">
+                diary_content = #{diaryContent,jdbcType=VARCHAR},
+            </if>
+            <if test="wordCount != null">
+                word_count = #{wordCount,jdbcType=INTEGER},
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where i_diary = #{idiary,jdbcType=INTEGER}
+    </update>
+
+</mapper>

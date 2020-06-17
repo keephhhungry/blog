@@ -13,7 +13,7 @@
                                           :key="index">
                             <el-card shadow="hover" body-style="padding: 1px 15px">
                                 <h4>{{item.diaryTitle}}</h4>
-                                <p style="word-break:break-word;">{{item.diaryContent}}</p>
+                                <p style="word-break:break-word;">{{delHtmlTag(item.diaryContent)}}</p>
                             </el-card>
                         </el-timeline-item>
                     </el-timeline>
@@ -41,6 +41,10 @@
                         this.diaries = resp.obj;
                     }
                 })
+            },
+            // 去除HTML标签
+            delHtmlTag(str) {
+                return str.replace(/<[^>]+>/g, "");
             }
         }
     }

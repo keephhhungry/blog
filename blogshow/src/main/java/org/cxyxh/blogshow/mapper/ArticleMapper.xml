@@ -9,13 +9,14 @@
         <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
         <result column="article_introduction" property="articleIntroduction" jdbcType="VARCHAR"/>
         <result column="article_content" property="articleContent" jdbcType="VARCHAR"/>
+        <result column="word_count" property="wordCount" jdbcType="INTEGER"/>
         <result column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
         <result column="is_top" property="isTop" jdbcType="INTEGER"/>
         <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
         <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
         <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
         <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
-        <result column="collect_num" property="collectNum" jdbcType="INTEGER"/>
+        <result column="like_num" property="likeNum" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
@@ -66,4 +67,7 @@
             limit 0,
             10
     </select>
+
+
+
 </mapper>

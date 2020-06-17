@@ -1,4 +1,4 @@
-package org.cxyxh.blogshow.model;
+package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 

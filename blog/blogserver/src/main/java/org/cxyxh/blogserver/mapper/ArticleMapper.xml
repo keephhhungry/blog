@@ -9,13 +9,14 @@
         <result column="article_title" property="articleTitle" jdbcType="VARCHAR"/>
         <result column="article_introduction" property="articleIntroduction" jdbcType="VARCHAR"/>
         <result column="article_content" property="articleContent" jdbcType="VARCHAR"/>
+        <result column="word_count" property="wordCount" jdbcType="INTEGER"/>
         <result column="i_article_type" property="iarticleType" jdbcType="INTEGER"/>
         <result column="is_top" property="isTop" jdbcType="INTEGER"/>
         <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
         <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
         <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
         <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
-        <result column="collect_num" property="collectNum" jdbcType="INTEGER"/>
+        <result column="like_num" property="likeNum" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
@@ -117,6 +118,9 @@
             <if test="articleContent != null">
                 article_content,
             </if>
+            <if test="wordCount != null">
+                word_count,
+            </if>
             <if test="iarticleType != null">
                 i_article_type,
             </if>
@@ -129,8 +133,8 @@
             <if test="commentNum != null">
                 comment_num,
             </if>
-            <if test="collectNum != null">
-                collect_num,
+            <if test="likeNum != null">
+                like_num,
             </if>
             <if test="status != null">
                 status ,
@@ -155,6 +159,9 @@
             <if test="articleContent != null">
                 #{articleContent,jdbcType=VARCHAR},
             </if>
+            <if test="wordCount != null">
+                #{wordCount,jdbcType=INTEGER},
+            </if>
             <if test="iarticleType != null">
                 #{iarticleType,jdbcType=INTEGER},
             </if>
@@ -167,17 +174,17 @@
             <if test="commentNum != null">
                 #{commentNum,jdbcType=INTEGER},
             </if>
-            <if test="collectNum != null">
-                #{collectNum,jdbcType=INTEGER},
+            <if test="likeNum != null">
+                #{likeNum,jdbcType=INTEGER},
             </if>
             <if test="status != null">
                 #{status,jdbcType=INTEGER},
             </if>
             <if test="gmtCreate != null">
-                #{gmtCreate,jdbcType=DATE},
+                #{gmtCreate,jdbcType=TIMESTAMP},
             </if>
             <if test="gmtModified != null">
-                #{gmtModified,jdbcType=DATE},
+                #{gmtModified,jdbcType=TIMESTAMP},
             </if>
         </trim>
     </insert>
@@ -198,6 +205,9 @@
             <if test="articleContent != null">
                 article_content = #{articleContent,jdbcType=VARCHAR},
             </if>
+            <if test="wordCount != null">
+                word_count = #{wordCount,jdbcType=VARCHAR},
+            </if>
             <if test="iarticleType != null">
                 i_article_type = #{iarticleType,jdbcType=INTEGER},
             </if>
@@ -205,7 +215,7 @@
                 is_original = #{isOriginal,jdbcType=INTEGER},
             </if>
             <if test="gmtModified != null">
-                gmt_modified = #{gmtModified,jdbcType=DATE},
+                gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
             </if>
         </set>
         where i_article = #{iarticle,jdbcType=INTEGER}

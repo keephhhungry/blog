@@ -84,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
 		article.setGmtCreate(new Date());
 		article.setGmtModified(new Date());
 		article.setLookNum(0);
-		article.setCollectNum(0);
+		article.setLikeNum(0);
 		article.setCommentNum(0);
 		article.setIsReptile(0);
 		article.setIsTop(0);

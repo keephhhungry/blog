@@ -30,6 +30,9 @@ public class Article {
 	/* 文章内容 */
 	private String articleContent;
 
+	/* 字数 */
+	private Integer wordCount;
+
 	/* 文章类型 */
 	private Integer iarticleType;
 
@@ -48,8 +51,8 @@ public class Article {
 	/* 评论数 */
 	private Integer commentNum;
 
-	/* 收藏数 */
-	private Integer collectNum;
+	/* 点赞数 */
+	private Integer likeNum;
 
 	/* 状态 */
 	private Integer status;
@@ -73,13 +76,14 @@ public class Article {
 		sb.append(", articleTitle='").append(articleTitle).append('\'');
 		sb.append(", articleIntroduction='").append(articleIntroduction).append('\'');
 		sb.append(", articleContent='").append(articleContent).append('\'');
-		sb.append(", iarticleType='").append(iarticleType).append('\'');
+		sb.append(", wordCount=").append(wordCount);
+		sb.append(", iarticleType=").append(iarticleType);
 		sb.append(", isTop=").append(isTop);
 		sb.append(", isOriginal=").append(isOriginal);
 		sb.append(", isReptile=").append(isReptile);
 		sb.append(", lookNum=").append(lookNum);
 		sb.append(", commentNum=").append(commentNum);
-		sb.append(", collectNum=").append(collectNum);
+		sb.append(", likeNum=").append(likeNum);
 		sb.append(", status=").append(status);
 		sb.append(", gmtCreate=").append(gmtCreate);
 		sb.append(", gmtModified=").append(gmtModified);
@@ -126,6 +130,14 @@ public class Article {
 
 	public void setArticleContent(String articleContent) {
 		this.articleContent = articleContent;
+	}
+
+	public Integer getWordCount() {
+		return wordCount;
+	}
+
+	public void setWordCount(Integer wordCount) {
+		this.wordCount = wordCount;
 	}
 
 	public Integer getIarticleType() {
@@ -176,12 +188,12 @@ public class Article {
 		this.commentNum = commentNum;
 	}
 
-	public Integer getCollectNum() {
-		return collectNum;
+	public Integer getLikeNum() {
+		return likeNum;
 	}
 
-	public void setCollectNum(Integer collectNum) {
-		this.collectNum = collectNum;
+	public void setLikeNum(Integer likeNum) {
+		this.likeNum = likeNum;
 	}
 
 	public Date getGmtCreate() {
