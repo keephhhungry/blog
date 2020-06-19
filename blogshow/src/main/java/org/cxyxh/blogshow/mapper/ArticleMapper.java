@@ -36,4 +36,12 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	List<Article> getHotArticle();
+
+	/**
+	 * 根据文章id，获取文章
+	 *
+	 * @param iarticle 文章id
+	 * @return
+	 */
+	Article getArticleById(Integer iarticle);
 }

@@ -53,4 +53,15 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> getHotArticle() {
 		return articleMapper.getHotArticle();
 	}
+
+	/**
+	 * 根据文章id，获取文章
+	 *
+	 * @param iarticle 文章id
+	 * @return
+	 */
+	@Override
+	public Article getArticleById(Integer iarticle) {
+		return articleMapper.getArticleById(iarticle);
+	}
 }

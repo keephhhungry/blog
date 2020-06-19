@@ -58,8 +58,11 @@
                             <el-divider></el-divider>
                             <el-menu
                                     class="el-menu-vertical-demo">
-                                <el-menu-item :index="index+''" style="height: 30px;line-height:30px;text-align: left"
-                                              v-for="(item,index) in hotArticles" :key="index">
+                                <el-menu-item :index="index+''"
+                                              style="height: 30px;line-height:30px;text-align: left"
+                                              v-for="(item,index) in hotArticles"
+                                              :key="index"
+                                              @click="forwardToBlog(item.iarticle)">
                                     <span>{{item.articleTitle}}</span>
                                 </el-menu-item>
                             </el-menu>
@@ -90,10 +93,10 @@
                             </div>
                             <div style="margin-top: 5px">
                                 <el-link
-                                         type="info"
-                                         :underline="false"
-                                         @click="forwardToBlog(item)"
-                                         style="font-size: 30px">{{item.articleTitle}}
+                                        type="info"
+                                        :underline="false"
+                                        @click="forwardToBlog(item.iarticle)"
+                                        style="font-size: 30px">{{item.articleTitle}}
                                 </el-link>
                             </div>
                             <div style="margin-top: 5px">
@@ -101,12 +104,13 @@
                             </div>
                             <div style="text-align: right">
                                 <span style="margin-right: 10px"><i class="el-icon-star-off"></i>{{item.lookNum}}</span>
-                                <span style="margin-right: 10px"><i class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
-                                <span style="margin-right: 30px"><i class="el-icon-s-comment"></i>{{item.commentNum}}</span>
+                                <span style="margin-right: 10px"><i
+                                        class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
+                                <span style="margin-right: 30px"><i
+                                        class="el-icon-s-comment"></i>{{item.commentNum}}</span>
                             </div>
                         </el-card>
-                        <el-link href="http://www.baidu.com"
-                                 target="_blank"
+                        <el-link @click="forwardToBlog()"
                                  type="info"
                                  :underline="false">想看更多，点我前往博客专区<i class="el-icon-right"></i></el-link>
                     </el-col>
@@ -216,10 +220,15 @@
                 window.open(url, "_blank");
             },
             //转发到博客页
-            forwardToBlog(article){
-                this.$store.state.article = article;
-                this.$router.push('/views/Blog');
-                this.$store.state.defaultActive = "/views/Blog";
+            forwardToBlog(iarticle) {
+                if (iarticle) {
+                    this.$router.push({
+                        path: `/views/BlogDetail/${iarticle}`,
+                    });
+                } else {
+                    this.$store.state.defaultActive = '/views/Blog';
+                    this.$router.push('/views/Blog')
+                }
             }
         },
     }

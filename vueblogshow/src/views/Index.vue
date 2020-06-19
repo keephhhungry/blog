@@ -2,11 +2,11 @@
     <div>
         <!--头部菜单-->
         <el-menu
-                 class="el-menu-demo"
-                 mode="horizontal"
-                 :default-active=this.$store.state.defaultActive
-                 router>
-            <!--                         @select="handleSelect">-->
+                class="el-menu-demo"
+                mode="horizontal"
+                :default-active=this.$store.state.defaultActive
+                router
+                @select="handleSelect">
             <el-menu-item index="/views/Home" style="margin-left: 50%">程序员小黄</el-menu-item>
             <el-menu-item index="/views/Blog">博客</el-menu-item>
             <el-submenu index="3">
@@ -35,16 +35,17 @@
 <script>
     export default {
         name: "Index",
-        data(){
-            return{
-
-            }
+        data() {
+            return {}
         },
         mounted() {
 
         },
-        methods:{
-        }
+        methods: {
+            handleSelect(key, keyPath) {
+                this.$store.state.defaultActive = key;
+            }
+        },
     }
 </script>
 

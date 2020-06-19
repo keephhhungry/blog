@@ -6,6 +6,7 @@ import Blog from "./views/Blog";
 import Diary from "./views/Diary";
 import LeaveMessage from "./views/LeaveMessage";
 import About from "./views/About";
+import BlogDetail from "./views/BlogDetail";
 
 Vue.use(Router)
 
@@ -28,6 +29,7 @@ export default new Router({
                 {path: '/views/Diary', component: Diary},
                 {path: '/views/LeaveMessage', component: LeaveMessage},
                 {path: '/views/About', component: About},
+                {path: '/views/BlogDetail/:iarticle', component: BlogDetail},
             ]
         }
     ]

@@ -29,21 +29,21 @@
     <!--查询首页文章-->
     <select id="getHomeArticle" resultMap="BaseResultMap">
         select
-            a1.*,
-            a2.type_name
+        a1.*,
+        a2.type_name
         from
-            t_article a1,
-            t_article_type a2
+        t_article a1,
+        t_article_type a2
         where
-            a1.i_article_type = a2.i_article_type
-            and status = 1
-            <if test="iarticleType !=null and iarticleType!=''">
-                and a1.i_article_type = #{iarticleType}
-            </if>
+        a1.i_article_type = a2.i_article_type
+        and status = 1
+        <if test="iarticleType !=null and iarticleType!=''">
+            and a1.i_article_type = #{iarticleType}
+        </if>
         order by
-            gmt_create desc
-            limit 0,
-            7
+        gmt_create desc
+        limit 0,
+        7
     </select>
 
     <!--根据文章对象，创建时间，查询文章总数-->
@@ -68,6 +68,10 @@
             10
     </select>
 
+    <!-- 根据id，查询文章-->
+    <select id="getArticleById" resultMap="BaseResultMap">
+        select * from t_article where i_article = #{iarticle}
+    </select>
 
 
 </mapper>

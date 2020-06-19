@@ -5,6 +5,7 @@ import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,8 +56,20 @@ public class ArticleController {
 	 * @return
 	 */
 	@GetMapping("getHotArticle")
-	public RespBean getHotArticle(){
+	public RespBean getHotArticle() {
 		List<Article> articles = articleService.getHotArticle();
 		return RespBean.ok("", articles);
+	}
+
+	/**
+	 * 根据文章id，获取文章
+	 *
+	 * @param iarticle 文章id
+	 * @return
+	 */
+	@GetMapping("/{iarticle}")
+	public RespBean getArticleById(@PathVariable Integer iarticle) {
+		Article article = articleService.getArticleById(iarticle);
+		return RespBean.ok("", article);
 	}
 }

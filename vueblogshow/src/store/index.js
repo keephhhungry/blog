@@ -4,22 +4,16 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {
-    routes:[
-
-    ],
-    article:{
-
+    state: {
+        routes: [],
+        article: {},
+        defaultActive: "/views/Home",
     },
-    defaultActive:"/views/Home",
-  },
-  mutations: {
-    initRoutes(state,data){
-      state.routes = data;
-    }
-  },
-  actions: {
-  },
-  modules: {
-  }
+    mutations: {
+        initRoutes(state, data) {
+            state.routes = data;
+        }
+    },
+    actions: {},
+    modules: {}
 })

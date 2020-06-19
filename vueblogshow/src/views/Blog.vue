@@ -21,8 +21,11 @@
                             <el-divider></el-divider>
                             <el-menu
                                     class="el-menu-vertical-demo">
-                                <el-menu-item :index="index+''" style="height: 30px;line-height:30px;text-align: left"
-                                              v-for="(item,index) in hotArticles" :key="index">
+                                <el-menu-item :index="index+''"
+                                              style="height: 30px;line-height:30px;text-align: left"
+                                              v-for="(item,index) in hotArticles"
+                                              :key="index"
+                                              @click="forwardToBlog(item.iarticle)">
                                     <span>{{item.articleTitle}}</span>
                                 </el-menu-item>
                             </el-menu>
@@ -53,18 +56,18 @@
                     </el-col>
                     <!--博客-->
                     <el-col :span="19" style="text-align: left">
-                        <!--展示多条文章-->
-                        <el-card class="box-card" style="margin-bottom: 20px" v-for="(item,index) in articles"
+                        <el-card class="box-card" style="margin-bottom: 20px"
+                                 v-for="(item,index) in articles"
                                  :key="index">
                             <div>
                                 <span style="color: darkgrey;font-size: 10px">{{item.gmtCreate}}   {{item.articleType.typeName}}</span>
                             </div>
                             <div style="margin-top: 5px">
-                                <el-link href="http://www.baidu.com"
-                                         target="_blank"
-                                         type="info"
-                                         :underline="false"
-                                         style="font-size: 30px">{{item.articleTitle}}
+                                <el-link
+                                        type="info"
+                                        @click="forwardToBlog(item.iarticle)"
+                                        :underline="false"
+                                        style="font-size: 30px">{{item.articleTitle}}
                                 </el-link>
                             </div>
                             <div style="margin-top: 5px">
@@ -76,12 +79,6 @@
                                         class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
                                 <span style="margin-right: 30px"><i
                                         class="el-icon-s-comment"></i>{{item.commentNum}}</span>
-                            </div>
-                        </el-card>
-                        <!--展示单条文章-->
-                        <el-card class="box-card" style="margin-bottom: 20px">
-                            <div>
-                                这是单条文章哦
                             </div>
                         </el-card>
                     </el-col>
@@ -101,15 +98,18 @@
                 friendLinks: [],
                 articleNum: 0,
                 articles: [],
-                hotArticles: []
+                hotArticles: [],
+                article: null,
             };
         },
+        route: {
+            canReuse: false,
+        },
         mounted() {
-            this.initArticleType();
-            this.initFriendLink();
-            this.initHomeArticleNum();
             this.initArticle();
             this.initHotArticle();
+            this.initArticleType();
+            this.initHomeArticleNum();
         },
         methods: {
             //初始化文章总数
@@ -120,7 +120,7 @@
                     }
                 })
             },
-            //初始化首页文章10篇
+            //初始化文章10篇
             initArticle(iarticleType) {
                 this.loading = true;
                 let url = "/article/getHomeArticle";
@@ -150,19 +150,15 @@
                     }
                 })
             },
-            //初始化友情链接
-            initFriendLink() {
-                this.getRequest("/friendLink/").then(resp => {
-                    if (resp) {
-                        this.friendLinks = resp.obj;
-                    }
-                })
+            //转发到博客页
+            forwardToBlog(iarticle) {
+                if (iarticle) {
+                    this.$router.push({
+                        path: `/views/BlogDetail/${iarticle}`,
+                    });
+                }
             },
-            //友链跳转
-            openFriendLink(url) {
-                window.open(url, "_blank");
-            },
-        },
+        }
     }
 </script>
 
