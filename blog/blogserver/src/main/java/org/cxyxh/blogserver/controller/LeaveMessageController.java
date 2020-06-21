@@ -41,7 +41,7 @@ public class LeaveMessageController {
 			System.out.println("createDateScope=" + createDateScope.toString());
 
 		}
-		RespPageBean bean = leaveMessageService.getLeaveMessageByPage(page, size, leaveMessage, createDateScope);
+//		RespPageBean bean = leaveMessageService.getLeaveMessageByPage(page, size, leaveMessage, createDateScope);
 		return leaveMessageService.getLeaveMessageByPage(page, size, leaveMessage, createDateScope);
 	}
 

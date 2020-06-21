@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import Login from "./views/Login";
+import Register from "./views/Register";
 import Home from './views/Home'
 import Index from "./views/Index";
 import Blog from "./views/Blog";
@@ -21,7 +23,6 @@ export default new Router({
             path: '/',
             name: 'Index',
             component: Index,
-            hidden: true,
             redirect: '/views/Home',
             children: [
                 {path: '/views/Home', component: Home},
@@ -31,6 +32,14 @@ export default new Router({
                 {path: '/views/About', component: About},
                 {path: '/views/BlogDetail/:iarticle', component: BlogDetail},
             ]
+        }, {
+            path: '/login',
+            name: 'Login',
+            component: Login,
+        }, {
+            path: '/register',
+            name: 'Register',
+            component: Register,
         }
     ]
 })

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -54,6 +55,8 @@ public class LeaveMessage {
 	/* 用户 */
 	private User user;
 
+	/* 子留言 */
+	private List<LeaveMessage> children;
 
 	@Override
 	public String toString() {
@@ -69,6 +72,7 @@ public class LeaveMessage {
 		sb.append(", gmtCreate=").append(gmtCreate);
 		sb.append(", gmtModified=").append(gmtModified);
 		sb.append(", user=").append(user);
+		sb.append(", children=").append(children);
 		sb.append('}');
 		return sb.toString();
 	}
@@ -159,5 +163,13 @@ public class LeaveMessage {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public List<LeaveMessage> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<LeaveMessage> children) {
+		this.children = children;
 	}
 }

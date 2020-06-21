@@ -7,7 +7,7 @@
                 :default-active=this.$store.state.defaultActive
                 router
                 @select="handleSelect">
-            <el-menu-item index="/views/Home" style="margin-left: 50%">程序员小黄</el-menu-item>
+            <el-menu-item index="/views/Home" style="margin-left: 30%">程序员小黄</el-menu-item>
             <el-menu-item index="/views/Blog">博客</el-menu-item>
             <el-submenu index="3">
                 <template slot="title">系列</template>
@@ -17,10 +17,13 @@
             </el-submenu>
             <el-menu-item index="/views/Diary">日记</el-menu-item>
             <el-menu-item index="/views/LeaveMessage">留言</el-menu-item>
-            <el-menu-item index="/views/About">关于</el-menu-item>
-            <el-menu-item index="7">
-                <el-button type="text">登录/注册</el-button>
-            </el-menu-item>
+            <el-menu-item index="/views/About" style="text-align: right">关于</el-menu-item>
+            <div style="float:right;margin:10px  10px">
+                <el-button type="text" @click="login">登录</el-button>
+                <el-divider direction="vertical"></el-divider>
+                <el-button type="text" @click="register">注册</el-button>
+            </div>
+
         </el-menu>
         <router-view/>
         <!--尾部-->
@@ -44,6 +47,12 @@
         methods: {
             handleSelect(key, keyPath) {
                 this.$store.state.defaultActive = key;
+            },
+            login(){
+                this.$router.push("/login")
+            },
+            register(){
+                this.$router.push("/register")
             }
         },
     }

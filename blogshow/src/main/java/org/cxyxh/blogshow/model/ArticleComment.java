@@ -3,6 +3,7 @@ package org.cxyxh.blogshow.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ProjectName: blog
@@ -56,6 +57,9 @@ public class ArticleComment {
 	/* 文章 */
 	private Article article;
 
+	/* 子评论 */
+	private List<ArticleComment> children;
+
 	@Override
 	public String toString() {
 		final StringBuffer sb = new StringBuffer("ArticleComment{");
@@ -72,6 +76,7 @@ public class ArticleComment {
 		sb.append(", gmtModified=").append(gmtModified);
 		sb.append(", user=").append(user);
 		sb.append(", article=").append(article);
+		sb.append(", children=").append(children);
 		sb.append('}');
 		return sb.toString();
 	}
@@ -178,5 +183,13 @@ public class ArticleComment {
 
 	public void setArticle(Article article) {
 		this.article = article;
+	}
+
+	public List<ArticleComment> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<ArticleComment> children) {
+		this.children = children;
 	}
 }

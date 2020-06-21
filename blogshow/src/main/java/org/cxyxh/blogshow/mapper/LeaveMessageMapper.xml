@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogshow.mapper.LeaveMessageMapper">
+
+    <!--基础配置-->
+    <resultMap id="BaseResultMap" type="org.cxyxh.blogshow.model.LeaveMessage">
+        <id column="i_leave_message" property="ileaveMessage" jdbcType="INTEGER"/>
+        <result column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="message_context" property="messageContext" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
+        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+        <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
+        <association property="user" javaType="org.cxyxh.blogshow.model.User">
+            <id column="iuser" property="iuser2" jdbcType="VARCHAR"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <!--根据页码，每页展示数量 查询相关的留言集合-->
+    <select id="getLeaveMessageByPage" resultMap="BaseResultMap">
+      SELECT
+            l1.*,
+            u1.username
+        FROM
+            t_leave_message l1,
+            t_user u1
+        WHERE
+            l1.i_user = u1.i_user
+            AND parent_id = 0
+        ORDER BY
+            l1.gmt_create DESC
+        <if test="page !=null and size!=null">
+            limit #{page},#{size}
+        </if>
+    </select>
+
+    <!--根据父id，查找子留言-->
+    <select id="getLeaveMessageByParentId" resultMap="BaseResultMap">
+        SELECT
+            l1.*,
+            u1.username
+        FROM
+            t_leave_message l1,
+            t_user u1
+        WHERE
+            l1.i_user = u1.i_user
+            AND parent_id = #{ileaveMessage}
+        ORDER BY
+            l1.gmt_create DESC
+    </select>
+
+    <!--查询留言的数量-->
+    <select id="getTotal" resultType="java.lang.Long">
+        select count(*) from t_leave_message where parent_id = 0
+    </select>
+
+</mapper>
