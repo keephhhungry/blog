@@ -19,6 +19,11 @@
                           @keydown.enter.native="submitLogin">
                 </el-input>
             </el-form-item>
+            <el-form-item prop="code">
+                <el-input size="normal" type="text" v-model="loginForm.code" auto-complete="off"
+                          placeholder="点击图片更换验证码" @keydown.enter.native="submitLogin" style="width: 250px"></el-input>
+                <img :src="vcUrl" @click="updateVerifyCode" alt="" style="cursor: pointer">
+            </el-form-item>
             <el-button type="primary" style="width: 100%" @click="submitLogin">登录</el-button>
         </el-form>
     </div>
@@ -32,16 +37,22 @@
             return {
                 loginForm: {
                     username: 'admin',
-                    password: '123'
+                    password: '123',
+                    code:''
                 },
                 rules: {
                     username: [{required: true, message: '请输入用户名', trigger: 'blur'}],
-                    password: [{required: true, message: '请输入密码', trigger: 'blur'}]
+                    password: [{required: true, message: '请输入密码', trigger: 'blur'}],
+                    code: [{required: true, message: '请输入验证码', trigger: 'blur'}]
                 },
-                loading: false
+                loading: false,
+                vcUrl: '/verifyCode?time='+new Date(),
             }
         },
         methods: {
+            updateVerifyCode() {
+                this.vcUrl = '/verifyCode?time='+new Date();
+            },
             submitLogin() {
                 this.$refs.loginForm.validate((valid) => {
                     if (valid) {

@@ -18,12 +18,22 @@
             <el-menu-item index="/views/Diary">日记</el-menu-item>
             <el-menu-item index="/views/LeaveMessage">留言</el-menu-item>
             <el-menu-item index="/views/About" style="text-align: right">关于</el-menu-item>
-            <div style="float:right;margin:10px  10px">
+            <div style="float:right;margin:10px  10px" v-if="user==null">
                 <el-button type="text" @click="login">登录</el-button>
                 <el-divider direction="vertical"></el-divider>
                 <el-button type="text" @click="register">注册</el-button>
             </div>
-
+            <div style="float:right;margin:20px 25px" v-else>
+                <el-dropdown @command="handleClick">
+                    <span class="el-dropdown-link">
+                        {{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item >个人资料</el-dropdown-item>
+                        <el-dropdown-item command="logout">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </el-dropdown>
+            </div>
         </el-menu>
         <router-view/>
         <!--尾部-->
@@ -39,25 +49,56 @@
     export default {
         name: "Index",
         data() {
-            return {}
+            return {
+                user: null,
+            }
         },
         mounted() {
-
+            this.init();
         },
         methods: {
             handleSelect(key, keyPath) {
                 this.$store.state.defaultActive = key;
             },
-            login(){
+            login() {
                 this.$router.push("/login")
             },
-            register(){
+            register() {
                 this.$router.push("/register")
+            },
+            init() {
+                let user = window.sessionStorage.getItem("user");
+                this.user = eval('(' + user + ')');
+            },
+            handleClick(command) {
+                if(command=='logout'){
+                    this.logout();
+                }
+            },
+            logout(){
+                this.$confirm('请确认是否退出', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    window.sessionStorage.setItem("user",null);
+                    this.init();
+                    this.$router.push("/")
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消'
+                    });
+                });
+
             }
         },
     }
 </script>
 
 <style scoped>
-
+    .el-dropdown-link {
+        cursor: pointer;
+        color: #409EFF;
+    }
 </style>

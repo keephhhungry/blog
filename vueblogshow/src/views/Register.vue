@@ -109,8 +109,8 @@
             };
             return {
                 registerForm: {
-                    username: 'b123',
-                    name: 'b123',
+                    username: 'c123',
+                    name: 'c123',
                     password: '12345678',
                     rePassword: '12345678',
                     email: '54006022@qq.com',
@@ -192,7 +192,12 @@
                             if (resp) {
                                 if(resp.obj==1){
                                     //点击确认，跳转登录页
-                                    this.login();
+                                    this.$alert('恭喜你，注册成功，账号【'+this.registerForm.username+'】，点击确定前往登录页', '注册成功', {
+                                        confirmButtonText: '确定',
+                                        callback: action => {
+                                            this.login();
+                                        }
+                                    });
                                 }else if(resp.obj==-1){
                                     this.$message.error("用户名重复，请重新输入");
                                 }else{
