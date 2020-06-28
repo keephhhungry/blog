@@ -2,6 +2,7 @@ package org.cxyxh.blogshow.service;
 
 import org.cxyxh.blogshow.model.ArticleComment;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,4 +23,12 @@ public interface ArticleCommentService {
 	 * @return
 	 */
 	List<ArticleComment> getCommentByArticleId(Integer iarticle);
+
+	/**
+	 * 新增文章评论
+	 *
+	 * @param articleComment
+	 * @return
+	 */
+	Integer addArticleComment(HttpServletRequest request, ArticleComment articleComment);
 }

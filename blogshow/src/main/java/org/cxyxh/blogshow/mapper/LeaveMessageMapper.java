@@ -40,5 +40,11 @@ public interface LeaveMessageMapper {
 	 */
 	Long getTotal();
 
-
+	/**
+	 * 新增留言
+	 *
+	 * @param leaveMessage
+	 * @return
+	 */
+	Integer addLeaveMessage(LeaveMessage leaveMessage);
 }

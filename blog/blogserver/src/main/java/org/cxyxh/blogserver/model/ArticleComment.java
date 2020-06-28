@@ -28,11 +28,17 @@ public class ArticleComment {
 	/* 评论内容 */
 	private String commentContext;
 
-	/* 父级ID */
+	/* 直接父级评论id */
 	private Integer parentId;
 
-	/* 浏览器 */
-	private String browser;
+	/* 根父级评论id */
+	private Integer originalParentId;
+
+	/* 浏览器名字 */
+	private String browserName;
+
+	/* 浏览器版本 */
+	private String browserVersion;
 
 	/* 操作系统 */
 	private String operatingSystem;
@@ -65,7 +71,9 @@ public class ArticleComment {
 		sb.append(", iuser=").append(iuser);
 		sb.append(", commentContext='").append(commentContext).append('\'');
 		sb.append(", parentId=").append(parentId);
-		sb.append(", browser='").append(browser).append('\'');
+		sb.append(", originalParentId=").append(originalParentId);
+		sb.append(", browserName='").append(browserName).append('\'');
+		sb.append(", browserVersion='").append(browserVersion).append('\'');
 		sb.append(", operatingSystem='").append(operatingSystem).append('\'');
 		sb.append(", ip='").append(ip).append('\'');
 		sb.append(", address='").append(address).append('\'');
@@ -117,12 +125,28 @@ public class ArticleComment {
 		this.parentId = parentId;
 	}
 
-	public String getBrowser() {
-		return browser;
+	public Integer getOriginalParentId() {
+		return originalParentId;
 	}
 
-	public void setBrowser(String browser) {
-		this.browser = browser;
+	public void setOriginalParentId(Integer originalParentId) {
+		this.originalParentId = originalParentId;
+	}
+
+	public String getBrowserName() {
+		return browserName;
+	}
+
+	public void setBrowserName(String browserName) {
+		this.browserName = browserName;
+	}
+
+	public String getBrowserVersion() {
+		return browserVersion;
+	}
+
+	public void setBrowserVersion(String browserVersion) {
+		this.browserVersion = browserVersion;
 	}
 
 	public String getOperatingSystem() {

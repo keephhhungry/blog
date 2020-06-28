@@ -44,17 +44,10 @@
                             <div style="margin-top: 5px">
                                 <el-button type="primary" size="mini" style="width: 100%" round>扫码关注公众号</el-button>
                             </div>
-                            <div>
-                                <el-button type="text" style="margin-right: 40px"><i class="el-icon-position"></i>
-                                </el-button>
-                                <el-button type="text" style="margin-right: 40px"><i class="el-icon-position"></i>
-                                </el-button>
-                                <el-button type="text"><i class="el-icon-position"></i></el-button>
-                            </div>
                         </el-card>
                         <!--热门文章-->
                         <el-card class="box-card" style="margin-top: 20px">
-                            <span style="font-size: 15px">热门文章</span>
+                            <span style="font-size: 15px"><i class="fa fa-book" aria-hidden="true"></i>  热门文章</span>
                             <el-divider></el-divider>
                             <el-menu
                                     class="el-menu-vertical-demo">
@@ -69,7 +62,7 @@
                         </el-card>
                         <!--友情链接-->
                         <el-card class="box-card" style="margin-top: 20px">
-                            <span style="font-size: 15px">友链</span>
+                            <span style="font-size: 15px"><i class="fa fa-link" aria-hidden="true"></i> 友链</span>
                             <el-divider></el-divider>
                             <el-menu
                                     class="el-menu-vertical-demo">
@@ -103,11 +96,9 @@
                                 <span>{{item.articleIntroduction}}</span>
                             </div>
                             <div style="text-align: right">
-                                <span style="margin-right: 10px"><i class="el-icon-star-off"></i>{{item.lookNum}}</span>
-                                <span style="margin-right: 10px"><i
-                                        class="el-icon-magic-stick"></i>{{item.likeNum}}</span>
-                                <span style="margin-right: 30px"><i
-                                        class="el-icon-s-comment"></i>{{item.commentNum}}</span>
+                                <span style="margin-right: 15px"><i class="fa fa-eye" aria-hidden="true"></i>  {{item.lookNum}}</span>
+                                <span style="margin-right: 15px"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>  {{item.likeNum}}</span>
+                                <span style="margin-right: 25px"><i class="fa fa-commenting-o" aria-hidden="true"></i>  {{item.commentNum}}</span>
                             </div>
                         </el-card>
                         <el-link @click="forwardToBlog()"
@@ -118,7 +109,7 @@
                     <el-col :span="5">
                         <!--分类-->
                         <el-card class="box-card">
-                            <span style="font-size: 15px">分类</span>
+                            <span style="font-size: 15px"><i class="fa fa-tags" aria-hidden="true"></i> 分类</span>
                             <el-divider></el-divider>
                             <el-menu class="el-menu-vertical-demo">
                                 <el-menu-item

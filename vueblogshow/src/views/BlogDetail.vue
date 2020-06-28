@@ -33,7 +33,9 @@
                             <div>
                                 <p style="font-size: 10px;text-align: left ">非特殊说明，本文版权归 程序员小黄 所，转载请注明出处</p>
                                 <p style="font-size: 10px;text-align: left ">本文地址:
-                                    <el-link :href="url" target="_blank" type="primary" style="margin-bottom: 1px">{{url}}</el-link>
+                                    <el-link :href="url" target="_blank" type="primary" style="margin-bottom: 1px">
+                                        {{url}}
+                                    </el-link>
                                 </p>
                             </div>
                         </el-card>
@@ -44,12 +46,14 @@
                                 <el-input
                                         type="textarea"
                                         :rows="5"
+                                        id="articleComment"
                                         placeholder="请输入评论内容,沟通交流，拉进你我"
                                         v-model="textarea">
                                 </el-input>
                             </div>
                             <div style="text-align:left;margin-top: 10px">
-                                <el-button size="small" style="text-align: left">提交评论</el-button>
+                                <el-button size="small" style="text-align: left" @click="commit(textarea,0,0)">提交评论
+                                </el-button>
                             </div>
                             <el-divider></el-divider>
                             <div style="text-align: left" v-for="(item,index) in articleComments" :key=index>
@@ -114,10 +118,12 @@
                                         <el-input
                                                 type="textarea"
                                                 :rows="3"
+                                                id="childrenArticleComment"
                                                 :placeholder=placeholderMessage
                                                 v-model="reply">
                                         </el-input>
-                                        <el-button type="success" size="mini" style="margin-top: 5px" @click="commit">
+                                        <el-button type="success" size="mini" style="margin-top: 5px"
+                                                   @click="commit(reply,parentId,originalParentId)">
                                             提交
                                         </el-button>
                                     </div>
@@ -140,13 +146,14 @@
                 loading: false,
                 article: '',
                 url: window.location.href,
-                articleComments:[],
+                articleComments: [],
                 //顶部留言框内容
                 textarea: '',
                 //回复留言框内容
                 reply: '',
-                //针对回复的留言id
-                ileaveMessage: '',
+                //针对回复的评论id
+                parentId: '',
+                originalParentId: '',
                 //默认显示
                 placeholderMessage: '',
                 linkReplyText: '回复',
@@ -156,19 +163,22 @@
         mounted() {
             this.initArticle();
             this.initArticleComment();
+            this.addLookNum();
+            //获取焦点
+            document.getElementById("articleComment").focus();
         },
         methods: {
             initArticle() {
                 this.loading = true;
                 let iarticle = this.$route.params.iarticle;
                 this.getRequest("/article/" + iarticle).then(resp => {
+                    this.loading = false;
                     if (resp) {
-                        this.loading = false;
                         this.article = resp.obj;
                     }
                 })
             },
-            initArticleComment(){
+            initArticleComment() {
                 let iarticle = this.$route.params.iarticle;
                 this.getRequest("/comment/" + iarticle).then(resp => {
                     if (resp) {
@@ -177,7 +187,7 @@
                 })
             },
             //点击回复，给回复id赋值，给placeholder赋值
-            messageAssignment(el, ileaveMessage, username, textareaId) {
+            messageAssignment(el, parentId, username, textareaId) {
                 let text = el.innerText.trim();
                 this.reduction();
                 if (text == '回复') {
@@ -185,8 +195,10 @@
                     el.textContent = this.linkCollapseText;
                     //显示对应的文本域
                     this.placeholderMessage = "回复【" + username + "】";
-                    this.ileaveMessage = ileaveMessage;
+                    this.parentId = parentId;
+                    this.originalParentId = textareaId;
                     document.getElementById(textareaId).style.display = "block";
+                    document.getElementById("childrenArticleComment").focus();
                 }
             },
             //还原
@@ -205,9 +217,56 @@
                 }
             },
             //提交
-            commit() {
-
+            commit(commentContext, parentId, originalParentId) {
+                //如果登录
+                if (this.checkLoginState()) {
+                    //留言为空
+                    if (commentContext.trim() == "") {
+                        this.$message.warning('请正确输入评论内容');
+                        //留言不为空
+                    } else {
+                        this.postRequest("/comment/?commentContext=" + commentContext + "&parentId=" + parentId + "&originalParentId=" + originalParentId + "&iarticle=" + this.article.iarticle).then(resp => {
+                            if (resp) {
+                                if (parentId == 0) {
+                                    this.textarea = '';
+                                } else {
+                                    this.reduction();
+                                }
+                                this.initArticleComment();
+                            }
+                        })
+                    }
+                    //没有登录提示登录
+                } else {
+                    this.$confirm('留言需要先登录，点击确定跳转到登录页?', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        this.$router.push("/login");
+                    }).catch(() => {
+                        this.$message({
+                            type: 'info',
+                            message: '已取消跳转'
+                        });
+                    });
+                }
             },
+            //检查登录状态
+            checkLoginState() {
+                let user = window.sessionStorage.getItem("user");
+                this.user = eval('(' + user + ')');
+                if (this.user) {
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            //增加阅读数量
+            addLookNum(){
+                let iarticle = this.$route.params.iarticle;
+                this.putRequest("/article/addLookNum?iarticle=" + iarticle)
+            }
         }
     }
 </script>

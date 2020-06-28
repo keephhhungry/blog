@@ -23,7 +23,7 @@
                           placeholder="点击图片更换验证码" @keydown.enter.native="submitLogin" style="width: 230px"></el-input>
                 <img :src="vcUrl" @click="updateVerifyCode" alt="" style="cursor: pointer;margin-left: 10px">
             </el-form-item>
-            <el-button size="normal" type="primary" style="width: 100%;" @click="submitLogin">登录</el-button>
+            <el-button size="normal" type="primary" style="width: 100%;" @click="submitLogin"><i class="fa fa-sign-in" aria-hidden="true"></i> 登录</el-button>
             <el-button type="text" @click="toRegister">没有账号,点击注册</el-button>
         </el-form>
     </div>

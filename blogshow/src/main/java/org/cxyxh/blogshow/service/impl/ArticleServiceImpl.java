@@ -64,4 +64,15 @@ public class ArticleServiceImpl implements ArticleService {
 	public Article getArticleById(Integer iarticle) {
 		return articleMapper.getArticleById(iarticle);
 	}
+
+	/**
+	 * 根据文章id 新增文章阅读量
+	 *
+	 * @param iarticle
+	 * @return
+	 */
+	@Override
+	public Integer addLookNum(Integer iarticle) {
+		return articleMapper.addLookNum(iarticle);
+	}
 }

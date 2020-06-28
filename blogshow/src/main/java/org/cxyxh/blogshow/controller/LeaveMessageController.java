@@ -1,13 +1,14 @@
 package org.cxyxh.blogshow.controller;
 
+import org.cxyxh.blogshow.model.LeaveMessage;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.model.RespPageBean;
 import org.cxyxh.blogshow.service.LeaveMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpRequest;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ProjectName: blogshow
@@ -35,6 +36,22 @@ public class LeaveMessageController {
 	@GetMapping("/")
 	public RespPageBean getLeaveMessage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size) {
 		return leaveMessageService.getLeaveMessageByPage(page, size);
+	}
+
+
+	/**
+	 * 新增留言
+	 *
+	 * @param leaveMessage
+	 * @return
+	 */
+	@PostMapping("/")
+	public RespBean addLeaveMessage(HttpServletRequest request,  LeaveMessage leaveMessage) {
+		if (leaveMessageService.addLeaveMessage(request, leaveMessage) == 1) {
+			return RespBean.ok("");
+		} else {
+			return RespBean.error("系统错误，请稍后再试");
+		}
 	}
 
 }

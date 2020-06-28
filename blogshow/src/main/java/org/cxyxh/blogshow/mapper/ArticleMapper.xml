@@ -73,5 +73,13 @@
         select * from t_article where i_article = #{iarticle}
     </select>
 
+    <!--增加文章阅读数-->
+    <update id="addLookNum">
+        UPDATE t_article
+        SET look_num = look_num + 1
+        WHERE
+        i_article = #{iarticle}
+    </update>
+
 
 </mapper>

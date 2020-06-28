@@ -30,4 +30,12 @@ public interface ArticleCommentMapper {
 	 * @return
 	 */
 	List<ArticleComment> getCommentByCommentId(Integer iarticleComment);
+
+	/**
+	 * 新增文章评论
+	 *
+	 * @param articleComment
+	 * @return
+	 */
+	Integer addArticleComment(ArticleComment articleComment);
 }

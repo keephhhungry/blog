@@ -44,4 +44,12 @@ public interface ArticleMapper {
 	 * @return
 	 */
 	Article getArticleById(Integer iarticle);
+
+	/**
+	 * 根据文章id 新增文章阅读量
+	 *
+	 * @param iarticle
+	 * @return
+	 */
+	Integer addLookNum(Integer iarticle);
 }

@@ -4,10 +4,7 @@ import org.cxyxh.blogshow.model.Article;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -71,5 +68,20 @@ public class ArticleController {
 	public RespBean getArticleById(@PathVariable Integer iarticle) {
 		Article article = articleService.getArticleById(iarticle);
 		return RespBean.ok("", article);
+	}
+
+	/**
+	 * 根据文章id 新增文章阅读量
+	 *
+	 * @param iarticle
+	 * @return
+	 */
+	@PutMapping("/addLookNum")
+	public void addLookNum(Integer iarticle) {
+		if (articleService.addLookNum(iarticle) == 1) {
+			//写成功日志
+		} else {
+			//写失败日志
+		}
 	}
 }

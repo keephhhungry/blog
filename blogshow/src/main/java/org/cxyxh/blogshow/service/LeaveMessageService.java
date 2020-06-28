@@ -1,6 +1,10 @@
 package org.cxyxh.blogshow.service;
 
+import org.cxyxh.blogshow.model.LeaveMessage;
 import org.cxyxh.blogshow.model.RespPageBean;
+import org.springframework.http.HttpRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @ProjectName: blogshow
@@ -21,4 +25,13 @@ public interface LeaveMessageService {
 	 * @return
 	 */
 	RespPageBean getLeaveMessageByPage(Integer page, Integer size);
+
+	/**
+	 * 新增留言
+	 *
+	 * @param request
+	 * @param leaveMessage
+	 * @return
+	 */
+	Integer addLeaveMessage(HttpServletRequest request, LeaveMessage leaveMessage);
 }

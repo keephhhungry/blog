@@ -9,7 +9,9 @@
         <result column="i_user" property="iuser" jdbcType="INTEGER"/>
         <result column="comment_context" property="commentContext" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
-        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="original_parent_id" property="originalParentId" jdbcType="INTEGER"/>
+        <result column="browser_name" property="browserName" jdbcType="VARCHAR"/>
+        <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>

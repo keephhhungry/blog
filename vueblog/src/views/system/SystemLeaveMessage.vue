@@ -67,9 +67,14 @@
                         label="操作系统">
                 </el-table-column>
                 <el-table-column
-                        prop="browser"
+                        prop="browserName"
                         align="center"
-                        label="浏览器">
+                        label="浏览器名字">
+                </el-table-column>
+                <el-table-column
+                        prop="browserVersion"
+                        align="center"
+                        label="浏览器版本">
                 </el-table-column>
                 <el-table-column
                         prop="ip"

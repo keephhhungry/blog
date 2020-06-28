@@ -2,10 +2,15 @@ package org.cxyxh.blogshow.service.impl;
 
 import org.cxyxh.blogshow.mapper.ArticleCommentMapper;
 import org.cxyxh.blogshow.model.ArticleComment;
+import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.ArticleCommentService;
+import org.cxyxh.blogshow.utils.UserAgentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,5 +42,33 @@ public class ArticleCommentServiceImpl implements ArticleCommentService {
 			comment.setChildren(children);
 		}
 		return comments;
+	}
+
+	/**
+	 * 新增文章评论
+	 *
+	 * @param request
+	 * @param articleComment
+	 * @return
+	 */
+	@Override
+	public Integer addArticleComment(HttpServletRequest request, ArticleComment articleComment) {
+		//根据工具类获取数据
+		String ip = UserAgentUtils.getIp(request);
+		String browserName = UserAgentUtils.getBrowserName(request);
+		String browserVersion = UserAgentUtils.getBrowserVersion(request);
+		String osName = UserAgentUtils.getOsName(request);
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		//赋值
+		articleComment.setAddress("");
+		articleComment.setIp(ip);
+		articleComment.setBrowserName(browserName);
+		articleComment.setBrowserVersion(browserVersion);
+		articleComment.setOperatingSystem(osName);
+		articleComment.setIuser(user.getIuser());
+		articleComment.setGmtCreate(new Date());
+		articleComment.setGmtModified(new Date());
+		return articleCommentMapper.addArticleComment(articleComment);
 	}
 }

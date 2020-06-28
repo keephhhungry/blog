@@ -8,7 +8,9 @@
         <result column="i_user" property="iuser" jdbcType="INTEGER"/>
         <result column="message_context" property="messageContext" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
-        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="original_parent_id" property="originalParentId" jdbcType="INTEGER"/>
+        <result column="browser_name" property="browserName" jdbcType="VARCHAR"/>
+        <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
@@ -20,7 +22,7 @@
         </association>
     </resultMap>
 
-    <!--根据日志的类型ID,页码，每页展示数量和日志对象 查询相关的日志集合-->
+    <!--根据留言的类型ID,页码，每页展示数量和日志对象 查询相关的日志集合-->
     <select id="getLeaveMessageByPage" resultMap="BaseResultMap">
         select username,l.* from t_leave_message l,t_user u where l.i_user = u.i_user
         <if test="leaveMessage !=null">

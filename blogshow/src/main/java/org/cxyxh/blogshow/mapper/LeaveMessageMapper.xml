@@ -8,7 +8,9 @@
         <result column="i_user" property="iuser" jdbcType="INTEGER"/>
         <result column="message_context" property="messageContext" jdbcType="VARCHAR"/>
         <result column="parent_id" property="parentId" jdbcType="INTEGER"/>
-        <result column="browser" property="browser" jdbcType="VARCHAR"/>
+        <result column="original_parent_id" property="originalParentId" jdbcType="INTEGER"/>
+        <result column="browser_name" property="browserName" jdbcType="VARCHAR"/>
+        <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
         <result column="address" property="address" jdbcType="VARCHAR"/>
@@ -48,14 +50,89 @@
             t_user u1
         WHERE
             l1.i_user = u1.i_user
-            AND parent_id = #{ileaveMessage}
+            AND original_parent_id = #{ileaveMessage}
         ORDER BY
-            l1.gmt_create DESC
+            l1.gmt_create
     </select>
 
     <!--查询留言的数量-->
     <select id="getTotal" resultType="java.lang.Long">
         select count(*) from t_leave_message where parent_id = 0
     </select>
+
+    <!--新增留言-->
+    <insert id="addLeaveMessage">
+        insert into t_leave_message
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="iuser != null">
+                i_user,
+            </if>
+            <if test="messageContext != null">
+                message_context,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="originalParentId != null">
+                original_parent_id,
+            </if>
+            <if test="browserName != null">
+                browser_name,
+            </if>
+            <if test="browserVersion != null">
+                browser_version,
+            </if>
+            <if test="operatingSystem != null">
+                operating_system,
+            </if>
+            <if test="ip != null">
+                ip,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="gmtCreate != null">
+                gmt_create,
+            </if>
+            <if test="gmtModified != null">
+                gmt_modified,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="iuser != null">
+                #{iuser,jdbcType=INTEGER},
+            </if>
+            <if test="messageContext != null">
+                #{messageContext,jdbcType=VARCHAR},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=INTEGER},
+            </if>
+            <if test="originalParentId != null">
+                #{originalParentId,jdbcType=INTEGER},
+            </if>
+            <if test="browserName != null">
+                #{browserName,jdbcType=VARCHAR},
+            </if>
+            <if test="browserVersion != null">
+                #{browserVersion,jdbcType=VARCHAR},
+            </if>
+            <if test="operatingSystem != null">
+                #{operatingSystem,jdbcType=VARCHAR},
+            </if>
+            <if test="ip != null">
+                #{ip,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="gmtCreate != null">
+                #{gmtCreate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gmtModified != null">
+                #{gmtModified,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
 
 </mapper>
