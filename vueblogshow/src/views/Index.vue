@@ -9,12 +9,12 @@
                 @select="handleSelect">
             <el-menu-item index="/views/Home" style="margin-left: 30%">程序员小黄</el-menu-item>
             <el-menu-item index="/views/Blog">博客</el-menu-item>
-            <el-submenu index="3">
-                <template slot="title">系列</template>
-                <el-menu-item index="3-1">Eclipse</el-menu-item>
-                <el-menu-item index="3-2">Idea</el-menu-item>
-                <el-menu-item index="3-3">tomcat</el-menu-item>
-            </el-submenu>
+<!--            <el-submenu index="3">-->
+<!--                <template slot="title">系列</template>-->
+<!--                <el-menu-item index="3-1">Eclipse</el-menu-item>-->
+<!--                <el-menu-item index="3-2">Idea</el-menu-item>-->
+<!--                <el-menu-item index="3-3">tomcat</el-menu-item>-->
+<!--            </el-submenu>-->
             <el-menu-item index="/views/Diary">日记</el-menu-item>
             <el-menu-item index="/views/LeaveMessage">留言</el-menu-item>
             <el-menu-item index="/views/About" style="text-align: right">关于</el-menu-item>
@@ -29,7 +29,7 @@
                         {{user.username}}<i class="el-icon-arrow-down el-icon--right"></i>
                     </span>
                     <el-dropdown-menu slot="dropdown">
-                        <el-dropdown-item >个人资料</el-dropdown-item>
+                        <el-dropdown-item command="toUserInfo">个人信息</el-dropdown-item>
                         <el-dropdown-item command="logout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
@@ -73,6 +73,8 @@
             handleClick(command) {
                 if(command=='logout'){
                     this.logout();
+                }else if(command=='toUserInfo'){
+                    this.toUserInfo();
                 }
             },
             logout(){
@@ -91,6 +93,11 @@
                     });
                 });
 
+            },
+            toUserInfo(){
+                this.$router.push({
+                    path: "/views/User",
+                });
             }
         },
     }

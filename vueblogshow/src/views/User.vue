@@ -1,19 +1,27 @@
 <template>
-    <div style="background-color: white">
+    <div>
         <el-form
                 :rules="rules"
-                :model="registerForm"
+                :model="modifyForm"
                 class="loginContainer"
                 v-loading="loading"
                 element-loading-text="正在注册"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0,0,0,0.8)"
-                ref="registerForm">
-            <h3 class="loginTitle">注 册</h3>
+                ref="modifyForm">
+            <el-form-item prop="username">
+                <el-avatar shape="square"
+                           :size=80
+                           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png">
+                </el-avatar>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" size="mini" @click="submitLogin">点击上传头像</el-button>
+            </el-form-item>
             <el-form-item prop="username">
                 <el-input
                         type="text"
-                        v-model="registerForm.username"
+                        v-model="modifyForm.username"
                         auto-complete="off"
                         maxlength="16"
                         minlength="2"
@@ -24,35 +32,17 @@
             <el-form-item prop="name">
                 <el-input
                         type="text"
-                        v-model="registerForm.name"
+                        v-model="modifyForm.name"
                         auto-complete="off"
                         maxlength="20"
                         show-word-limit
                         placeholder="请输入真实姓名">
                 </el-input>
             </el-form-item>
-            <el-form-item prop="password">
-                <el-input
-                        type="text"
-                        v-model="registerForm.password"
-                        auto-complete="off"
-                        placeholder="请输入密码"
-                        :show-password="true">
-                </el-input>
-            </el-form-item>
-            <el-form-item prop="rePassword">
-                <el-input
-                        type="password"
-                        v-model="registerForm.rePassword"
-                        auto-complete="off"
-                        placeholder="再次输入密码"
-                        :show-password="true">
-                </el-input>
-            </el-form-item>
             <el-form-item prop="email">
                 <el-input
                         type="text"
-                        v-model="registerForm.email"
+                        v-model="modifyForm.email"
                         auto-complete="off"
                         placeholder="请输入email">
                 </el-input>
@@ -60,14 +50,14 @@
             <el-form-item prop="telephone">
                 <el-input
                         type="text"
-                        v-model="registerForm.telephone"
+                        v-model="modifyForm.telephone"
                         auto-complete="off"
                         placeholder="请输入手机号">
                 </el-input>
             </el-form-item>
             <div style="display: flex;justify-content: space-between">
                 <el-form-item prop="sex">
-                    <el-select v-model="registerForm.sex" placeholder="性别" style="width: 167px">
+                    <el-select v-model="modifyForm.sex" placeholder="性别" style="width: 167px">
                         <el-option
                                 v-for="item in sexOptions"
                                 :key="item.value"
@@ -77,7 +67,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item prop="age">
-                    <el-select v-model="registerForm.age" placeholder="年龄" style="width: 166px">
+                    <el-select v-model="modifyForm.age" placeholder="年龄" style="width: 166px">
                         <el-option
                                 v-for="index in (1,120)"
                                 :key="index"
@@ -87,32 +77,20 @@
                     </el-select>
                 </el-form-item>
             </div>
-            <el-button type="primary" style="width: 100%" @click="submitLogin"><i class="fa fa-registered" aria-hidden="true"></i> 注册</el-button>
-            <el-button type="text" @click="login">已有账号，前往登录</el-button>
+            <el-button type="primary" style="width: 48%" @click="submitLogin">还原</el-button>
+            <el-button type="primary" style="width: 48%" @click="submitLogin">提交修改</el-button>
         </el-form>
     </div>
 </template>
 
 <script>
     export default {
-        name: "Register",
+        name: "UserInfo",
         data() {
-            //判断重复密码
-            var checkRePwd = (rule, value, callback) => {
-                if (this.registerForm.password == this.registerForm.rePassword) {
-                    this.$refs.registerForm.validateField('checkPass');
-                } else {
-                    callback(new Error('两次密码要输入一致'));
-                    this.registerForm.rePassword = '';
-                }
-                callback();
-            };
             return {
-                registerForm: {
+                modifyForm: {
                     username: '',
                     name: '',
-                    password: '',
-                    rePassword: '',
                     email: '',
                     telephone: '',
                     age: '',
@@ -139,20 +117,6 @@
                             trigger: 'blur'
                         }
                     ],
-                    password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                        {
-                            required: true,
-                            // pattern: /(?!^(\d+|[a-zA-Z]+|[~!@#$%^&*?]+)$)^[\w~!@#$%^&*?]{8,16}$/,
-                            pattern: /^[\w~!@#$%^&*()_+{}|:"<>?.-]{8,16}$/,
-                            message: '密码应是8-16位数字、字母或字符 ~!@#$%^&*()_+{}|:"<>?.-',
-                            trigger: 'blur'
-                        }
-                    ],
-                    rePassword: [
-                        {required: true, message: '请再次输入密码', trigger: 'blur'},
-                        {validator: checkRePwd, trigger: 'blur'}
-                    ],
                     email: [
                         {required: true, message: '请输入邮箱', trigger: 'blur'},
                         {
@@ -178,29 +142,33 @@
                 sexOptions: [
                     {value: 1, label: '男'},
                     {value: 0, label: '女'}
-                ]
+                ],
+                user:'',
             }
+        },
+        mounted() {
+            this.init();
         },
         methods: {
             //提交表单数据
             submitLogin() {
-                this.$refs.registerForm.validate((valid) => {
+                this.$refs.modifyForm.validate((valid) => {
                     if (valid) {
                         this.loading = true;
-                        this.postRequest("/user/register", this.registerForm).then(resp => {
+                        this.postRequest("/user/register", this.modifyForm).then(resp => {
                             this.loading = false;
                             if (resp) {
-                                if(resp.obj==1){
+                                if (resp.obj == 1) {
                                     //点击确认，跳转登录页
-                                    this.$alert('恭喜你，注册成功，账号【'+this.registerForm.username+'】，点击确定前往登录页', '注册成功', {
+                                    this.$alert('恭喜你，注册成功，账号【' + this.modifyForm.username + '】，点击确定前往登录页', '注册成功', {
                                         confirmButtonText: '确定',
                                         callback: action => {
                                             this.login();
                                         }
                                     });
-                                }else if(resp.obj==-1){
+                                } else if (resp.obj == -1) {
                                     this.$message.error("用户名重复，请重新输入");
-                                }else{
+                                } else {
                                     this.$message.error("系统错误，请稍后再试");
                                 }
                             }
@@ -211,10 +179,19 @@
                     }
                 });
             },
-            //跳转登录页
-            login() {
-                this.$router.push("/login")
-            }
+            //还原
+            reduction(){
+
+            },
+            //改变头像
+            changeImage(){
+
+            },
+            //初始化
+            init() {
+                let user = window.sessionStorage.getItem("user");
+                this.user = eval('(' + user + ')');
+            },
         }
     }
 </script>

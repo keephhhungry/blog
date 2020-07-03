@@ -28,20 +28,21 @@
 
     <!--查询首页文章-->
     <select id="getHomeArticle" resultMap="BaseResultMap">
-        select
-        a1.*,
-        a2.type_name
-        from
-        t_article a1,
-        t_article_type a2
-        where
-        a1.i_article_type = a2.i_article_type
-        and status = 1
+        SELECT
+            a1.*,
+            a2.type_name,
+            (SELECT count(*) FROM t_article_comment a3 WHERE a3.i_article = a1.i_article ) comment_num
+        FROM
+            t_article a1,
+            t_article_type a2
+        WHERE
+            a1.i_article_type = a2.i_article_type
+        AND status = 1
         <if test="iarticleType !=null and iarticleType!=''">
-            and a1.i_article_type = #{iarticleType}
+            AND a1.i_article_type = #{iarticleType}
         </if>
-        order by
-        gmt_create desc
+        ORDER BY
+        gmt_create DESC
         limit 0,
         7
     </select>

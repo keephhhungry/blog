@@ -9,6 +9,7 @@ import Diary from "./views/Diary";
 import LeaveMessage from "./views/LeaveMessage";
 import About from "./views/About";
 import BlogDetail from "./views/BlogDetail";
+import User from "./views/User";
 
 Vue.use(Router)
 
@@ -30,6 +31,7 @@ export default new Router({
                 {path: '/views/Diary', component: Diary},
                 {path: '/views/LeaveMessage', component: LeaveMessage},
                 {path: '/views/About', component: About},
+                {path: '/views/User', component: User},
                 {path: '/views/BlogDetail/:iarticle', component: BlogDetail},
             ]
         }, {
