@@ -13,7 +13,8 @@
         <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="user" javaType="org.cxyxh.blogserver.model.User">

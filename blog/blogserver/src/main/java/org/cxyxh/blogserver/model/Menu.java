@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 import java.util.List;
@@ -14,47 +16,61 @@ import java.util.List;
  * @Date: 2020/5/28 10:00
  * @Version: 1.0
  */
+@ApiModel(value = "菜单实体类", description = "菜单信息描述类")
 public class Menu {
 
     /* 主键 */
+    @ApiModelProperty(value = "菜单ID", example = "0")
     private Integer imenu;
 
     /* 匹配路径 */
+    @ApiModelProperty(value = "匹配路径")
     private String url;
 
     /* 实际路径 */
+    @ApiModelProperty(value = "实际路径")
     private String path;
 
     /* 组件名称 */
+    @ApiModelProperty(value = "组件名称")
     private String component;
 
     /* 菜单名称 */
+    @ApiModelProperty(value = "菜单名称")
     private String name;
 
     /* 图标 */
+    @ApiModelProperty(value = "图标")
     private String icon;
 
     /* 状态类 */
+    @ApiModelProperty(value = "状态类")
     private Meta meta;
 
-    /* 父亲ID */
+    /* 父ID */
+    @ApiModelProperty(value = "父ID", example = "0")
     private Integer parentId;
 
     /* 是否可用 */
+    @ApiModelProperty(value = "是否可用")
     private boolean enabled;
 
     /* 创建时间 */
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
 
     /* 修改时间 */
+    @ApiModelProperty(value = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtModified;
 
-    /* 子菜单 */
+    /* 子菜单集合 */
+    @ApiModelProperty(value = "子菜单集合")
     private List<Menu> children;
 
-    /* 角色组 */
+    /* 角色集合 */
+    @ApiModelProperty(value = "角色集合")
     private List<Role> roles;
 
     public Integer getImenu() {

@@ -6,6 +6,8 @@ import org.cxyxh.blogserver.model.Role;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.UserService;
 import org.cxyxh.blogserver.utils.DefaultParams;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,6 +29,8 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService,UserDetailsService{
+
+    private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     UserMapper userMapper;

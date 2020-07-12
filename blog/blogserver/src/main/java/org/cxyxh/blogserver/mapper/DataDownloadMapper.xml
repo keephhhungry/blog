@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.cxyxh.blogserver.mapper.DataDownloadMapper">
+
+    <!--基础配置-->
+    <resultMap id="UserDataDownloadResultMap" type="org.cxyxh.blogserver.model.UserDataDownload">
+        <id column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="visits" property="visits" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 用户数据下载 -->
+    <select id="userDataDownload" resultMap="UserDataDownloadResultMap">
+        SELECT
+            u.i_user,
+            u.username,
+            count(*) visits
+        FROM
+            t_user AS u,
+            t_log AS l
+        WHERE
+            u.i_user = l.i_user
+            AND l.log_type = 3
+            <if test="createDateScope !=null">
+                AND l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+            </if>
+        GROUP BY
+            u.i_user
+    </select>
+
+</mapper>

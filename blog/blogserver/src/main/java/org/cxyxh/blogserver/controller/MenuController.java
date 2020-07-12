@@ -1,5 +1,9 @@
 package org.cxyxh.blogserver.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.cxyxh.blogserver.model.Menu;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.service.MenuService;
@@ -21,6 +25,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/permission/menu")
+@Api(tags = "菜单数据接口")
 public class MenuController {
 
 	@Autowired
@@ -32,6 +37,7 @@ public class MenuController {
 	 * @param keyword 关键字
 	 * @return
 	 */
+	@ApiOperation(value = "查询菜单", notes = "查询所有的菜单")
 	@GetMapping("/")
 	public RespBean getAllMenu(String keyword) {
 		List<Menu> menus = menuService.getAllMenu(keyword);

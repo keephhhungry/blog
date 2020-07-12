@@ -23,7 +23,7 @@
     </select>
 
     <!--新增角色-->
-    <insert id="addRole" parameterType="org.cxyxh.blogserver.model.Role">
+    <insert id="addRole" parameterType="org.cxyxh.blogserver.model.Role" useGeneratedKeys="true" keyProperty="irole">
         insert into t_role
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="name != null">

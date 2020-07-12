@@ -1,13 +1,14 @@
 package org.cxyxh.blogserver.controller;
 
-import org.cxyxh.blogserver.model.Article;
-import org.cxyxh.blogserver.model.Diary;
-import org.cxyxh.blogserver.model.RespBean;
-import org.cxyxh.blogserver.model.RespPageBean;
+import io.swagger.annotations.*;
+import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.DiaryService;
+import org.cxyxh.blogserver.utils.UserUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -21,70 +22,120 @@ import java.util.Date;
  */
 @RestController
 @RequestMapping("/system/diary")
+@Api(tags = "日记数据接口")
 public class DairyController {
 
-	@Autowired
-	DiaryService diaryService;
+    @Autowired
+    DiaryService diaryService;
 
 
-	/**
-	 * 根据页码，每页展示数量，日记对象，创建时间 查询日记
-	 *
-	 * @param page            页码
-	 * @param size            每页展示数量
-	 * @param diary           日记对象
-	 * @param createDateScope 创建时间
-	 * @return
-	 */
-	@GetMapping("/")
-	public RespPageBean getDiaryByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Diary diary, Date[] createDateScope) {
-		return diaryService.getDiaryByPage(page, size, diary, createDateScope);
-	}
+    /**
+     * 根据页码，每页展示数量，日记对象，创建时间 查询日记
+     *
+     * @param page            页码
+     * @param size            每页展示数量
+     * @param diary           日记对象
+     * @param createDateScope 创建时间
+     * @return
+     */
+    @ApiOperation(value = "查询日记", notes = "根据页码，每页显示数量，日记对象和创建时间查询日记")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "page", value = "页码", defaultValue = "1", required = false),
+            @ApiImplicitParam(name = "size", value = "每页展示数量", defaultValue = "10", required = false),
+            @ApiImplicitParam(name = "articleComment", value = "日记对象", required = false),
+            @ApiImplicitParam(name = "createDateScope", value = "创建时间", required = false)
+    })
+    @GetMapping("/")
+    public RespPageBean getDiaryByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Diary diary, Date[] createDateScope) {
+        return diaryService.getDiaryByPage(page, size, diary, createDateScope);
+    }
 
 
-	/**
-	 * 根据ID 删除日记
-	 *
-	 * @param idiary 日记ID
-	 * @return
-	 */
-	@DeleteMapping("/{idiary}")
-	public RespBean deleteDiaryById(@PathVariable Integer idiary) {
-		if (diaryService.deleteDiaryById(idiary) == 1) {
-			return RespBean.ok("删除成功");
-		} else {
-			return RespBean.error("删除失败");
-		}
-	}
+    /**
+     * 根据日记ID，删除日记
+     *
+     * @param idiary 日记ID
+     * @return
+     */
+    @ApiOperation(value = "删除日记", notes = "根据日记ID，删除日记")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "idiary", value = "日记ID", required = true),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "删除成功"),
+            @ApiResponse(code = 500, message = "删除失败")
+    })
+    @DeleteMapping("/{idiary}")
+    public RespBean deleteDiaryById(@PathVariable Integer idiary, HttpServletRequest request) {
+        User user = UserUtils.getCurrentUser();
+        String remark = "";
+        if (diaryService.deleteDiaryById(idiary) == 1) {
+            remark = "删除日记成功，日记ID[{" + idiary + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.ok("删除成功");
+        } else {
+            remark = "删除日记失败，日记ID[{" + idiary + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.error("删除失败");
+        }
+    }
 
-	/**
-	 * 新增日记
-	 *
-	 * @param diary 日记对象
-	 * @return
-	 */
-	@PostMapping("/")
-	public RespBean addDiary(@RequestBody Diary diary) {
-		if (diaryService.addDiary(diary) == 1) {
-			return RespBean.ok("新增成功");
-		} else {
-			return RespBean.error("新增失败");
-		}
-	}
+    /**
+     * 根据日记对象，添加日记
+     *
+     * @param diary 日记对象
+     * @return
+     */
+    @PostMapping("/")
+    @ApiOperation(value = "添加日记", notes = "根据日记对象，添加日记")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "diary", value = "日记对象", required = true),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "添加成功"),
+            @ApiResponse(code = 500, message = "添加失败")
+    })
+    public RespBean addDiary(@RequestBody Diary diary, HttpServletRequest request) {
+        User user = UserUtils.getCurrentUser();
+        String remark = "";
+        if (diaryService.addDiary(diary) == 1) {
+            remark = "添加日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.ok("新增成功");
+        } else {
+            remark = "删添加日记失败，操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.error("新增失败");
+        }
+    }
 
-	/**
-	 * 根据日记id 修改日记
-	 *
-	 * @param diary
-	 * @return
-	 */
-	@PutMapping("/")
-	public RespBean updateDiaryById(@RequestBody Diary diary) {
-		if (diaryService.updateDiaryById(diary) == 1) {
-			return RespBean.ok("修改成功");
-		} else {
-			return RespBean.error("修改失败");
-		}
-	}
+    /**
+     * 根据日记对象，修改日记
+     *
+     * @param diary 日记对象
+     * @return
+     */
+    @PutMapping("/")
+    @ApiOperation(value = "修改日记", notes = "根据日记对象，修改日记")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "diary", value = "日记对象", required = true),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "修改成功"),
+            @ApiResponse(code = 500, message = "修改失败")
+    })
+    public RespBean updateDiaryById(@RequestBody Diary diary, HttpServletRequest request) {
+        User user = UserUtils.getCurrentUser();
+        String remark = "";
+        if (diaryService.updateDiaryById(diary) == 1) {
+            remark = "修改日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.ok("修改成功");
+        } else {
+            remark = "修改日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+            request.setAttribute("remark", remark);
+            return RespBean.error("修改失败");
+        }
+    }
 
 }

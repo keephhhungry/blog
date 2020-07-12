@@ -5,6 +5,8 @@ import org.cxyxh.blogserver.model.FriendLink;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.FriendLinkService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.List;
  */
 @Service
 public class FriendLinkServiceImpl implements FriendLinkService{
+
+	private final static Logger logger = LoggerFactory.getLogger(FriendLinkServiceImpl.class);
 
 	@Autowired
 	FriendLinkMapper friendLinkMapper;

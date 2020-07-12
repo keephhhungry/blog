@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,170 +15,215 @@ import java.util.Date;
  * @Date: 2020/6/4 23:25
  * @Version: 1.0
  */
+@ApiModel(value = "日志实体类", description = "日志信息描述类")
 public class Log {
 
-	/* 主键 */
-	private Integer ilog;
+    /* 日志类型 1.前台登录日志 2.后台登录日志 3.前台访问日志 4.后台操作日志 */
+    public final static Integer FRONT_LOGIN_LOG = 1;
+    public final static Integer BACKGROUND_LOGIN_LOG = 2;
+    public final static Integer FRONT_OPERATE_LOG = 3;
+    public final static Integer BACKGROUND_OPERATE_LOG = 4;
 
-	/* 用户id */
-	private Integer iuser;
+    /* 主键 */
+    @ApiModelProperty(value = "日志ID", example = "0")
+    private Integer ilog;
 
-	/* 浏览器 */
-	private String browser;
+    /* 用户ID */
+    @ApiModelProperty(value = "用户ID", example = "0")
+    private Integer iuser;
 
-	/* 操作系统 */
-	private String operatingSystem;
+    /* 浏览器名字 */
+    @ApiModelProperty(value = "浏览器名字")
+    private String browserName;
 
-	/* ip */
-	private String ip;
+    /* 浏览器版本 */
+    @ApiModelProperty(value = "浏览器版本")
+    private String browserVersion;
 
-	/* 具体地址 */
-	private String address;
+    /* 操作系统 */
+    @ApiModelProperty(value = "操作系统")
+    private String operatingSystem;
 
-	/* url */
-	private String url;
+    /* ip */
+    @ApiModelProperty(value = "ip")
+    private String ip;
 
-	/* 请求参数 */
-	private String operationalParameter;
+    /* 省份 */
+    @ApiModelProperty(value = "省份")
+    private String province;
 
-	/* 备注 */
-	private String remark;
+    /* 城市 */
+    @ApiModelProperty(value = "城市")
+    private String city;
 
-	/* 日志类型 1.登录 2.前台访问日志 3.后台操作日志 */
-	private Integer logType;
+    /* url */
+    @ApiModelProperty(value = "url")
+    private String url;
 
-	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtCreate;
+    /* 请求参数 */
+    @ApiModelProperty(value = "请求参数")
+    private String operationalParameter;
 
-	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtModified;
+    /* 备注 */
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
-	/* 操作者 */
-	private User user;
+    /* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
+    @ApiModelProperty(value = "日志类型", example = "0")
+    private Integer logType;
 
-	@Override
-	public String toString() {
-		final StringBuffer sb = new StringBuffer("Log{");
-		sb.append("ilog=").append(ilog);
-		sb.append(", iuser=").append(iuser);
-		sb.append(", browser='").append(browser).append('\'');
-		sb.append(", operatingSystem='").append(operatingSystem).append('\'');
-		sb.append(", ip='").append(ip).append('\'');
-		sb.append(", address='").append(address).append('\'');
-		sb.append(", url='").append(url).append('\'');
-		sb.append(", operationalParameter='").append(operationalParameter).append('\'');
-		sb.append(", remark='").append(remark).append('\'');
-		sb.append(", logType=").append(logType);
-		sb.append(", gmtCreate=").append(gmtCreate);
-		sb.append(", gmtModified=").append(gmtModified);
-		sb.append(", user=").append(user);
-		sb.append('}');
-		return sb.toString();
-	}
+    /* 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间")
+    private Date gmtCreate;
 
-	public Integer getIlog() {
-		return ilog;
-	}
+    /* 修改时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "修改时间")
+    private Date gmtModified;
 
-	public void setIlog(Integer ilog) {
-		this.ilog = ilog;
-	}
+    /* 用户类 */
+    @ApiModelProperty(value = "用户类")
+    private User user;
 
-	public Integer getIuser() {
-		return iuser;
-	}
+    @Override
+    public String toString() {
+        return "Log{" +
+                "ilog=" + ilog +
+                ", iuser=" + iuser +
+                ", browserName='" + browserName + '\'' +
+                ", browserVersion='" + browserVersion + '\'' +
+                ", operatingSystem='" + operatingSystem + '\'' +
+                ", ip='" + ip + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", url='" + url + '\'' +
+                ", operationalParameter='" + operationalParameter + '\'' +
+                ", remark='" + remark + '\'' +
+                ", logType=" + logType +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", user=" + user +
+                '}';
+    }
 
-	public void setIuser(Integer iuser) {
-		this.iuser = iuser;
-	}
+    public Integer getIlog() {
+        return ilog;
+    }
 
-	public String getBrowser() {
-		return browser;
-	}
+    public void setIlog(Integer ilog) {
+        this.ilog = ilog;
+    }
 
-	public void setBrowser(String browser) {
-		this.browser = browser;
-	}
+    public Integer getIuser() {
+        return iuser;
+    }
 
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
+    public void setIuser(Integer iuser) {
+        this.iuser = iuser;
+    }
 
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
-	}
+    public String getBrowserName() {
+        return browserName;
+    }
 
-	public String getIp() {
-		return ip;
-	}
+    public void setBrowserName(String browserName) {
+        this.browserName = browserName;
+    }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setBrowserVersion(String browserVersion) {
+        this.browserVersion = browserVersion;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public String getOperationalParameter() {
-		return operationalParameter;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public void setOperationalParameter(String operationalParameter) {
-		this.operationalParameter = operationalParameter;
-	}
+    public String getProvince() {
+        return province;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public Integer getLogType() {
-		return logType;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setLogType(Integer logType) {
-		this.logType = logType;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public String getOperationalParameter() {
+        return operationalParameter;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
+    public void setOperationalParameter(String operationalParameter) {
+        this.operationalParameter = operationalParameter;
+    }
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public Integer getLogType() {
+        return logType;
+    }
+
+    public void setLogType(Integer logType) {
+        this.logType = logType;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

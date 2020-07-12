@@ -41,7 +41,7 @@
     </delete>
 
     <!--根据友链对象 新增友链-->
-    <insert id="addFriendLink" parameterType="org.cxyxh.blogserver.model.FriendLink">
+    <insert id="addFriendLink" parameterType="org.cxyxh.blogserver.model.FriendLink" useGeneratedKeys="true" keyProperty="ifriendLink">
         insert into t_friend_link
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="linkName != null">

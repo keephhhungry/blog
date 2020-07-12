@@ -25,17 +25,26 @@ import java.util.Collection;
 @Component
 public class CustomUrlDecisionManager implements AccessDecisionManager {
 
+    /**
+     * @param authentication   你拥有的角色
+     * @param object
+     * @param configAttributes 路径需要的角色
+     * @throws AccessDeniedException
+     * @throws InsufficientAuthenticationException
+     */
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute configAttribute : configAttributes) {
             String needRole = configAttribute.getAttribute();
+            //路径全部没匹配上，默认为登录就可以访问的路径，只需要判断登录情况
             if ("ROLE_LOGIN".equals(needRole)) {
                 if (authentication instanceof AnonymousAuthenticationToken) {
                     throw new AccessDeniedException("尚未登录，请登录!");
-                }else {
+                } else {
                     return;
                 }
             }
+            //拥有的角色和需要的角色做对比
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
             for (GrantedAuthority authority : authorities) {
                 if (authority.getAuthority().equals(needRole)) {

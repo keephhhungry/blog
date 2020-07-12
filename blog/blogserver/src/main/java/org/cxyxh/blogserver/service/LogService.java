@@ -4,6 +4,7 @@ import org.cxyxh.blogserver.model.Log;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -38,4 +39,10 @@ public interface LogService {
 	 */
 	Integer addLog(Log log);
 
+	/**
+	 * 访问日志 做记录
+	 * @param request
+	 * @return
+	 */
+	Integer addLog(HttpServletRequest request,String remark);
 }

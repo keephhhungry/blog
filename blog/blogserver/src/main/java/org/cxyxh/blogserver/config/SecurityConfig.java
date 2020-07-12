@@ -60,13 +60,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userServiceImpl);
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/login");
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers( "/v2/api-docs",
+                "/swagger-resources",
+                "/swagger-resources/**",
+                "/configuration/ui",
+                "/configuration/security",
+                "/swagger-ui.html/**",
+                "/webjars/**",//前面是swagger
+                "/",
+                "/login",
+                "/verifyCode",
+                "/js/**",
+                "/css/**",
+                "/images/**",
+                "/tinymce/**",
+                "/fonts/**",
+                "/index.html",
+                "/favicon.ico");
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        System.out.println("111111111");
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
@@ -76,13 +93,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
+                //表单配置
                 .formLogin()
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .loginProcessingUrl("/doLogin")
-                .loginPage("/login")
+                .usernameParameter("username")//账号参数
+                .passwordParameter("password")//密码参数
+                .loginProcessingUrl("/doLogin")//登录请求
+                .loginPage("/login")//登录页面
+                //前后端分离采用此方法，登录成功的回调
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
@@ -97,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         out.close();
                     }
                 })
+                //前后端分离采用此方法，登录失败的回调
                 .failureHandler(new AuthenticationFailureHandler() {
                     @Override
                     public void onAuthenticationFailure(HttpServletRequest req, HttpServletResponse resp, AuthenticationException e) throws IOException, ServletException {
@@ -119,9 +139,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         out.close();
                     }
                 })
+                //跟登录相关的资源都放行
                 .permitAll()
                 .and()
                 .logout()
+                //注销成功的回调
                 .logoutSuccessHandler(new LogoutSuccessHandler() {
                     @Override
                     public void onLogoutSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
@@ -150,6 +172,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         }
                 );
     }
-
-
 }

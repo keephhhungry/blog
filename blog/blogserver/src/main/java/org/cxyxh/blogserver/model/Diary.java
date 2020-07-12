@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,28 +15,36 @@ import java.util.Date;
  * @Date: 2020/6/15 20:00
  * @Version: 1.0
  */
+@ApiModel(value = "日记实体类",description = "日记信息描述类")
 public class Diary {
 
 	/* 主键 */
+	@ApiModelProperty(value = "日记ID", example = "0")
 	private Integer idiary;
 
 	/* 日记标题 */
+	@ApiModelProperty(value = "日记标题")
 	private String diaryTitle;
 
 	/* 日记内容 */
+	@ApiModelProperty(value = "日记内容")
 	private String diaryContent;
 
-	/* 字数 */
+	/* 日记字数 */
+	@ApiModelProperty(value = "日记字数", example = "0")
 	private Integer wordCount;
 
 	/* 状态 1-正常 2-删除 */
+	@ApiModelProperty(value = "日记状态", example = "0")
 	private Integer status;
 
 	/* 创建时间 */
+	@ApiModelProperty(value = "创建时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
+	@ApiModelProperty(value = "修改时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 

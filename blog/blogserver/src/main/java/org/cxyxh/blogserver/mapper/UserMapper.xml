@@ -122,7 +122,7 @@
     </select>
 
     <!--添加用户-->
-    <insert id="addUser">
+    <insert id="addUser" useGeneratedKeys="true" keyProperty="iuser">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="username != null">

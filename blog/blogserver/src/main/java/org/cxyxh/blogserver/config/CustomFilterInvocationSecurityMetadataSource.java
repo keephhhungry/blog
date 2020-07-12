@@ -34,6 +34,12 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
 
     AntPathMatcher antPathMatcher = new AntPathMatcher();
 
+    /**
+     * 查看该路径有哪些角色可以访问
+     * @param object
+     * @return
+     * @throws IllegalArgumentException
+     */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         String requestUrl = ((FilterInvocation) object).getRequestUrl();
@@ -41,16 +47,14 @@ public class CustomFilterInvocationSecurityMetadataSource implements FilterInvoc
         for (Menu menu : menus) {
             if (antPathMatcher.match(menu.getUrl(), requestUrl)) {
                 List<Role> roles = menu.getRoles();
-//                System.out.println("角色="+roles.toString());
                 String[] str = new String[roles.size()];
                 for (int i = 0; i < roles.size(); i++) {
                     str[i] = roles.get(i).getName();
                 }
-//                System.out.println("路径【"+requestUrl+"】以下角色可以访问"+ Arrays.toString(str));
                 return SecurityConfig.createList(str);
             }
         }
-        //没有匹配上的，登录就可访问
+        //没有匹配上的，做一个额外的标记符
         return SecurityConfig.createList("ROLE_LOGIN");
     }
 

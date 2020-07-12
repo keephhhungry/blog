@@ -1,5 +1,7 @@
 package org.cxyxh.blogserver.controller.config;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.cxyxh.blogserver.model.Menu;
 import org.cxyxh.blogserver.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/system/config")
+@Api(tags = "查询用户菜单数据接口")
 public class SystemConfigController {
 
     @Autowired
     MenuService menuService;
 
     @GetMapping("/menu")
+    @ApiOperation(value = "查询用户菜单", notes = "查询用户菜单")
     public List<Menu> getMenusByHrUser() {
         return menuService.getMenusByHrUser();
     }

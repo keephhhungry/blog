@@ -39,7 +39,7 @@
     </delete>
 
     <!--根据文章类型对象 新增文章类型-->
-    <insert id="addArticleType" parameterType="org.cxyxh.blogserver.model.ArticleType">
+    <insert id="addArticleType" parameterType="org.cxyxh.blogserver.model.ArticleType"  useGeneratedKeys="true" keyProperty="iarticleType">
         insert into t_article_type
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="typeName != null">

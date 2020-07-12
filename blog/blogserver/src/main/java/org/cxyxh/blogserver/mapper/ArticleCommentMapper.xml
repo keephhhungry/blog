@@ -14,7 +14,8 @@
         <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="user" javaType="org.cxyxh.blogserver.model.User">
@@ -28,13 +29,13 @@
     <!--根据页码，每页展示数量，评论对象，创建时间 查询评论-->
     <select id="getArticleCommentByPage" resultMap="BaseResultMap">
         SELECT
-        username,
-        article_title,
-        a2.*
+            username,
+            article_title,
+            a2.*
         FROM
-        t_article a1,
-        t_article_comment a2,
-        t_user u
+            t_article a1,
+            t_article_comment a2,
+            t_user u
         WHERE
         a1.i_article = a2.i_article
         AND a2.i_user = u.i_user

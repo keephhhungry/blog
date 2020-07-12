@@ -103,7 +103,7 @@
     </update>
 
     <!--新增文章-->
-    <insert id="addArticle" parameterType="org.cxyxh.blogserver.model.Article">
+    <insert id="addArticle" parameterType="org.cxyxh.blogserver.model.Article" useGeneratedKeys="true" keyProperty="iarticle">
         insert into t_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="articleAuthor != null">

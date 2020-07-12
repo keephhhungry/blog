@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -16,184 +18,209 @@ import java.util.List;
  * @Date: 2020/6/3 22:19
  * @Version: 1.0
  */
+@ApiModel(value = "留言实体类", description = "留言信息描述类")
 public class LeaveMessage {
 
-	/* 主键 */
-	private Integer ileaveMessage;
+    /* 主键 */
+    @ApiModelProperty(value = "留言ID", example = "0")
+    private Integer ileaveMessage;
 
-	/* 用户id */
-	private Integer iuser;
+    /* 用户ID */
+    @ApiModelProperty(value = "用户ID", example = "0")
+    private Integer iuser;
 
-	/* 留言内容 */
-	private String messageContext;
+    /* 留言内容 */
+    @ApiModelProperty(value = "留言内容")
+    private String messageContext;
 
-	/* 直接父级留言id */
-	private Integer parentId;
+    /* 直接父级留言ID */
+    @ApiModelProperty(value = "直接父级留言ID", example = "0")
+    private Integer parentId;
 
-	/* 根父级留言id */
-	private Integer originalParentId;
+    /* 根父级留言ID */
+    @ApiModelProperty(value = "根父级留言ID", example = "0")
+    private Integer originalParentId;
 
-	/* 浏览器名字 */
-	private String browserName;
+    /* 浏览器名字 */
+    @ApiModelProperty(value = "浏览器名字")
+    private String browserName;
 
-	/* 浏览器版本 */
-	private String browserVersion;
+    /* 浏览器版本 */
+    @ApiModelProperty(value = "浏览器版本")
+    private String browserVersion;
 
-	/* 操作系统 */
-	private String operatingSystem;
+    /* 操作系统 */
+    @ApiModelProperty(value = "操作系统")
+    private String operatingSystem;
 
-	/* ip */
-	private String ip;
+    /* ip */
+    @ApiModelProperty(value = "ip")
+    private String ip;
 
-	/* 地址 */
-	private String address;
+    /* 省份 */
+    @ApiModelProperty(value = "省份")
+    private String province;
 
-	/* 创建时间 */
-	@DateTimeFormat(pattern="yyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtCreate;
+    /* 城市 */
+    @ApiModelProperty(value = "城市")
+    private String city;
 
-	/* 修改时间 */
-	@DateTimeFormat(pattern="yyy-MM-dd HH:mm:ss")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtModified;
+    /* 创建时间 */
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtCreate;
 
-	/* 用户 */
-	private User user;
+    /* 修改时间 */
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtModified;
 
-	/* 子留言 */
-	private List<LeaveMessage> children;
+    /* 用户类 */
+    @ApiModelProperty(value = "用户类")
+    private User user;
 
-	@Override
-	public String toString() {
-		final StringBuffer sb = new StringBuffer("LeaveMessage{");
-		sb.append("ileaveMessage=").append(ileaveMessage);
-		sb.append(", iuser=").append(iuser);
-		sb.append(", messageContext='").append(messageContext).append('\'');
-		sb.append(", parentId=").append(parentId);
-		sb.append(", originalParentId=").append(originalParentId);
-		sb.append(", browserName='").append(browserName).append('\'');
-		sb.append(", browserVersion='").append(browserVersion).append('\'');
-		sb.append(", operatingSystem='").append(operatingSystem).append('\'');
-		sb.append(", ip='").append(ip).append('\'');
-		sb.append(", address='").append(address).append('\'');
-		sb.append(", gmtCreate=").append(gmtCreate);
-		sb.append(", gmtModified=").append(gmtModified);
-		sb.append(", user=").append(user);
-		sb.append(", children=").append(children);
-		sb.append('}');
-		return sb.toString();
-	}
+    /* 子留言集合 */
+    @ApiModelProperty(value = "子留言集合")
+    private List<LeaveMessage> children;
 
-	public Integer getIleaveMessage() {
-		return ileaveMessage;
-	}
+    @Override
+    public String toString() {
+        return "LeaveMessage{" +
+                "ileaveMessage=" + ileaveMessage +
+                ", iuser=" + iuser +
+                ", messageContext='" + messageContext + '\'' +
+                ", parentId=" + parentId +
+                ", originalParentId=" + originalParentId +
+                ", browserName='" + browserName + '\'' +
+                ", browserVersion='" + browserVersion + '\'' +
+                ", operatingSystem='" + operatingSystem + '\'' +
+                ", ip='" + ip + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", user=" + user +
+                ", children=" + children +
+                '}';
+    }
 
-	public void setIleaveMessage(Integer ileaveMessage) {
-		this.ileaveMessage = ileaveMessage;
-	}
+    public Integer getIleaveMessage() {
+        return ileaveMessage;
+    }
 
-	public Integer getIuser() {
-		return iuser;
-	}
+    public void setIleaveMessage(Integer ileaveMessage) {
+        this.ileaveMessage = ileaveMessage;
+    }
 
-	public void setIuser(Integer iuser) {
-		this.iuser = iuser;
-	}
+    public Integer getIuser() {
+        return iuser;
+    }
 
-	public String getMessageContext() {
-		return messageContext;
-	}
+    public void setIuser(Integer iuser) {
+        this.iuser = iuser;
+    }
 
-	public void setMessageContext(String messageContext) {
-		this.messageContext = messageContext;
-	}
+    public String getMessageContext() {
+        return messageContext;
+    }
 
-	public Integer getParentId() {
-		return parentId;
-	}
+    public void setMessageContext(String messageContext) {
+        this.messageContext = messageContext;
+    }
 
-	public void setParentId(Integer parentId) {
-		this.parentId = parentId;
-	}
+    public Integer getParentId() {
+        return parentId;
+    }
 
-	public Integer getOriginalParentId() {
-		return originalParentId;
-	}
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
-	public void setOriginalParentId(Integer originalParentId) {
-		this.originalParentId = originalParentId;
-	}
+    public Integer getOriginalParentId() {
+        return originalParentId;
+    }
 
-	public String getBrowserName() {
-		return browserName;
-	}
+    public void setOriginalParentId(Integer originalParentId) {
+        this.originalParentId = originalParentId;
+    }
 
-	public void setBrowserName(String browserName) {
-		this.browserName = browserName;
-	}
+    public String getBrowserName() {
+        return browserName;
+    }
 
-	public String getBrowserVersion() {
-		return browserVersion;
-	}
+    public void setBrowserName(String browserName) {
+        this.browserName = browserName;
+    }
 
-	public void setBrowserVersion(String browserVersion) {
-		this.browserVersion = browserVersion;
-	}
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
 
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
+    public void setBrowserVersion(String browserVersion) {
+        this.browserVersion = browserVersion;
+    }
 
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
-	}
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
 
-	public String getIp() {
-		return ip;
-	}
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getProvince() {
+        return province;
+    }
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public Date getGmtModified() {
+        return gmtModified;
+    }
 
-	public List<LeaveMessage> getChildren() {
-		return children;
-	}
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 
-	public void setChildren(List<LeaveMessage> children) {
-		this.children = children;
-	}
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<LeaveMessage> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<LeaveMessage> children) {
+        this.children = children;
+    }
 }

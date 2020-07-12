@@ -1,13 +1,17 @@
 package org.cxyxh.blogserver.service.impl;
 
 import org.cxyxh.blogserver.mapper.LogMapper;
-import org.cxyxh.blogserver.model.ArticleType;
-import org.cxyxh.blogserver.model.Log;
-import org.cxyxh.blogserver.model.RespPageBean;
+import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.LogService;
+import org.cxyxh.blogserver.utils.IP;
+import org.cxyxh.blogserver.utils.UserAgentUtils;
+import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +27,7 @@ import java.util.List;
 @Service
 public class LogServiceImpl implements LogService {
 
+	private final static Logger logger = LoggerFactory.getLogger(LogServiceImpl.class);
 
 	@Autowired
 	private LogMapper logMapper;
@@ -59,5 +64,51 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public Integer addLog(Log log) {
 		return logMapper.addLog(log);
+	}
+
+	/**
+	 * 访问日志 做记录
+	 *
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public Integer addLog(HttpServletRequest request,String remark) {
+		//获取路径
+		String url = request.getScheme()
+				+"://" + request.getServerName()
+				+ ":" +request.getServerPort()
+				+ request.getServletPath();
+		//获取参数
+		String parameter = request.getQueryString();
+		if (parameter != null){
+			url += "?" + parameter;
+		}
+		//根据工具类获取数据
+		String ip = UserAgentUtils.getIp(request);
+		Address address = IP.sendGet(ip);
+		String browserName = UserAgentUtils.getBrowserName(request);
+		String browserVersion = UserAgentUtils.getBrowserVersion(request);
+		String osName = UserAgentUtils.getOsName(request);
+		User user = UserUtils.getCurrentUser();
+
+		Log log = new Log();
+		log.setProvince(address.getProvince());
+		log.setCity(address.getCity());
+		log.setIp(ip);
+		log.setBrowserName(browserName);
+		log.setBrowserVersion(browserVersion);
+		log.setOperatingSystem(osName);
+		if(user!=null){
+			log.setIuser(user.getIuser());
+		}
+		log.setGmtCreate(new Date());
+		log.setGmtModified(new Date());
+		log.setUrl(url);
+		log.setOperationalParameter(parameter);
+		log.setLogType(Log.BACKGROUND_OPERATE_LOG);
+		log.setRemark(remark);
+
+		return addLog(log);
 	}
 }

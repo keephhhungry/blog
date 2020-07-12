@@ -15,14 +15,23 @@ import java.util.Date;
  */
 public class Log {
 
+	/* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
+	public final static Integer FRONT_LOGIN_LOG = 1;
+	public final static Integer BACKGROUND_LOGIN_LOG = 2;
+	public final static Integer FRONT_OPERATE_LOG = 3;
+	public final static Integer BACKGROUND_OPERATE_LOG = 4;
+
 	/* 主键 */
 	private Integer ilog;
 
 	/* 用户id */
 	private Integer iuser;
 
-	/* 浏览器 */
-	private String browser;
+	/* 浏览器名字 */
+	private String browserName;
+
+	/* 浏览器版本 */
+	private String browserVersion;
 
 	/* 操作系统 */
 	private String operatingSystem;
@@ -42,7 +51,7 @@ public class Log {
 	/* 备注 */
 	private String remark;
 
-	/* 日志类型 1.登录 2.前台访问日志 3.后台操作日志 */
+	/* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
 	private Integer logType;
 
 	/* 创建时间 */
@@ -58,22 +67,22 @@ public class Log {
 
 	@Override
 	public String toString() {
-		final StringBuffer sb = new StringBuffer("Log{");
-		sb.append("ilog=").append(ilog);
-		sb.append(", iuser=").append(iuser);
-		sb.append(", browser='").append(browser).append('\'');
-		sb.append(", operatingSystem='").append(operatingSystem).append('\'');
-		sb.append(", ip='").append(ip).append('\'');
-		sb.append(", address='").append(address).append('\'');
-		sb.append(", url='").append(url).append('\'');
-		sb.append(", operationalParameter='").append(operationalParameter).append('\'');
-		sb.append(", remark='").append(remark).append('\'');
-		sb.append(", logType=").append(logType);
-		sb.append(", gmtCreate=").append(gmtCreate);
-		sb.append(", gmtModified=").append(gmtModified);
-		sb.append(", user=").append(user);
-		sb.append('}');
-		return sb.toString();
+		return "Log{" +
+				"ilog=" + ilog +
+				", iuser=" + iuser +
+				", browserName='" + browserName + '\'' +
+				", browserVersion='" + browserVersion + '\'' +
+				", operatingSystem='" + operatingSystem + '\'' +
+				", ip='" + ip + '\'' +
+				", address='" + address + '\'' +
+				", url='" + url + '\'' +
+				", operationalParameter='" + operationalParameter + '\'' +
+				", remark='" + remark + '\'' +
+				", logType=" + logType +
+				", gmtCreate=" + gmtCreate +
+				", gmtModified=" + gmtModified +
+				", user=" + user +
+				'}';
 	}
 
 	public Integer getIlog() {
@@ -92,12 +101,20 @@ public class Log {
 		this.iuser = iuser;
 	}
 
-	public String getBrowser() {
-		return browser;
+	public String getBrowserName() {
+		return browserName;
 	}
 
-	public void setBrowser(String browser) {
-		this.browser = browser;
+	public void setBrowserName(String browserName) {
+		this.browserName = browserName;
+	}
+
+	public String getBrowserVersion() {
+		return browserVersion;
+	}
+
+	public void setBrowserVersion(String browserVersion) {
+		this.browserVersion = browserVersion;
 	}
 
 	public String getOperatingSystem() {

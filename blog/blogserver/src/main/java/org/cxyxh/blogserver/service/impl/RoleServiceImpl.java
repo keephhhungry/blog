@@ -3,6 +3,8 @@ package org.cxyxh.blogserver.service.impl;
 import org.cxyxh.blogserver.mapper.RoleMapper;
 import org.cxyxh.blogserver.model.Role;
 import org.cxyxh.blogserver.service.RoleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,10 @@ import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
 
+	private final static Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+
 	@Autowired
 	RoleMapper roleMapper;
-
 
 	/**
 	 * 获取所有的角色

@@ -96,9 +96,14 @@
                         label="ip">
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="province"
                         align="center"
-                        label="地址">
+                        label="省份">
+                </el-table-column>
+                <el-table-column
+                        prop="city"
+                        align="center"
+                        label="城市">
                 </el-table-column>
                 <el-table-column
                         prop="gmtCreate"

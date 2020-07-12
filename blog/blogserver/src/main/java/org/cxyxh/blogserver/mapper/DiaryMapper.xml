@@ -50,7 +50,7 @@
 
 
     <!--新增日记-->
-    <insert id="addDiary" parameterType="org.cxyxh.blogserver.model.Diary">
+    <insert id="addDiary" parameterType="org.cxyxh.blogserver.model.Diary" useGeneratedKeys="true" keyProperty="idiary">
         insert into t_diary
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="diaryTitle != null">

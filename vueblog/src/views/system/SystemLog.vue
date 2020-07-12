@@ -1,7 +1,7 @@
 <template>
     <div>
         <!-- 首行功能按钮-->
-        <div >
+        <div>
             <div>
                 <el-input
                         placeholder="请输入用户名称。。。"
@@ -13,10 +13,10 @@
                         :clearable="true">
                 </el-input>
                 <span style="margin-right: 10px">日志类型:</span>
-                <el-select  v-model="searchValue.logType"
-                            placeholder="日志类型"
-                            size="small"
-                            :clearable="true"
+                <el-select v-model="searchValue.logType"
+                           placeholder="日志类型"
+                           size="small"
+                           :clearable="true"
                            style="width: 150px;margin-right: 15px">
                     <el-option
                             v-for="item in logTypeList"
@@ -47,6 +47,16 @@
                            icon="el-icon-refresh-right"
                            @click="refresh">刷新
                 </el-button>
+                <el-button size="small"
+                           type="success"
+                           icon="el-icon-refresh-right"
+                           @click="userDownload">用户数据下载
+                </el-button>
+                <el-button size="small"
+                           type="success"
+                           icon="el-icon-refresh-right"
+                           @click="provinceDownload">省份数据下载
+                </el-button>
             </div>
         </div>
         <!-- 表格及分页-->
@@ -69,49 +79,70 @@
                         width="100">
                 </el-table-column>
                 <el-table-column
-                        prop="browser"
-                        label="浏览器"
+                        prop="browserName"
+                        label="浏览器名字"
                         align="center"
-                        width="180">
+                        width="90">
+                </el-table-column>
+                <el-table-column
+                        prop="browserVersion"
+                        label="浏览器版本"
+                        align="center"
+                        width="110">
                 </el-table-column>
                 <el-table-column
                         prop="operatingSystem"
                         align="center"
-                        label="操作系统">
+                        label="操作系统"
+                        width="100">
                 </el-table-column>
                 <el-table-column
                         prop="ip"
                         align="center"
-                        label="ip">
+                        label="ip"
+                        width="100">
                 </el-table-column>
                 <el-table-column
-                        prop="address"
+                        prop="province"
                         align="center"
-                        label="地址">
+                        label="省份">
+                </el-table-column>
+                <el-table-column
+                        prop="city"
+                        align="center"
+                        label="城市">
                 </el-table-column>
                 <el-table-column
                         prop="url"
                         align="center"
-                        label="路径">
+                        show-overflow-tooltip="true"
+                        label="路径"
+                        width="350">
                 </el-table-column>
                 <el-table-column
                         prop="operationalParameter"
                         align="center"
-                        label="操作参数">
+                        show-overflow-tooltip="true"
+                        label="操作参数"
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="remark"
                         align="center"
-                        label="备注">
+                        show-overflow-tooltip="true"
+                        label="备注"
+                        width="200">
                 </el-table-column>
                 <el-table-column
                         prop="logType"
                         align="center"
-                        label="日志类型">
+                        label="日志类型"
+                        width="100">
                     <template slot-scope="scope">
-                        <span v-if="scope.row.logType==1">登录日志</span>
-                        <span v-if="scope.row.logType==2">前台日志</span>
-                        <span v-if="scope.row.logType==3">后台日志</span>
+                        <span v-if="scope.row.logType==1">前台登录日志</span>
+                        <span v-if="scope.row.logType==2">后台登录日志</span>
+                        <span v-if="scope.row.logType==3">前台访问日志</span>
+                        <span v-if="scope.row.logType==4">后台操作日志</span>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -136,6 +167,8 @@
 </template>
 
 <script>
+    import {Message} from "element-ui";
+
     export default {
         name: "SystemLog",
         data() {
@@ -144,18 +177,21 @@
                 logs: [],
                 logTypeList: [{
                     value: 1,
-                    label: '登录日志'
+                    label: '前台登录日志'
                 }, {
                     value: 2,
-                    label: '前台日志'
-                },{
+                    label: '后台登录日志'
+                }, {
                     value: 3,
-                    label: '后台日志'
+                    label: '前台访问日志'
+                }, {
+                    value: 4,
+                    label: '后台操作日志'
                 }],
-                searchValue:{
-                    keyword:null,
-                    createDateScope:null,
-                    logType:null
+                searchValue: {
+                    keyword: null,
+                    createDateScope: null,
+                    logType: null
                 },
                 page: 1,
                 size: 10,
@@ -202,12 +238,28 @@
                 this.loading = true;
                 this.initLogs();
             },
+            //用户数据下载
+            userDownload() {
+                if (!this.searchValue.createDateScope) {
+                    Message.error({message: '请选要导出的时间范围'});
+                } else {
+                    window.open("/system/log/userDataDownload?createDateScope=" + this.searchValue.createDateScope, '_parent')
+                }
+
+
+            },
+            //省份数据下载
+            provinceDownload() {
+                if (!this.searchValue.createDateScope) {
+                    Message.error({message: '请选要导出的时间范围'});
+                }
+            }
         }
     }
 </script>
 
 <style scoped>
-    .tableButton{
-        padding:5px 7px
+    .tableButton {
+        padding: 5px 7px
     }
 </style>

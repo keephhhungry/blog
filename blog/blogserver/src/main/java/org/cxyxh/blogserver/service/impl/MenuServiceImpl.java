@@ -5,6 +5,8 @@ import org.cxyxh.blogserver.model.Menu;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.MenuService;
 import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class MenuServiceImpl implements MenuService {
+
+    private final static Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Autowired
     MenuMapper menuMapper;

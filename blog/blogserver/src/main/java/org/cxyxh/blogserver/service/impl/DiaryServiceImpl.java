@@ -5,6 +5,8 @@ import org.cxyxh.blogserver.model.Article;
 import org.cxyxh.blogserver.model.Diary;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.service.DiaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,8 @@ import java.util.List;
  */
 @Service
 public class DiaryServiceImpl implements DiaryService {
+
+	private final static Logger logger = LoggerFactory.getLogger(DiaryServiceImpl.class);
 
 	@Autowired
 	DiaryMapper diaryMapper;
