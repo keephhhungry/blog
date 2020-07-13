@@ -129,6 +129,11 @@
 			<artifactId>poi</artifactId>
 			<version>4.1.2</version>
 		</dependency>
+		<!-- 定时任务 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
 		<!-- utils依赖 结束-->
 	</dependencies>
 

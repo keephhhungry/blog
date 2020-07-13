@@ -8,8 +8,12 @@ import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.ArticleTypeService;
 import org.cxyxh.blogserver.service.DataDownloadService;
 import org.cxyxh.blogserver.service.LogService;
+import org.cxyxh.blogserver.utils.DateUtils;
 import org.cxyxh.blogserver.utils.DefaultParams;
 import org.cxyxh.blogserver.utils.POIUtils;
+import org.cxyxh.blogserver.utils.poi.ProvinceDataDownloadUtils;
+import org.cxyxh.blogserver.utils.poi.SingelUserDataDownloadUtils;
+import org.cxyxh.blogserver.utils.poi.UserDataDownloadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,7 +60,6 @@ public class LogController {
     })
     @GetMapping("/")
     public RespPageBean getLoginLogByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, Log log, Date[] createDateScope) {
-        System.out.println("data="+ Arrays.toString(createDateScope));
         return logService.getLogByPage(page, size, log, createDateScope);
     }
 
@@ -66,17 +69,29 @@ public class LogController {
      */
     @GetMapping("/userDataDownload")
     public ResponseEntity<byte[]> userDataDownload(Date[] createDateScope) {
-        System.out.println("data="+ Arrays.toString(createDateScope));
         List<UserDataDownload> data = dataDownloadService.userDataDownload(createDateScope);
-        return POIUtils.userDataDownload(data,createDateScope);
+        return UserDataDownloadUtils.userDataDownload(data,createDateScope);
     }
+
+    /**
+     * 单个用户数据下载
+     * @param createDateScope
+     */
+    @GetMapping("/singelUserDataDownload")
+    public ResponseEntity<byte[]> singelUserDataDownload(Date[] createDateScope,String username) {
+        List<SingelUserDataDownload> data = dataDownloadService.singelUserDataDownload(createDateScope,username);
+        return SingelUserDataDownloadUtils.userDataDownload(data,createDateScope,username);
+    }
+
 
     /**
      * 省份数据下载
      * @param createDateScope
      */
+    @GetMapping("/provinceDateDownload")
     public ResponseEntity<byte[]> provinceDataDownload(Date[] createDateScope) {
-        return null;
+        List<ProvinceDateDownload> data = dataDownloadService.provinceDateDownload(createDateScope);
+        return ProvinceDataDownloadUtils.userDataDownload(data,createDateScope);
     }
 
 }

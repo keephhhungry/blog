@@ -50,7 +50,12 @@
                 <el-button size="small"
                            type="success"
                            icon="el-icon-refresh-right"
-                           @click="userDownload">用户数据下载
+                           @click="userDownload">全体用户数据下载
+                </el-button>
+                <el-button size="small"
+                           type="success"
+                           icon="el-icon-refresh-right"
+                           @click="singelUserDownload">单个用户数据下载
                 </el-button>
                 <el-button size="small"
                            type="success"
@@ -241,17 +246,27 @@
             //用户数据下载
             userDownload() {
                 if (!this.searchValue.createDateScope) {
-                    Message.error({message: '请选要导出的时间范围'});
+                    Message.error({message: '请选择要导出的时间范围'});
                 } else {
                     window.open("/system/log/userDataDownload?createDateScope=" + this.searchValue.createDateScope, '_parent')
                 }
-
-
+            },
+            //单个用户数据下载
+            singelUserDownload() {
+                if (!this.searchValue.createDateScope) {
+                    Message.error({message: '请选择要导出的时间范围'});
+                } if (!this.searchValue.keyword) {
+                    Message.error({message: '请选择要导出的用户'});
+                }else {
+                    window.open("/system/log/singelUserDataDownload?createDateScope=" + this.searchValue.createDateScope+"&username="+this.searchValue.keyword, '_parent')
+                }
             },
             //省份数据下载
             provinceDownload() {
                 if (!this.searchValue.createDateScope) {
                     Message.error({message: '请选要导出的时间范围'});
+                }else {
+                    window.open("/system/log/provinceDateDownload?createDateScope=" + this.searchValue.createDateScope, '_parent')
                 }
             }
         }

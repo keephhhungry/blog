@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="org.cxyxh.blogserver.mapper.DataDownloadMapper">
 
-    <!--基础配置-->
+    <!--用户数据下载基础配置-->
     <resultMap id="UserDataDownloadResultMap" type="org.cxyxh.blogserver.model.UserDataDownload">
         <id column="i_user" property="iuser" jdbcType="INTEGER"/>
         <result column="username" property="username" jdbcType="VARCHAR"/>
@@ -20,12 +20,69 @@
             t_log AS l
         WHERE
             u.i_user = l.i_user
-            AND l.log_type = 3
+            AND l.log_type = 1
             <if test="createDateScope !=null">
                 AND l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
             </if>
         GROUP BY
             u.i_user
+    </select>
+
+    <!--单个用户数据下载基础配置-->
+    <resultMap id="SingelUserDataDownloadResultMap" type="org.cxyxh.blogserver.model.SingelUserDataDownload">
+        <id column="i_user" property="iuser" jdbcType="INTEGER"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="ip" property="ip" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!-- 单个用户数据下载 -->
+    <select id="singelUserDataDownload" resultMap="SingelUserDataDownloadResultMap">
+        SELECT
+            u.i_user,
+            u.username,
+            l.ip,
+            l.province,
+            l.city,
+            l.gmt_create
+        FROM
+            t_user AS u,
+            t_log AS l
+        WHERE
+            u.i_user = l.i_user
+            AND (l.log_type = 1 or l.log_type =2)
+            AND u.username = #{username}
+        <if test="createDateScope !=null">
+            AND l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+        </if>
+    </select>
+
+
+    <!--省份访问数据下载基础配置-->
+    <resultMap id="ProvinceDateDownload" type="org.cxyxh.blogserver.model.ProvinceDateDownload">
+        <id column="i_province" property="iprovince" jdbcType="INTEGER"/>
+        <result column="province_name" property="provinceName" jdbcType="VARCHAR"/>
+        <result column="visits" property="visits" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--省份访问数据下载-->
+    <select id="provinceDateDownload" resultMap="ProvinceDateDownload">
+        SELECT
+            p.i_province,
+            p.province_name,
+            ( count(*)- 1 ) visits
+        FROM
+            t_province AS p
+            LEFT JOIN t_log AS l ON p.province_name = l.province
+        <where>
+            <if test="createDateScope !=null">
+                AND l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+            </if>
+        </where>
+        GROUP BY
+            p.i_province
     </select>
 
 </mapper>
