@@ -2,6 +2,7 @@ package org.cxyxh.blogserver.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.redis.connection.RedisServer;
 
 /**
  * @ahthor : cxyxh
@@ -21,7 +22,7 @@ public class ProvinceDateDownload {
 
     /* 访问次数 */
     @ApiModelProperty(value = "访问次数")
-    private String visits;
+    private Integer visits;
 
 
     @Override
@@ -49,11 +50,11 @@ public class ProvinceDateDownload {
         this.provinceName = provinceName;
     }
 
-    public String getVisits() {
+    public Integer getVisits() {
         return visits;
     }
 
-    public void setVisits(String visits) {
+    public void setVisits(Integer visits) {
         this.visits = visits;
     }
 }

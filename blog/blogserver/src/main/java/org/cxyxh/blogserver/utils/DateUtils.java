@@ -11,6 +11,9 @@ import java.util.Date;
  */
 public class DateUtils {
 
+
+
+
     /**
      * 把日期数组转换成字符串日期数组
      *
@@ -24,6 +27,12 @@ public class DateUtils {
             dateStringArray[i] = sdf.format(createDateScope[i]);
         }
         return dateStringArray;
+    }
+
+
+    public static String[] getTimeInterval(){
+
+        return null;
     }
 
 }

@@ -4,6 +4,8 @@ import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.cxyxh.blogserver.model.SingelUserDataDownload;
 import org.cxyxh.blogserver.model.UserDataDownload;
@@ -112,9 +114,7 @@ public class SingelUserDataDownloadUtils {
      */
     public static void genExcelTitleRow(HSSFWorkbook workbook, HSSFSheet sheet, String[] dateStringArray) {
         //设置标题样式
-        HSSFCellStyle titleStyle = workbook.createCellStyle();
-//        titleStyle.setFillBackgroundColor(HSSFColor.);
-//        titleStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        HSSFCellStyle titleStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
 
         //设置标题数据
         HSSFRow r0 = sheet.createRow(0);
@@ -134,29 +134,14 @@ public class SingelUserDataDownloadUtils {
      */
     public static void genExcelHeaderRow(HSSFWorkbook workbook, HSSFSheet sheet) {
         //设置表头样式
-        HSSFCellStyle headerStyle = workbook.createCellStyle();
-//        headerStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
+        HSSFCellStyle headerStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
+        String[] fieldName = { "用户ID", "登录账户", "ip", "省份", "城市", "登录时间"};
         HSSFRow r1 = sheet.createRow(1);
-        HSSFCell c0 = r1.createCell(0);
-        c0.setCellValue("用户ID");
-        c0.setCellStyle(headerStyle);
-        HSSFCell c1 = r1.createCell(1);
-        c1.setCellValue("登录账户");
-        c1.setCellStyle(headerStyle);
-        HSSFCell c2 = r1.createCell(2);
-        c2.setCellValue("ip");
-        c2.setCellStyle(headerStyle);
-        HSSFCell c3 = r1.createCell(3);
-        c3.setCellValue("省份");
-        c3.setCellStyle(headerStyle);
-        HSSFCell c4 = r1.createCell(4);
-        c4.setCellValue("城市");
-        c4.setCellStyle(headerStyle);
-        HSSFCell c5 = r1.createCell(5);
-        c5.setCellValue("登录时间");
-        c5.setCellStyle(headerStyle);
+        for (int idx = 0; idx < fieldName.length; idx++) {
+            HSSFCell headCell = r1.createCell(idx);
+            headCell.setCellValue(fieldName[idx]);
+            headCell.setCellStyle(headerStyle);
+        }
     }
 
     /**
@@ -167,9 +152,10 @@ public class SingelUserDataDownloadUtils {
      */
     public static void genExcelDataRow(HSSFWorkbook workbook, HSSFSheet sheet, List<SingelUserDataDownload> dataList) {
         //设置数据样式
-        HSSFCellStyle dataStyle = workbook.createCellStyle();
-//        dataStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-        dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFFont font = workbook.createFont();
+        // 黑色字体，水平居中
+        HSSFCellStyle dataStyle = POIUtils.genStyle(workbook, font, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+
         Integer rowindex = 2;
         for (int i = 0; i < dataList.size(); i++) {
             SingelUserDataDownload data = dataList.get(i);

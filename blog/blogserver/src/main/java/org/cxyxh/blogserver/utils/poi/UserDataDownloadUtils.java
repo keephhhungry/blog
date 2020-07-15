@@ -6,6 +6,8 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.cxyxh.blogserver.model.UserDataDownload;
 import org.cxyxh.blogserver.utils.DateUtils;
@@ -109,9 +111,7 @@ public class UserDataDownloadUtils {
      */
     public static void genExcelTitleRow(HSSFWorkbook workbook, HSSFSheet sheet, String[] dateStringArray) {
         //设置标题样式
-        HSSFCellStyle titleStyle = workbook.createCellStyle();
-//        titleStyle.setFillBackgroundColor(HSSFColor.);
-//        titleStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+        HSSFCellStyle titleStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
 
         //设置标题数据
         HSSFRow r0 = sheet.createRow(0);
@@ -131,9 +131,7 @@ public class UserDataDownloadUtils {
      */
     public static void genExcelHeaderRow(HSSFWorkbook workbook, HSSFSheet sheet) {
         //设置表头样式
-        HSSFCellStyle headerStyle = workbook.createCellStyle();
-//        headerStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-//        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFCellStyle headerStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
 
         HSSFRow r1 = sheet.createRow(1);
         HSSFCell c0 = r1.createCell(0);
@@ -155,13 +153,14 @@ public class UserDataDownloadUtils {
      */
     public static void genExcelDataRow(HSSFWorkbook workbook, HSSFSheet sheet, List<org.cxyxh.blogserver.model.UserDataDownload> dataList) {
         //设置数据样式
-        HSSFCellStyle dataStyle = workbook.createCellStyle();
-//        dataStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-//        dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFFont font = workbook.createFont();
+        // 黑色字体，水平居中
+        HSSFCellStyle dataStyle = POIUtils.genStyle(workbook, font, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+
         Integer rowindex = 2;
         Integer totalColumn = 3;
         for (int i = 0; i < dataList.size(); i++) {
-            org.cxyxh.blogserver.model.UserDataDownload data = dataList.get(i);
+            UserDataDownload data = dataList.get(i);
             HSSFRow row = sheet.createRow(i + rowindex);
 
             HSSFCell c0 = row.createCell(0);

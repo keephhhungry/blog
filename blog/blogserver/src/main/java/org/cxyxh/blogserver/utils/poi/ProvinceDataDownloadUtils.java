@@ -3,6 +3,8 @@ package org.cxyxh.blogserver.utils.poi;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.cxyxh.blogserver.model.ProvinceDateDownload;
 import org.cxyxh.blogserver.model.UserDataDownload;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -95,9 +98,9 @@ public class ProvinceDataDownloadUtils {
      * @param sheet
      */
     private static void genExcelColumWidth(HSSFSheet sheet) {
-        sheet.setColumnWidth(0, 10 * 256);
-        sheet.setColumnWidth(1, 20 * 256);
-        sheet.setColumnWidth(2, 10 * 256);
+        sheet.setColumnWidth(0, 15 * 256);
+        sheet.setColumnWidth(1, 25 * 256);
+        sheet.setColumnWidth(2, 15 * 256);
     }
 
     /**
@@ -108,10 +111,7 @@ public class ProvinceDataDownloadUtils {
      */
     public static void genExcelTitleRow(HSSFWorkbook workbook, HSSFSheet sheet, String[] dateStringArray) {
         //设置标题样式
-        HSSFCellStyle titleStyle = workbook.createCellStyle();
-//        titleStyle.setFillBackgroundColor(HSSFColor.);
-//        titleStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
-
+        HSSFCellStyle titleStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
         //设置标题数据
         HSSFRow r0 = sheet.createRow(0);
         HSSFCell c0 = r0.createCell(0);
@@ -130,20 +130,14 @@ public class ProvinceDataDownloadUtils {
      */
     public static void genExcelHeaderRow(HSSFWorkbook workbook, HSSFSheet sheet) {
         //设置表头样式
-        HSSFCellStyle headerStyle = workbook.createCellStyle();
-//        headerStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-//        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-
+        HSSFCellStyle headerStyle = POIUtils.genHeadStyle(workbook, (byte) 255, (byte) 255, (byte) 204, true);
+        String[] fieldName = { "序号", "省份名称", "访问次数"};
         HSSFRow r1 = sheet.createRow(1);
-        HSSFCell c0 = r1.createCell(0);
-        c0.setCellValue("序号");
-        c0.setCellStyle(headerStyle);
-        HSSFCell c1 = r1.createCell(1);
-        c1.setCellValue("省份名称");
-        c1.setCellStyle(headerStyle);
-        HSSFCell c2 = r1.createCell(2);
-        c2.setCellValue("访问次数");
-        c2.setCellStyle(headerStyle);
+        for (int idx = 0; idx < fieldName.length; idx++) {
+            HSSFCell headCell = r1.createCell(idx);
+            headCell.setCellValue(fieldName[idx]);
+            headCell.setCellStyle(headerStyle);
+        }
     }
 
     /**
@@ -154,9 +148,10 @@ public class ProvinceDataDownloadUtils {
      */
     public static void genExcelDataRow(HSSFWorkbook workbook, HSSFSheet sheet, List<ProvinceDateDownload> dataList) {
         //设置数据样式
-        HSSFCellStyle dataStyle = workbook.createCellStyle();
-//        dataStyle.setFillBackgroundColor(IndexedColors.YELLOW.index);
-//        dataStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        HSSFFont font = workbook.createFont();
+        // 黑色字体，水平居中
+        HSSFCellStyle dataStyle = POIUtils.genStyle(workbook, font, HorizontalAlignment.CENTER, VerticalAlignment.CENTER);
+
         Integer rowindex = 2;
         for (int i = 0; i < dataList.size(); i++) {
             ProvinceDateDownload data = dataList.get(i);
@@ -171,7 +166,8 @@ public class ProvinceDataDownloadUtils {
             c1.setCellStyle(dataStyle);
 
             HSSFCell c2 = row.createCell(2);
-            c2.setCellValue(data.getVisits());
+            Integer visit = data.getVisits() == null ? 0 : data.getVisits();
+            c2.setCellValue(visit);
             c2.setCellStyle(dataStyle);
         }
     }

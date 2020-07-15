@@ -70,19 +70,19 @@
     <!--省份访问数据下载-->
     <select id="provinceDateDownload" resultMap="ProvinceDateDownload">
         SELECT
-            p.i_province,
-            p.province_name,
-            ( count(*)- 1 ) visits
+            a.i_province,
+            a.province_name,
+            b.visits
         FROM
-            t_province AS p
-            LEFT JOIN t_log AS l ON p.province_name = l.province
-        <where>
-            <if test="createDateScope !=null">
-                AND l.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
-            </if>
-        </where>
-        GROUP BY
-            p.i_province
+            ( SELECT * FROM t_province ) a
+        LEFT JOIN ( SELECT province, count(*) visits FROM t_log
+            <where>
+                <if test="createDateScope !=null">
+                    AND gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
+                </if>
+            </where>
+            GROUP BY province ) b
+        ON a.province_name = b.province
     </select>
 
 </mapper>
