@@ -5,12 +5,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.cxyxh.blogserver.model.*;
-import org.cxyxh.blogserver.service.ArticleTypeService;
 import org.cxyxh.blogserver.service.DataDownloadService;
 import org.cxyxh.blogserver.service.LogService;
-import org.cxyxh.blogserver.utils.DateUtils;
-import org.cxyxh.blogserver.utils.DefaultParams;
-import org.cxyxh.blogserver.utils.POIUtils;
 import org.cxyxh.blogserver.utils.poi.ProvinceDataDownloadUtils;
 import org.cxyxh.blogserver.utils.poi.SingelUserDataDownloadUtils;
 import org.cxyxh.blogserver.utils.poi.UserDataDownloadUtils;
@@ -18,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 

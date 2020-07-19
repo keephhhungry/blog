@@ -22,22 +22,20 @@ public class QuartzConfig {
     @Bean
     JobDetailFactoryBean jobDetailFactoryBean() {
         JobDetailFactoryBean bean = new JobDetailFactoryBean();
-        JobDataMap map = new JobDataMap();
-        map.put("name", "cxyxh");
-        bean.setJobDataAsMap(map);
         bean.setJobClass(DateDownload.class);
         return bean;
     }
 
-//    @Bean
-//    SimpleTriggerFactoryBean simpleTriggerFactoryBean() {
-//        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
-//        bean.setJobDetail(jobDetailFactoryBean().getObject());
-//        bean.setStartTime(new Date());
-//        bean.setRepeatInterval(2000);
-//        bean.setRepeatCount(3);
-//        return bean;
-//    }
+    @Bean
+    SimpleTriggerFactoryBean simpleTriggerFactoryBean() {
+        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
+        bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","DAY");
+        bean.setStartTime(new Date());
+        bean.setRepeatInterval(1000);
+        bean.setRepeatCount(2);
+        return bean;
+    }
 
     /**
      * 每天凌晨4:00的任务
@@ -48,6 +46,7 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyDayCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","DAY");
         bean.setCronExpression("0 0 4 * * ?");
         return bean;
     }
@@ -61,7 +60,8 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyWeekCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
-        bean.setCronExpression("0 10 4 ? *");
+        jobDetailFactoryBean().getJobDataMap().put("Interval","WEEK");
+        bean.setCronExpression("0 10 4 ? * MON");
         return bean;
     }
 
@@ -74,6 +74,7 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyMonthCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","MONTH");
         bean.setCronExpression("0 20 4 1 * ?");
         return bean;
     }
@@ -87,6 +88,7 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyQuarterCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","QUARTER");
         bean.setCronExpression("0 30 4 1 4,7,10,1 ?");
         return bean;
     }
@@ -100,6 +102,7 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyHalfYearCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","HALF_YEAR");
         bean.setCronExpression("0 40 4 1 7,1 ? ");
         return bean;
     }
@@ -113,6 +116,7 @@ public class QuartzConfig {
     CronTriggerFactoryBean everyYearCronTriggerFactoryBean() {
         CronTriggerFactoryBean bean = new CronTriggerFactoryBean();
         bean.setJobDetail(jobDetailFactoryBean().getObject());
+        jobDetailFactoryBean().getJobDataMap().put("Interval","YEAR");
         bean.setCronExpression("0 50 4 1 1 ?");
         return bean;
     }
@@ -130,7 +134,8 @@ public class QuartzConfig {
                 everyMonthCronTriggerFactoryBean().getObject(),
                 everyQuarterCronTriggerFactoryBean().getObject(),
                 everyHalfYearCronTriggerFactoryBean().getObject(),
-                everyYearCronTriggerFactoryBean().getObject());
+                everyYearCronTriggerFactoryBean().getObject(),
+                simpleTriggerFactoryBean().getObject());
         return bean;
     }
 

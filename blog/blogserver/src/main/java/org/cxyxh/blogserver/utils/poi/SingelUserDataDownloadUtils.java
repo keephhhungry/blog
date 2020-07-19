@@ -3,13 +3,11 @@ package org.cxyxh.blogserver.utils.poi;
 import org.apache.poi.hpsf.DocumentSummaryInformation;
 import org.apache.poi.hpsf.SummaryInformation;
 import org.apache.poi.hssf.usermodel.*;
-import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.cxyxh.blogserver.model.SingelUserDataDownload;
-import org.cxyxh.blogserver.model.UserDataDownload;
-import org.cxyxh.blogserver.utils.DateUtils;
+import org.cxyxh.blogserver.utils.MyDateUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,7 +37,7 @@ public class SingelUserDataDownloadUtils {
     public static ResponseEntity<byte[]> userDataDownload(List<SingelUserDataDownload> data, Date[] createDateScope, String name) {
         username = name;
         //0.先把日期格式化
-        String[] dateStringArray = DateUtils.dateConverter(createDateScope);
+        String[] dateStringArray = MyDateUtils.dateConverter(createDateScope);
         //1.创建一个excel文档
         HSSFWorkbook workbook = new HSSFWorkbook();
         //生成文档基本信息
