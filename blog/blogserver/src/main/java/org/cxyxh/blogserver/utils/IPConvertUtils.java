@@ -3,7 +3,6 @@ package org.cxyxh.blogserver.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.cxyxh.blogserver.controller.ArticleController;
 import org.cxyxh.blogserver.model.Address;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,17 +12,15 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @ahthor : cxyxh
  * @date : 2020/7/11 19:21
  * @describetion :
  */
-public class IP {
+public class IPConvertUtils {
 
-    private final static Logger logger = LoggerFactory.getLogger(IP.class);
+    private final static Logger logger = LoggerFactory.getLogger(IPConvertUtils.class);
 
     final static String AK = "bklvzcmMbWC23elPSWi4lpO9NDEQWDK7";
     final static String URL_HEAD = "http://api.map.baidu.com/location/ip?ak=" + AK + "&ip=";

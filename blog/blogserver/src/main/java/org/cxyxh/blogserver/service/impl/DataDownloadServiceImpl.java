@@ -17,7 +17,7 @@ import java.util.List;
  * @describetion :
  */
 @Service
-public class DataDownloadImpl implements DataDownloadService {
+public class DataDownloadServiceImpl implements DataDownloadService {
 
     @Autowired
     private DataDownloadMapper dataDownloadMapper;

@@ -3,7 +3,7 @@ package org.cxyxh.blogserver.service.impl;
 import org.cxyxh.blogserver.mapper.LogMapper;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.LogService;
-import org.cxyxh.blogserver.utils.IP;
+import org.cxyxh.blogserver.utils.IPConvertUtils;
 import org.cxyxh.blogserver.utils.UserAgentUtils;
 import org.cxyxh.blogserver.utils.UserUtils;
 import org.slf4j.Logger;
@@ -86,7 +86,7 @@ public class LogServiceImpl implements LogService {
 		}
 		//根据工具类获取数据
 		String ip = UserAgentUtils.getIp(request);
-		Address address = IP.sendGet(ip);
+		Address address = IPConvertUtils.sendGet(ip);
 		String browserName = UserAgentUtils.getBrowserName(request);
 		String browserVersion = UserAgentUtils.getBrowserVersion(request);
 		String osName = UserAgentUtils.getOsName(request);

@@ -4,7 +4,7 @@ import org.cxyxh.blogserver.mapper.ArticleMapper;
 import org.cxyxh.blogserver.mapper.ArticleTypeMapper;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.ArticleTypeService;
-import org.cxyxh.blogserver.utils.DefaultParams;
+import org.cxyxh.blogserver.utils.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 		//1.先把该类型下的文章id全部找到
 		List<Integer> ids = articleMapper.getArticelsByTypeId(iarticleType);
 		//2.先把该类型下的文章全部转移到 "其他" 类型下
-		Integer result1 = articleMapper.updateArticleType(ids, DefaultParams.DEFAULT_ARTICLE_TYPE);
+		Integer result1 = articleMapper.updateArticleType(ids, Const.DEFAULT_ARTICLE_TYPE);
 		//3.把改类型删除掉
 		Integer result2 = deleteArticleTypeById(iarticleType);
 		if (result1 != 0 && result2 == 1) {

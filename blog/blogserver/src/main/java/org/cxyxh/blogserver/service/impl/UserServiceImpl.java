@@ -5,7 +5,7 @@ import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.model.Role;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.UserService;
-import org.cxyxh.blogserver.utils.DefaultParams;
+import org.cxyxh.blogserver.utils.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService,UserDetailsService{
     @Override
     public Integer addUser(User user) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encode = encoder.encode(DefaultParams.DEFAULT_PASSWORD);
+        String encode = encoder.encode(Const.DEFAULT_PASSWORD);
         user.setPassword(encode);
         user.setGmtCreate(new Date());
         user.setGmtModified(new Date());
@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService,UserDetailsService{
     @Override
     public Integer resetPasswordById(Integer iuser) {
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-        String defaultPassword = encode.encode(DefaultParams.DEFAULT_PASSWORD);
+        String defaultPassword = encode.encode(Const.DEFAULT_PASSWORD);
         return userMapper.resetPasswordById(iuser,defaultPassword);
     }
 

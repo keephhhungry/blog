@@ -2,6 +2,7 @@ package org.cxyxh.blogserver.scheduled.config;
 
 import org.cxyxh.blogserver.scheduled.DateDownload;
 import org.quartz.JobDataMap;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.CronTriggerFactoryBean;
@@ -17,7 +18,10 @@ import java.util.Date;
  * @describetion :
  */
 @Configuration
-public class QuartzConfig {
+public class DataDownloadConfig {
+
+    @Autowired
+    private SpringJobFactory springJobFactory;
 
     @Bean
     JobDetailFactoryBean jobDetailFactoryBean() {
@@ -32,8 +36,8 @@ public class QuartzConfig {
         bean.setJobDetail(jobDetailFactoryBean().getObject());
         jobDetailFactoryBean().getJobDataMap().put("Interval","DAY");
         bean.setStartTime(new Date());
-        bean.setRepeatInterval(1000);
-        bean.setRepeatCount(2);
+//        bean.setRepeatInterval(5000);
+//        bean.setRepeatCount(2);
         return bean;
     }
 
@@ -136,6 +140,7 @@ public class QuartzConfig {
                 everyHalfYearCronTriggerFactoryBean().getObject(),
                 everyYearCronTriggerFactoryBean().getObject(),
                 simpleTriggerFactoryBean().getObject());
+        bean.setJobFactory(springJobFactory);
         return bean;
     }
 

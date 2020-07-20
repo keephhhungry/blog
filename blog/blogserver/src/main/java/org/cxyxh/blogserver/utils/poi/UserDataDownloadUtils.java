@@ -26,12 +26,33 @@ import java.util.List;
 public class UserDataDownloadUtils {
 
 
+    public static final String ROOT_FILE_NAME = "用户登录数据表";
+
     /* 1.一个sheet如何设置多种样式
      *  2.把时间的问题修正一下
      *  3.把列宽调整一下
      *  4.针对表格的样式做调整
      *
      * */
+
+    /**
+     * 定时任务，将文件保存到本地
+     *
+     * @param data
+     * @param createDateScope
+     * @return
+     */
+    public static HSSFWorkbook scheduledUserDataDOwnload(List<UserDataDownload> data, Date[] createDateScope) {
+        //0.先把日期格式化
+        String[] dateStringArray = MyDateUtils.dateConverter(createDateScope);
+        //1.创建一个excel文档
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        //生成文档基本信息
+        genExcelBaseInfo(workbook);
+        // 生成数据
+        genExcelSheet(workbook, data, dateStringArray);
+        return workbook;
+    }
 
 
     public static ResponseEntity<byte[]> userDataDownload(List<UserDataDownload> data, Date[] createDateScope) {
@@ -60,13 +81,13 @@ public class UserDataDownloadUtils {
         //3.获取并配置文档信息
         DocumentSummaryInformation docInfo = workbook.getDocumentSummaryInformation();
         //3.1文档类别 文档管理员 公司
-        docInfo.setCategory("用户登录数据表");
+        docInfo.setCategory(ROOT_FILE_NAME);
         docInfo.setManager("程序员小黄");
         docInfo.setCompany("org.cxyxh");
         //4.获取文档摘要信息
         SummaryInformation summInfo = workbook.getSummaryInformation();
         //4.1 文档标题 文档备注
-        summInfo.setTitle("用户登录数据表");
+        summInfo.setTitle(ROOT_FILE_NAME);
         summInfo.setComments("本文档由 程序员小黄 提供");
     }
 
@@ -78,7 +99,7 @@ public class UserDataDownloadUtils {
      * @param dateStringArray
      */
     private static void genExcelSheet(HSSFWorkbook workbook, List<org.cxyxh.blogserver.model.UserDataDownload> data, String[] dateStringArray) {
-        HSSFSheet sheet = workbook.createSheet("用户登录数据表");
+        HSSFSheet sheet = workbook.createSheet(ROOT_FILE_NAME);
         //0.设置宽度
         genExcelColumWidth(sheet);
         //1.创建标题行
@@ -113,7 +134,7 @@ public class UserDataDownloadUtils {
         //设置标题数据
         HSSFRow r0 = sheet.createRow(0);
         HSSFCell c0 = r0.createCell(0);
-        String title = dateStringArray[0] + "_" + dateStringArray[1] + " 用户登录数据表";
+        String title = dateStringArray[0] + "_" + dateStringArray[1] + ROOT_FILE_NAME;
         c0.setCellValue(title);
         c0.setCellStyle(titleStyle);
         //合并单元格
@@ -182,7 +203,7 @@ public class UserDataDownloadUtils {
      * @return
      */
     private static ResponseEntity<byte[]> dataFormatConversion(HSSFWorkbook workbook, String[] dateStringArray) {
-        String title = dateStringArray[0] + "_" + dateStringArray[1] + " 用户登录数据表";
+        String title = dateStringArray[0] + "_" + dateStringArray[1] + ROOT_FILE_NAME;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         HttpHeaders headers = new HttpHeaders();
         try {

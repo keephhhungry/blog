@@ -9,7 +9,7 @@ package org.cxyxh.blogserver.utils;
  * @Date: 2020/5/29 21:46
  * @Version: 1.0
  */
-public class DefaultParams {
+public class Const {
 
 	/* 默认密码 */
 	public static final String DEFAULT_PASSWORD = "123";
