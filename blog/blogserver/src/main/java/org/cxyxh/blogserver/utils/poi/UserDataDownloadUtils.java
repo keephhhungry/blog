@@ -42,7 +42,7 @@ public class UserDataDownloadUtils {
      * @param createDateScope
      * @return
      */
-    public static HSSFWorkbook scheduledUserDataDOwnload(List<UserDataDownload> data, Date[] createDateScope) {
+    public static HSSFWorkbook getUserDateWorkbook(List<UserDataDownload> data, Date[] createDateScope) {
         //0.先把日期格式化
         String[] dateStringArray = MyDateUtils.dateConverter(createDateScope);
         //1.创建一个excel文档
@@ -54,19 +54,20 @@ public class UserDataDownloadUtils {
         return workbook;
     }
 
-
+    /**
+     * 页面下载文件
+     *
+     * @param data            数据
+     * @param createDateScope 日期
+     * @return
+     */
     public static ResponseEntity<byte[]> userDataDownload(List<UserDataDownload> data, Date[] createDateScope) {
         //0.先把日期格式化
         String[] dateStringArray = MyDateUtils.dateConverter(createDateScope);
-        //1.创建一个excel文档
-        HSSFWorkbook workbook = new HSSFWorkbook();
-        //生成文档基本信息
-        genExcelBaseInfo(workbook);
-        // 生成数据
-        genExcelSheet(workbook, data, dateStringArray);
+        //1.获取workbook
+        HSSFWorkbook workbook = getUserDateWorkbook(data, createDateScope);
         // 数据格式转换
         ResponseEntity<byte[]> responseEntity = dataFormatConversion(workbook, dateStringArray);
-
         return responseEntity;
     }
 

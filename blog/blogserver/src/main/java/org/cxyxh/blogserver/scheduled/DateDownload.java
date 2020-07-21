@@ -34,6 +34,7 @@ public class DateDownload extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
         JobDataMap map = context.getJobDetail().getJobDataMap();
         String interval = map.getString("Interval");
+        System.out.println("" + interval);
         try {
             //生成省份访问数据表
             genProvinceData(interval);
@@ -52,10 +53,11 @@ public class DateDownload extends QuartzJobBean {
         //根据间隔，获取时间范围
         Date[] createDateScope = MyDateUtils.getTimeInterval(date, Interval);
         List<ProvinceDateDownload> data = dataDownloadService.provinceDateDownload(createDateScope);
-        HSSFWorkbook workbook = ProvinceDataDownloadUtils.scheduledUserDataDOwnload(data, createDateScope);
+        HSSFWorkbook workbook = ProvinceDataDownloadUtils.getProvinceDateWorkbook(data, createDateScope);
         String[] dateArr = MyDateUtils.dateConverter(createDateScope);
         String fileName = dateArr[0] + "_" + dateArr[1] + "所有省份访问数据表";
-        MyFileUtils.genFileByWorkbook(fileName,workbook,Interval);
+        String fileRootName = "所有省份访问数据表";
+        MyFileUtils.genFileByWorkbook(fileRootName, fileName, workbook, Interval);
     }
 
     /**
@@ -66,10 +68,11 @@ public class DateDownload extends QuartzJobBean {
         //根据间隔，获取时间范围
         Date[] createDateScope = MyDateUtils.getTimeInterval(date, Interval);
         List<UserDataDownload> data = dataDownloadService.userDataDownload(createDateScope);
-        HSSFWorkbook workbook = UserDataDownloadUtils.scheduledUserDataDOwnload(data, createDateScope);
+        HSSFWorkbook workbook = UserDataDownloadUtils.getUserDateWorkbook(data, createDateScope);
         String[] dateArr = MyDateUtils.dateConverter(createDateScope);
         String fileName = dateArr[0] + "_" + dateArr[1] + "用户登录数据表";
-        MyFileUtils.genFileByWorkbook(fileName,workbook,Interval);
+        String fileRootName = "用户登录数据表";
+        MyFileUtils.genFileByWorkbook(fileRootName, fileName, workbook, Interval);
     }
 
 }

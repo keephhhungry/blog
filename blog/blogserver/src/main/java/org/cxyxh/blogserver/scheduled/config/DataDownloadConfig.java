@@ -30,16 +30,16 @@ public class DataDownloadConfig {
         return bean;
     }
 
-    @Bean
-    SimpleTriggerFactoryBean simpleTriggerFactoryBean() {
-        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
-        bean.setJobDetail(jobDetailFactoryBean().getObject());
-        jobDetailFactoryBean().getJobDataMap().put("Interval","DAY");
-        bean.setStartTime(new Date());
-//        bean.setRepeatInterval(5000);
-//        bean.setRepeatCount(2);
-        return bean;
-    }
+//    @Bean
+//    SimpleTriggerFactoryBean simpleTriggerFactoryBean() {
+//        SimpleTriggerFactoryBean bean = new SimpleTriggerFactoryBean();
+//        bean.setJobDetail(jobDetailFactoryBean().getObject());
+//        jobDetailFactoryBean().getJobDataMap().put("Interval","WEEK");
+//        bean.setStartTime(new Date());
+//        bean.setRepeatInterval(10000);
+//        bean.setRepeatCount(0);
+//        return bean;
+//    }
 
     /**
      * 每天凌晨4:00的任务
@@ -138,8 +138,7 @@ public class DataDownloadConfig {
                 everyMonthCronTriggerFactoryBean().getObject(),
                 everyQuarterCronTriggerFactoryBean().getObject(),
                 everyHalfYearCronTriggerFactoryBean().getObject(),
-                everyYearCronTriggerFactoryBean().getObject(),
-                simpleTriggerFactoryBean().getObject());
+                everyYearCronTriggerFactoryBean().getObject());
         bean.setJobFactory(springJobFactory);
         return bean;
     }

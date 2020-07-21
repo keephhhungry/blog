@@ -39,5 +39,5 @@ public interface DataDownloadService {
      * @param createDateScope 时间区间
      * @return
      */
-    List<ProvinceDateDownload> provinceDateDownload(@Param("createDateScope") Date[] createDateScope);
+    List<ProvinceDateDownload> provinceDateDownload(Date[] createDateScope);
 }

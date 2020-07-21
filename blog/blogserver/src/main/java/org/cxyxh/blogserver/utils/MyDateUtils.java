@@ -39,10 +39,6 @@ public class MyDateUtils {
         return dateStringArray;
     }
 
-
-
-
-
     /**
      * 获取时间间隔字符串
      *
@@ -68,6 +64,17 @@ public class MyDateUtils {
         createDateScope[0] = beginDate;
         createDateScope[1] = endDate;
         return createDateScope;
+    }
+
+    /**
+     * 获得当前年份
+     *
+     * @return
+     */
+    public static String getYear() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy年");
+        return sdf.format(date);
     }
 
 }
