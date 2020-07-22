@@ -20,8 +20,13 @@
     </resultMap>
 
     <!--根据用户名查询用户数量-->
-   <select id="findUserByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+   <select id="findUserCountByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
        select count(*) from t_user where username = #{username}
+   </select>
+
+    <!--根据用户名查询用户-->
+    <select id="findUserByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
+       select * from t_user where username = #{username}
    </select>
 
     <!--注册用户-->
@@ -104,5 +109,34 @@
             </if>
         </trim>
     </insert>
+
+    <!--修改用户-->
+   <update id="updateUser" parameterType="org.cxyxh.blogshow.model.User">
+       update t_user
+       <set>
+           <if test="username != null">
+               username = #{username,jdbcType=VARCHAR},
+           </if>
+           <if test="name != null">
+               name = #{name,jdbcType=VARCHAR},
+           </if>
+           <if test="email != null">
+               email = #{email,jdbcType=VARCHAR},
+           </if>
+           <if test="telephone != null">
+               telephone = #{telephone,jdbcType=VARCHAR},
+           </if>
+           <if test="age != null">
+               age = #{age,jdbcType=INTEGER},
+           </if>
+           <if test="sex != null">
+               sex = #{sex,jdbcType=INTEGER},
+           </if>
+           <if test="gmtModified != null">
+               gmt_modified = #{gmtModified,jdbcType=TIMESTAMP},
+           </if>
+       </set>
+       where i_user = #{iuser,jdbcType=INTEGER}
+   </update>
 
 </mapper>

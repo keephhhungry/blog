@@ -11,5 +11,27 @@ import org.cxyxh.blogshow.model.User; /**
  */
 public interface UserService {
 
+    /**
+     * 新增用户
+     *
+     * @param user
+     * @return
+     */
 	Integer register(User user);
+
+    /**
+     * 修改用户名时测试是否可用
+     *
+     * @param username 用户名
+     * @return
+     */
+    Integer findUserCountByUsername(String username);
+
+    /**
+     * 修改用户
+     *
+     * @param user
+     * @return
+     */
+    Integer updateUser(User user);
 }

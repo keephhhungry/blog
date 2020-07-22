@@ -60,6 +60,26 @@ public class User{
 	/* 角色 */
 	private List<Role> roles;
 
+	@Override
+	public String toString() {
+		return "User{" +
+				"iuser=" + iuser +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", name='" + name + '\'' +
+				", age=" + age +
+				", sex=" + sex +
+				", email='" + email + '\'' +
+				", telephone='" + telephone + '\'' +
+				", userFace='" + userFace + '\'' +
+				", remark='" + remark + '\'' +
+				", enabled=" + enabled +
+				", gmtCreate=" + gmtCreate +
+				", gmtModified=" + gmtModified +
+				", roles=" + roles +
+				'}';
+	}
+
 	public Integer getIuser() {
 		return iuser;
 	}

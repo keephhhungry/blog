@@ -87,7 +87,7 @@ public class LogController {
     @GetMapping("/provinceDateDownload")
     public ResponseEntity<byte[]> provinceDataDownload(Date[] createDateScope) {
         List<ProvinceDateDownload> data = dataDownloadService.provinceDateDownload(createDateScope);
-        return ProvinceDataDownloadUtils.userDataDownload(data,createDateScope);
+        return ProvinceDataDownloadUtils.ProvinceDataDownload(data,createDateScope);
     }
 
 }

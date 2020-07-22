@@ -25,6 +25,7 @@
                         auto-complete="off"
                         maxlength="16"
                         minlength="2"
+                        @change="checkUsername"
                         show-word-limit
                         placeholder="请输入用户名">
                 </el-input>
@@ -77,7 +78,7 @@
                     </el-select>
                 </el-form-item>
             </div>
-            <el-button type="primary" style="width: 48%" @click="submitLogin">还原</el-button>
+            <el-button type="primary" style="width: 48%" @click="reduction">还原</el-button>
             <el-button type="primary" style="width: 48%" @click="submitLogin">提交修改</el-button>
         </el-form>
     </div>
@@ -143,7 +144,7 @@
                     {value: 1, label: '男'},
                     {value: 0, label: '女'}
                 ],
-                user:'',
+                user: '',
             }
         },
         mounted() {
@@ -152,44 +153,69 @@
         methods: {
             //提交表单数据
             submitLogin() {
-                this.$refs.modifyForm.validate((valid) => {
-                    if (valid) {
-                        this.loading = true;
-                        this.postRequest("/user/register", this.modifyForm).then(resp => {
-                            this.loading = false;
-                            if (resp) {
-                                if (resp.obj == 1) {
-                                    //点击确认，跳转登录页
-                                    this.$alert('恭喜你，注册成功，账号【' + this.modifyForm.username + '】，点击确定前往登录页', '注册成功', {
-                                        confirmButtonText: '确定',
-                                        callback: action => {
-                                            this.login();
-                                        }
-                                    });
-                                } else if (resp.obj == -1) {
-                                    this.$message.error("用户名重复，请重新输入");
-                                } else {
-                                    this.$message.error("系统错误，请稍后再试");
+                //检查数据是否改变
+                let flag = this.checkChange();
+                if (flag) {
+                    this.$refs.modifyForm.validate((valid) => {
+                        if (valid) {
+                            this.loading = true;
+                            console.log(this.modifyForm)
+                            this.postRequest("/user/updateUser", this.modifyForm).then(resp => {
+                                this.loading = false;
+                                if (resp) {
+                                    if (resp.obj == 1) {
+                                        window.sessionStorage.setItem("user", JSON.stringify(this.modifyForm));
+                                    }
                                 }
+                            })
+                        } else {
+                            this.$message.error("请正确输入所有字段");
+                            return false;
+                        }
+                    });
+                } else {
+                    this.$message.warning("当前并未做任何修改");
+                }
+            },
+            //检查数据是否改变
+            checkChange() {
+                if (this.user.username == this.modifyForm.username
+                    && this.user.name == this.modifyForm.name
+                    && this.user.email == this.modifyForm.email
+                    && this.user.telephone == this.modifyForm.telephone
+                    && this.user.age == this.modifyForm.age
+                    && this.user.sex == this.modifyForm.age) {
+                    return false;
+                } else {
+                    return true;
+                }
+            },
+            //检查账户名被使用情况
+            checkUsername() {
+                console.log("检查")
+                if (this.modifyForm.username != this.user.username) {
+                    this.getRequest("/user/checkUsernameAvailable?username=" + this.modifyForm.username).then(resp => {
+                        if (resp) {
+                            console.log(resp)
+                            if (resp.obj != 0) {
+                                this.$message.warning("当前账户名已经被占用");
                             }
-                        })
-                    } else {
-                        this.$message.error("请输入所有字段");
-                        return false;
-                    }
-                });
+                        }
+                    })
+                }
             },
             //还原
-            reduction(){
-
+            reduction() {
+                this.modifyForm = this.user;
             },
             //改变头像
-            changeImage(){
+            changeImage() {
 
             },
             //初始化
             init() {
                 let user = window.sessionStorage.getItem("user");
+                this.modifyForm = eval('(' + user + ')');
                 this.user = eval('(' + user + ')');
             },
         }

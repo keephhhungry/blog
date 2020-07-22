@@ -14,12 +14,21 @@ import org.cxyxh.blogshow.model.User;
 public interface UserMapper {
 
 	/**
-	 * 根据用户名查找用户
+	 * 根据用户名查找用户数量
 	 *
 	 * @param username 用户名
 	 * @return
 	 */
-	Integer findUserByUsername(String username);
+	Integer findUserCountByUsername(String username);
+
+
+	/**
+	 * 根据用户名查找用户数量
+	 *
+	 * @param username 用户名
+	 * @return
+	 */
+	User findUserByUsername(String username);
 
 	/**
 	 * 注册用户
@@ -28,4 +37,12 @@ public interface UserMapper {
 	 * @return
 	 */
 	Integer register(User user);
+
+	/**
+	 * 修改用户
+	 *
+	 * @param user
+	 * @return
+	 */
+	Integer updateUser(User user);
 }
