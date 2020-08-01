@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,187 +15,215 @@ import java.util.Date;
  * @Date: 2020/6/4 23:25
  * @Version: 1.0
  */
+@ApiModel(value = "日志实体类", description = "日志信息描述类")
 public class Log {
 
-	/* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
-	public final static Integer FRONT_LOGIN_LOG = 1;
-	public final static Integer BACKGROUND_LOGIN_LOG = 2;
-	public final static Integer FRONT_OPERATE_LOG = 3;
-	public final static Integer BACKGROUND_OPERATE_LOG = 4;
+    /* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
+    public final static Integer FRONT_LOGIN_LOG = 1;
+    public final static Integer BACKGROUND_LOGIN_LOG = 2;
+    public final static Integer FRONT_OPERATE_LOG = 3;
+    public final static Integer BACKGROUND_OPERATE_LOG = 4;
 
-	/* 主键 */
-	private Integer ilog;
+    /* 主键 */
+    @ApiModelProperty(value = "日志ID", example = "0")
+    private Integer ilog;
 
-	/* 用户id */
-	private Integer iuser;
+    /* 用户id */
+    @ApiModelProperty(value = "用户ID", example = "0")
+    private Integer iuser;
 
-	/* 浏览器名字 */
-	private String browserName;
+    /* 浏览器名字 */
+    @ApiModelProperty(value = "浏览器名字")
+    private String browserName;
 
-	/* 浏览器版本 */
-	private String browserVersion;
+    /* 浏览器版本 */
+    @ApiModelProperty(value = "浏览器版本")
+    private String browserVersion;
 
-	/* 操作系统 */
-	private String operatingSystem;
+    /* 操作系统 */
+    @ApiModelProperty(value = "操作系统")
+    private String operatingSystem;
 
-	/* ip */
-	private String ip;
+    /* ip */
+    @ApiModelProperty(value = "ip")
+    private String ip;
 
-	/* 具体地址 */
-	private String address;
+    /* 省份 */
+    @ApiModelProperty(value = "省份")
+    private String province;
 
-	/* url */
-	private String url;
+    /* 城市 */
+    @ApiModelProperty(value = "城市")
+    private String city;
 
-	/* 请求参数 */
-	private String operationalParameter;
+    /* url */
+    @ApiModelProperty(value = "url")
+    private String url;
 
-	/* 备注 */
-	private String remark;
+    /* 请求参数 */
+    @ApiModelProperty(value = "请求参数")
+    private String operationalParameter;
 
-	/* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
-	private Integer logType;
+    /* 备注 */
+    @ApiModelProperty(value = "备注")
+    private String remark;
 
-	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtCreate;
+    /* 日志类型 1.前台登录 2.后台登录 3.前台访问日志 4.后台操作日志 */
+    @ApiModelProperty(value = "日志类型", example = "0")
+    private Integer logType;
 
-	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtModified;
+    /* 创建时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "创建时间")
+    private Date gmtCreate;
 
-	/* 操作者 */
-	private User user;
+    /* 修改时间 */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "修改时间")
+    private Date gmtModified;
 
-	@Override
-	public String toString() {
-		return "Log{" +
-				"ilog=" + ilog +
-				", iuser=" + iuser +
-				", browserName='" + browserName + '\'' +
-				", browserVersion='" + browserVersion + '\'' +
-				", operatingSystem='" + operatingSystem + '\'' +
-				", ip='" + ip + '\'' +
-				", address='" + address + '\'' +
-				", url='" + url + '\'' +
-				", operationalParameter='" + operationalParameter + '\'' +
-				", remark='" + remark + '\'' +
-				", logType=" + logType +
-				", gmtCreate=" + gmtCreate +
-				", gmtModified=" + gmtModified +
-				", user=" + user +
-				'}';
-	}
+    /* 操作者 */
+    @ApiModelProperty(value = "用户类")
+    private User user;
 
-	public Integer getIlog() {
-		return ilog;
-	}
+    @Override
+    public String toString() {
+        return "Log{" +
+                "ilog=" + ilog +
+                ", iuser=" + iuser +
+                ", browserName='" + browserName + '\'' +
+                ", browserVersion='" + browserVersion + '\'' +
+                ", operatingSystem='" + operatingSystem + '\'' +
+                ", ip='" + ip + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", url='" + url + '\'' +
+                ", operationalParameter='" + operationalParameter + '\'' +
+                ", remark='" + remark + '\'' +
+                ", logType=" + logType +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", user=" + user +
+                '}';
+    }
 
-	public void setIlog(Integer ilog) {
-		this.ilog = ilog;
-	}
+    public Integer getIlog() {
+        return ilog;
+    }
 
-	public Integer getIuser() {
-		return iuser;
-	}
+    public void setIlog(Integer ilog) {
+        this.ilog = ilog;
+    }
 
-	public void setIuser(Integer iuser) {
-		this.iuser = iuser;
-	}
+    public Integer getIuser() {
+        return iuser;
+    }
 
-	public String getBrowserName() {
-		return browserName;
-	}
+    public void setIuser(Integer iuser) {
+        this.iuser = iuser;
+    }
 
-	public void setBrowserName(String browserName) {
-		this.browserName = browserName;
-	}
+    public String getBrowserName() {
+        return browserName;
+    }
 
-	public String getBrowserVersion() {
-		return browserVersion;
-	}
+    public void setBrowserName(String browserName) {
+        this.browserName = browserName;
+    }
 
-	public void setBrowserVersion(String browserVersion) {
-		this.browserVersion = browserVersion;
-	}
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
 
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
+    public void setBrowserVersion(String browserVersion) {
+        this.browserVersion = browserVersion;
+    }
 
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
-	}
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
 
-	public String getIp() {
-		return ip;
-	}
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public String getProvince() {
+        return province;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public String getOperationalParameter() {
-		return operationalParameter;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public void setOperationalParameter(String operationalParameter) {
-		this.operationalParameter = operationalParameter;
-	}
+    public String getUrl() {
+        return url;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getOperationalParameter() {
+        return operationalParameter;
+    }
 
-	public Integer getLogType() {
-		return logType;
-	}
+    public void setOperationalParameter(String operationalParameter) {
+        this.operationalParameter = operationalParameter;
+    }
 
-	public void setLogType(Integer logType) {
-		this.logType = logType;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public Integer getLogType() {
+        return logType;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
+    public void setLogType(Integer logType) {
+        this.logType = logType;
+    }
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

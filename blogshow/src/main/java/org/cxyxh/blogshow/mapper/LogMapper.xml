@@ -10,7 +10,8 @@
         <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="url" property="url" jdbcType="VARCHAR"/>
         <result column="operational_parameter" property="operationalParameter" jdbcType="VARCHAR"/>
         <result column="remark" property="remark" jdbcType="VARCHAR"/>
@@ -42,8 +43,11 @@
             <if test="ip != null">
                 ip,
             </if>
-            <if test="address != null">
-                address,
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
             </if>
             <if test="url != null">
                 url,
@@ -80,8 +84,11 @@
             <if test="ip != null">
                 #{ip,jdbcType=VARCHAR},
             </if>
-            <if test="address != null">
-                #{address,jdbcType=VARCHAR},
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
             </if>
             <if test="url != null">
                 #{url,jdbcType=VARCHAR},

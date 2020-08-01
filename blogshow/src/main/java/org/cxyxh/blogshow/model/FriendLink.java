@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,25 +15,32 @@ import java.util.Date;
  * @Date: 2020/6/1 23:32
  * @Version: 1.0
  */
+@ApiModel(value = "友链实体类",description = "友链信息描述类")
 public class FriendLink {
 
 	/* 主键 */
+	@ApiModelProperty(value = "友链ID", example = "0")
 	private Integer ifriendLink;
 
 	/* 友链名称 */
+	@ApiModelProperty(value = "友链名称")
 	private String linkName;
 
 	/* 友链地址 */
+	@ApiModelProperty(value = "友链地址")
 	private String linkUrl;
 
 	/* 友链介绍 */
+	@ApiModelProperty(value = "友链备注")
 	private String remark;
 
 	/* 创建时间 */
+	@ApiModelProperty(value = "创建时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
+	@ApiModelProperty(value = "修改时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 

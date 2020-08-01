@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 import java.util.List;
@@ -14,29 +16,37 @@ import java.util.List;
  * @Date: 2020/5/28 10:00
  * @Version: 1.0
  */
-public class  Role {
+@ApiModel(value = "角色实体类", description = "角色信息描述类")
+public class Role {
 
     /* 主键 */
+    @ApiModelProperty(value = "角色ID", example = "0")
     private Integer irole;
 
     /* 角色英文名 */
+    @ApiModelProperty(value = "角色英文名")
     private String name;
 
     /* 角色中文名 */
+    @ApiModelProperty(value = "角色中文名")
     private String nameZh;
 
     /* 描述 */
+    @ApiModelProperty(value = "角色描述")
     private String description;
 
     /* 创建时间 */
+    @ApiModelProperty(value = "创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtCreate;
 
     /* 修改时间 */
+    @ApiModelProperty(value = "修改时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date gmtModified;
 
     /* 菜单 */
+    @ApiModelProperty(value = "菜单集合")
     private List<Menu> menus;
 
     public Integer getIrole() {

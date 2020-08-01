@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 import java.util.List;
@@ -14,206 +16,236 @@ import java.util.List;
  * @Date: 2020/6/3 22:19
  * @Version: 1.0
  */
+@ApiModel(value = "文章评论实体类", description = "文章评论信息描述类")
 public class ArticleComment {
 
-	/* 主键 */
-	private Integer iarticleComment;
+    /* 主键 */
+    @ApiModelProperty(value = "文章评论ID", example = "0")
+    private Integer iarticleComment;
 
-	/* 文章id */
-	private Integer iarticle;
+    /* 文章id */
+    @ApiModelProperty(value = "文章ID", example = "0")
+    private Integer iarticle;
 
-	/* 用户id */
-	private Integer iuser;
+    /* 用户id */
+    @ApiModelProperty(value = "用户ID", example = "0")
+    private Integer iuser;
 
-	/* 评论内容 */
-	private String commentContext;
+    /* 评论内容 */
+    @ApiModelProperty(value = "评论内容")
+    private String commentContext;
 
-	/* 直接父级评论id */
-	private Integer parentId;
+    /* 直接父级评论id */
+    @ApiModelProperty(value = "直接父级评论ID", example = "0")
+    private Integer parentId;
 
-	/* 根父级评论id */
-	private Integer originalParentId;
+    /* 根父级评论id */
+    @ApiModelProperty(value = "根父级评论ID", example = "0")
+    private Integer originalParentId;
 
-	/* 浏览器名字 */
-	private String browserName;
+    /* 浏览器名字 */
+    @ApiModelProperty(value = "浏览器名字")
+    private String browserName;
 
-	/* 浏览器版本 */
-	private String browserVersion;
+    /* 浏览器版本 */
+    @ApiModelProperty(value = "浏览器版本")
+    private String browserVersion;
 
-	/* 操作系统 */
-	private String operatingSystem;
+    /* 操作系统 */
+    @ApiModelProperty(value = "操作系统")
+    private String operatingSystem;
 
-	/* ip */
-	private String ip;
+    /* ip */
+    @ApiModelProperty(value = "ip")
+    private String ip;
 
-	/* 地址 */
-	private String address;
+    /* 省份 */
+    @ApiModelProperty(value = "省份")
+    private String province;
 
-	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtCreate;
+    /* 城市 */
+    @ApiModelProperty(value = "城市")
+    private String city;
 
-	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtModified;
+    /* 创建时间 */
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtCreate;
 
-	/* 用户 */
-	private User user;
+    /* 修改时间 */
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtModified;
 
-	/* 文章 */
-	private Article article;
+    /* 用户 */
+    @ApiModelProperty(value = "用户类")
+    private User user;
 
-	/* 子评论 */
-	private List<ArticleComment> children;
+    /* 文章 */
+    @ApiModelProperty(value = "文章类")
+    private Article article;
 
-	@Override
-	public String toString() {
-		final StringBuffer sb = new StringBuffer("ArticleComment{");
-		sb.append("iarticleComment=").append(iarticleComment);
-		sb.append(", iarticle=").append(iarticle);
-		sb.append(", iuser=").append(iuser);
-		sb.append(", commentContext='").append(commentContext).append('\'');
-		sb.append(", parentId=").append(parentId);
-		sb.append(", originalParentId=").append(originalParentId);
-		sb.append(", browserName='").append(browserName).append('\'');
-		sb.append(", browserVersion='").append(browserVersion).append('\'');
-		sb.append(", operatingSystem='").append(operatingSystem).append('\'');
-		sb.append(", ip='").append(ip).append('\'');
-		sb.append(", address='").append(address).append('\'');
-		sb.append(", gmtCreate=").append(gmtCreate);
-		sb.append(", gmtModified=").append(gmtModified);
-		sb.append(", user=").append(user);
-		sb.append(", article=").append(article);
-		sb.append(", children=").append(children);
-		sb.append('}');
-		return sb.toString();
-	}
+    /* 子评论集合 */
+    @ApiModelProperty(value = "子评论集合")
+    private List<ArticleComment> children;
 
-	public Integer getIarticleComment() {
-		return iarticleComment;
-	}
+    @Override
+    public String toString() {
+        return "ArticleComment{" +
+                "iarticleComment=" + iarticleComment +
+                ", iarticle=" + iarticle +
+                ", iuser=" + iuser +
+                ", commentContext='" + commentContext + '\'' +
+                ", parentId=" + parentId +
+                ", originalParentId=" + originalParentId +
+                ", browserName='" + browserName + '\'' +
+                ", browserVersion='" + browserVersion + '\'' +
+                ", operatingSystem='" + operatingSystem + '\'' +
+                ", ip='" + ip + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", user=" + user +
+                ", article=" + article +
+                ", children=" + children +
+                '}';
+    }
 
-	public void setIarticleComment(Integer iarticleComment) {
-		this.iarticleComment = iarticleComment;
-	}
+    public Integer getIarticleComment() {
+        return iarticleComment;
+    }
 
-	public Integer getIarticle() {
-		return iarticle;
-	}
+    public void setIarticleComment(Integer iarticleComment) {
+        this.iarticleComment = iarticleComment;
+    }
 
-	public void setIarticle(Integer iarticle) {
-		this.iarticle = iarticle;
-	}
+    public Integer getIarticle() {
+        return iarticle;
+    }
 
-	public Integer getIuser() {
-		return iuser;
-	}
+    public void setIarticle(Integer iarticle) {
+        this.iarticle = iarticle;
+    }
 
-	public void setIuser(Integer iuser) {
-		this.iuser = iuser;
-	}
+    public Integer getIuser() {
+        return iuser;
+    }
 
-	public String getCommentContext() {
-		return commentContext;
-	}
+    public void setIuser(Integer iuser) {
+        this.iuser = iuser;
+    }
 
-	public void setCommentContext(String commentContext) {
-		this.commentContext = commentContext;
-	}
+    public String getCommentContext() {
+        return commentContext;
+    }
 
-	public Integer getParentId() {
-		return parentId;
-	}
+    public void setCommentContext(String commentContext) {
+        this.commentContext = commentContext;
+    }
 
-	public void setParentId(Integer parentId) {
-		this.parentId = parentId;
-	}
+    public Integer getParentId() {
+        return parentId;
+    }
 
-	public Integer getOriginalParentId() {
-		return originalParentId;
-	}
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
-	public void setOriginalParentId(Integer originalParentId) {
-		this.originalParentId = originalParentId;
-	}
+    public Integer getOriginalParentId() {
+        return originalParentId;
+    }
 
-	public String getBrowserName() {
-		return browserName;
-	}
+    public void setOriginalParentId(Integer originalParentId) {
+        this.originalParentId = originalParentId;
+    }
 
-	public void setBrowserName(String browserName) {
-		this.browserName = browserName;
-	}
+    public String getBrowserName() {
+        return browserName;
+    }
 
-	public String getBrowserVersion() {
-		return browserVersion;
-	}
+    public void setBrowserName(String browserName) {
+        this.browserName = browserName;
+    }
 
-	public void setBrowserVersion(String browserVersion) {
-		this.browserVersion = browserVersion;
-	}
+    public String getBrowserVersion() {
+        return browserVersion;
+    }
 
-	public String getOperatingSystem() {
-		return operatingSystem;
-	}
+    public void setBrowserVersion(String browserVersion) {
+        this.browserVersion = browserVersion;
+    }
 
-	public void setOperatingSystem(String operatingSystem) {
-		this.operatingSystem = operatingSystem;
-	}
+    public String getOperatingSystem() {
+        return operatingSystem;
+    }
 
-	public String getIp() {
-		return ip;
-	}
+    public void setOperatingSystem(String operatingSystem) {
+        this.operatingSystem = operatingSystem;
+    }
 
-	public void setIp(String ip) {
-		this.ip = ip;
-	}
+    public String getIp() {
+        return ip;
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
+    public Date getGmtModified() {
+        return gmtModified;
+    }
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public String getProvince() {
+        return province;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    public void setProvince(String province) {
+        this.province = province;
+    }
 
-	public Article getArticle() {
-		return article;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setArticle(Article article) {
-		this.article = article;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public List<ArticleComment> getChildren() {
-		return children;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setChildren(List<ArticleComment> children) {
-		this.children = children;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Article getArticle() {
+        return article;
+    }
+
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public List<ArticleComment> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<ArticleComment> children) {
+        this.children = children;
+    }
 }

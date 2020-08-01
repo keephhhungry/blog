@@ -1,5 +1,6 @@
 package org.cxyxh.blogshow.controller;
 
+import io.swagger.annotations.*;
 import org.cxyxh.blogshow.model.Diary;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.service.DiaryService;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,8 +23,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/diary")
+@Api(tags = "日记数据接口")
 public class DiaryController {
 
+	@Autowired
+	private HttpServletRequest request;
 
 	@Autowired
 	DiaryService diaryService;
@@ -32,6 +37,7 @@ public class DiaryController {
 	 *
 	 * @return
 	 */
+	@ApiOperation(value = "获取日记", notes = "获取日记")
 	@GetMapping("/")
 	public RespBean getDiary() {
 		List<Diary> diaries = diaryService.getDiary();

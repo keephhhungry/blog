@@ -1,5 +1,8 @@
 package org.cxyxh.blogshow.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @ProjectName: vuehrr
  * @Package: org.cxyxh.vhr.model
@@ -9,10 +12,19 @@ package org.cxyxh.blogshow.model;
  * @Date: 2020/5/23 22:06
  * @Version: 1.0
  */
+@ApiModel(value = "返回实体类", description = "返回信息描述类")
 public class RespBean {
 
+    /* 状态码 */
+    @ApiModelProperty(value = "状态码", example = "0")
     private Integer status;
+
+    /* 返回消息 */
+    @ApiModelProperty(value = "返回消息")
     private String msg;
+
+    /* 返回数据 */
+    @ApiModelProperty(value = "返回数据")
     private Object obj;
 
     public static RespBean ok(String msg) {

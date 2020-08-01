@@ -1,10 +1,12 @@
 package org.cxyxh.blogshow.service.impl;
 
 import org.cxyxh.blogshow.mapper.LogMapper;
+import org.cxyxh.blogshow.model.Address;
 import org.cxyxh.blogshow.model.Log;
 import org.cxyxh.blogshow.model.RespPageBean;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.LogService;
+import org.cxyxh.blogshow.utils.IPConvertUtils;
 import org.cxyxh.blogshow.utils.UserAgentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,7 @@ public class LogServiceImpl implements LogService {
 	 * @return
 	 */
 	@Override
-	public Integer addLog(HttpServletRequest request) {
+	public Integer addLog(HttpServletRequest request,String remark) {
 		//获取路径
 		String url = request.getScheme()
 				+"://" + request.getServerName()
@@ -64,23 +66,27 @@ public class LogServiceImpl implements LogService {
 		String browserName = UserAgentUtils.getBrowserName(request);
 		String browserVersion = UserAgentUtils.getBrowserVersion(request);
 		String osName = UserAgentUtils.getOsName(request);
+		Address addr = IPConvertUtils.getAddrByIp(ip);
 		User user =(User) request.getSession().getAttribute("user");
 
 		Log log = new Log();
-		log.setAddress("");
+		log.setProvince(addr.getProvince());
+		log.setCity(addr.getCity());
 		log.setIp(ip);
 		log.setBrowserName(browserName);
 		log.setBrowserVersion(browserVersion);
 		log.setOperatingSystem(osName);
 		if(user!=null){
 			log.setIuser(user.getIuser());
+		}else {
+			log.setIuser(null);
 		}
-		log.setIuser(null);
 		log.setGmtCreate(new Date());
 		log.setGmtModified(new Date());
 		log.setUrl(url);
 		log.setOperationalParameter(parameter);
 		log.setLogType(Log.FRONT_OPERATE_LOG);
+		log.setRemark(remark);
 
 		return addLog(log);
 	}

@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,59 +15,78 @@ import java.util.Date;
  * @Date: 2020/6/3 22:19
  * @Version: 1.0
  */
+@ApiModel(value = "文章实体类", description = "文章信息描述类")
 public class Article {
 
 	/* 主键 */
+	@ApiModelProperty(value = "文章ID", example = "0")
 	private Integer iarticle;
 
 	/* 文章作者 */
+	@ApiModelProperty(value = "文章作者")
 	private String articleAuthor;
 
 	/* 文章标题 */
+	@ApiModelProperty(value = "文章标题")
+
 	private String articleTitle;
 
 	/* 文章简介 */
+	@ApiModelProperty(value = "文章简介")
 	private String articleIntroduction;
 
 	/* 文章内容 */
+	@ApiModelProperty(value = "文章内容")
 	private String articleContent;
 
 	/* 字数 */
+	@ApiModelProperty(value = "文章字数", example = "0")
 	private Integer wordCount;
 
 	/* 文章类型 */
+	@ApiModelProperty(value = "文章类型", example = "0")
 	private Integer iarticleType;
 
 	/* 是否置顶 */
+	@ApiModelProperty(value = "是否置顶", example = "0")
 	private Integer isTop;
 
 	/* 是否原创 */
+	@ApiModelProperty(value = "是否原创", example = "0")
 	private Integer isOriginal;
 
 	/* 是否爬虫 */
+	@ApiModelProperty(value = "是否爬虫", example = "0")
 	private Integer isReptile;
 
 	/* 查看数 */
+	@ApiModelProperty(value = "查看数", example = "0")
 	private Integer lookNum;
 
 	/* 评论数 */
+	@ApiModelProperty(value = "评论数", example = "0")
 	private Integer commentNum;
 
 	/* 点赞数 */
+	@ApiModelProperty(value = "点赞数", example = "0")
 	private Integer likeNum;
 
 	/* 状态 */
+	@ApiModelProperty(value = "文章状态", example = "0")
 	private Integer status;
 
 	/* 创建时间 */
+	@ApiModelProperty(value = "创建时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtCreate;
 
 	/* 修改时间 */
+	@ApiModelProperty(value = "修改时间")
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date gmtModified;
 
 	/* 文章类型 */
+	@ApiModelProperty(value = "文章类型类")
 	private ArticleType articleType;
 
 	@Override

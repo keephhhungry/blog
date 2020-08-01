@@ -1,5 +1,6 @@
 package org.cxyxh.blogshow.controller;
 
+import io.swagger.annotations.*;
 import org.cxyxh.blogshow.model.ArticleType;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.service.ArticleTypeService;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -21,8 +23,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/articleType")
+@Api(tags = "文章类型数据接口")
 public class ArticleTypeController {
 
+	@Autowired
+	private HttpServletRequest request;
 
 	@Autowired
 	ArticleTypeService articleTypeService;
@@ -32,6 +37,7 @@ public class ArticleTypeController {
 	 *
 	 * @return
 	 */
+	@ApiOperation(value = "获取所有文章类型", notes = "获取所有文章类型")
 	@GetMapping("/")
 	public RespBean getAllArticleType() {
 		List<ArticleType> articleTypes =  articleTypeService.getArticleType();

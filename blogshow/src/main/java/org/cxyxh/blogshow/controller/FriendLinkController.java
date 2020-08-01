@@ -1,5 +1,6 @@
 package org.cxyxh.blogshow.controller;
 
+import io.swagger.annotations.*;
 import org.cxyxh.blogshow.model.ArticleType;
 import org.cxyxh.blogshow.model.FriendLink;
 import org.cxyxh.blogshow.model.RespBean;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -22,7 +24,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/friendLink")
+@Api(tags = "文章评论数据接口")
 public class FriendLinkController {
+
+	@Autowired
+	private HttpServletRequest request;
 
 	@Autowired
 	FriendLinkService friendLinkService;
@@ -32,6 +38,7 @@ public class FriendLinkController {
 	 *
 	 * @return
 	 */
+	@ApiOperation(value = "获取友链", notes = "获取友链")
 	@GetMapping("/")
 	public RespBean getAllFriendLink() {
 		List<FriendLink> friendLinks = friendLinkService.getAllFriendLink();

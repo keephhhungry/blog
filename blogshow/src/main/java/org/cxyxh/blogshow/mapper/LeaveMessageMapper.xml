@@ -13,7 +13,8 @@
         <result column="browser_version" property="browserVersion" jdbcType="VARCHAR"/>
         <result column="operating_system" property="operatingSystem" jdbcType="VARCHAR"/>
         <result column="ip" property="ip" jdbcType="VARCHAR"/>
-        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
         <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP"/>
         <association property="user" javaType="org.cxyxh.blogshow.model.User">
@@ -61,7 +62,8 @@
     </select>
 
     <!--新增留言-->
-    <insert id="addLeaveMessage">
+    <insert id="addLeaveMessage" parameterType="org.cxyxh.blogshow.model.LeaveMessage" useGeneratedKeys="true"
+            keyProperty="ileaveMessage">
         insert into t_leave_message
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="iuser != null">
@@ -88,8 +90,11 @@
             <if test="ip != null">
                 ip,
             </if>
-            <if test="address != null">
-                address,
+            <if test="province != null">
+                province,
+            </if>
+            <if test="city != null">
+                city,
             </if>
             <if test="gmtCreate != null">
                 gmt_create,
@@ -123,8 +128,11 @@
             <if test="ip != null">
                 #{ip,jdbcType=VARCHAR},
             </if>
-            <if test="address != null">
-                #{address,jdbcType=VARCHAR},
+            <if test="province != null">
+                #{province,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                #{city,jdbcType=VARCHAR},
             </if>
             <if test="gmtCreate != null">
                 #{gmtCreate,jdbcType=TIMESTAMP},

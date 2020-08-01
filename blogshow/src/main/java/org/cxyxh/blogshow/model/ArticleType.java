@@ -1,6 +1,8 @@
 package org.cxyxh.blogshow.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.util.Date;
 
@@ -13,74 +15,82 @@ import java.util.Date;
  * @Date: 2020/6/3 22:19
  * @Version: 1.0
  */
+@ApiModel(value = "文章类型实体类", description = "文章类型信息描述类")
+
 public class ArticleType {
 
-	/* 主键 */
-	private Integer iarticleType;
+    /* 主键 */
+    @ApiModelProperty(value = "文章评论ID", example = "0")
+    private Integer iarticleType;
 
-	/* 类型名称 */
-	private String typeName;
+    /* 类型名称 */
+    @ApiModelProperty(value = "文章类型名称")
+    private String typeName;
 
-	/* 文章数量 */
-	private Integer articleNum;
+    /* 文章数量 */
+    @ApiModelProperty(value = "该类型文章数量", example = "0")
+    private Integer articleNum;
 
-	/* 创建时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtCreate;
+    /* 创建时间 */
+    @ApiModelProperty(value = "创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtCreate;
 
-	/* 修改时间 */
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date gmtModified;
+    /* 修改时间 */
+    @ApiModelProperty(value = "修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date gmtModified;
 
-	public Integer getIarticleType() {
-		return iarticleType;
-	}
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ArticleType{");
+        sb.append("iarticleType=").append(iarticleType);
+        sb.append(", typeName='").append(typeName).append('\'');
+        sb.append(", articleNum=").append(articleNum);
+        sb.append(", gmtCreate=").append(gmtCreate);
+        sb.append(", gmtModified=").append(gmtModified);
+        sb.append('}');
+        return sb.toString();
+    }
 
-	public void setIarticleType(Integer iarticleType) {
-		this.iarticleType = iarticleType;
-	}
+    public Integer getIarticleType() {
+        return iarticleType;
+    }
 
-	public String getTypeName() {
-		return typeName;
-	}
+    public void setIarticleType(Integer iarticleType) {
+        this.iarticleType = iarticleType;
+    }
 
-	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-	}
+    public String getTypeName() {
+        return typeName;
+    }
 
-	public Date getGmtCreate() {
-		return gmtCreate;
-	}
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 
-	public void setGmtCreate(Date gmtCreate) {
-		this.gmtCreate = gmtCreate;
-	}
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
 
-	public Date getGmtModified() {
-		return gmtModified;
-	}
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
 
-	public void setGmtModified(Date gmtModified) {
-		this.gmtModified = gmtModified;
-	}
+    public Date getGmtModified() {
+        return gmtModified;
+    }
 
-	public Integer getArticleNum() {
-		return articleNum;
-	}
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 
-	public void setArticleNum(Integer articleNum) {
-		this.articleNum = articleNum;
-	}
+    public Integer getArticleNum() {
+        return articleNum;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuffer sb = new StringBuffer("ArticleType{");
-		sb.append("iarticleType=").append(iarticleType);
-		sb.append(", typeName='").append(typeName).append('\'');
-		sb.append(", articleNum=").append(articleNum);
-		sb.append(", gmtCreate=").append(gmtCreate);
-		sb.append(", gmtModified=").append(gmtModified);
-		sb.append('}');
-		return sb.toString();
-	}
+    public void setArticleNum(Integer articleNum) {
+        this.articleNum = articleNum;
+    }
+
 }

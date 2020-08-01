@@ -1,10 +1,12 @@
 package org.cxyxh.blogshow.service.impl;
 
 import org.cxyxh.blogshow.mapper.LeaveMessageMapper;
+import org.cxyxh.blogshow.model.Address;
 import org.cxyxh.blogshow.model.LeaveMessage;
 import org.cxyxh.blogshow.model.RespPageBean;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.LeaveMessageService;
+import org.cxyxh.blogshow.utils.IPConvertUtils;
 import org.cxyxh.blogshow.utils.UserAgentUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
@@ -71,10 +73,12 @@ public class LeaveMessageServiceImpl implements LeaveMessageService {
 		String browserName = UserAgentUtils.getBrowserName(request);
 		String browserVersion = UserAgentUtils.getBrowserVersion(request);
 		String osName = UserAgentUtils.getOsName(request);
+		Address addr = IPConvertUtils.getAddrByIp(ip);
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 		//赋值
-		leaveMessage.setAddress("");
+		leaveMessage.setProvince(addr.getProvince());
+		leaveMessage.setCity(addr.getCity());
 		leaveMessage.setIp(ip);
 		leaveMessage.setBrowserName(browserName);
 		leaveMessage.setBrowserVersion(browserVersion);

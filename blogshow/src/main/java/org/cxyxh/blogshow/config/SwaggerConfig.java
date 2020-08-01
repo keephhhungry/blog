@@ -1,4 +1,4 @@
-package org.cxyxh.blogserver.config;
+package org.cxyxh.blogshow.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +29,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("org.cxyxh"))
                 .paths(PathSelectors.any())
                 .build().apiInfo(new ApiInfoBuilder()
-                        .title("程序员小黄博客系统_后台模块")
+                        .title("程序员小黄博客系统_前台模块")
 //                        .description("程序员小黄博客系统_后台模块_个人学习")
                         .version("1.0")
                         .contact(new Contact("程序员小黄博客系统", "http://www.cxyxh.xyz", "54006022@qq.com"))

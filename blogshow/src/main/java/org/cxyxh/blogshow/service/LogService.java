@@ -27,9 +27,9 @@ public interface LogService {
 	Integer addLog(Log log);
 
 	/**
-     * 访问日志 做记录
+	 * 访问日志 做记录
 	 * @param request
-     * @return
-     */
-	Integer addLog(HttpServletRequest request);
+	 * @return
+	 */
+	Integer addLog(HttpServletRequest request,String remark);
 }

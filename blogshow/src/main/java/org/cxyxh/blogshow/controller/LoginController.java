@@ -1,5 +1,6 @@
 package org.cxyxh.blogshow.controller;
 
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.model.User;
@@ -24,7 +25,11 @@ import java.io.IOException;
  * @Version: 1.0
  */
 @RestController
+@Api(tags = "登录数据接口")
 public class LoginController {
+
+	@Autowired
+	private  HttpServletRequest request;
 
 	@Autowired
 	LoginService loginService;
@@ -38,6 +43,12 @@ public class LoginController {
 	 * @param code
 	 * @return
 	 */
+	@ApiOperation(value = "登录请求", notes = "登录请求")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "username", value = "用户名", required = true),
+			@ApiImplicitParam(name = "password", value = "密码", required = true),
+			@ApiImplicitParam(name = "code", value = "验证码", required = true),
+	})
 	@PostMapping("/doLogin")
 	public RespBean login(HttpServletRequest request, String username, String password, String code) {
 		System.out.println("username="+username);
@@ -72,6 +83,7 @@ public class LoginController {
 	 * @param resp
 	 * @throws IOException
 	 */
+	@ApiOperation(value = "获取验证码", notes = "获取验证码")
 	@GetMapping("/verifyCode")
 	public void verifyCode(HttpServletRequest request, HttpServletResponse resp) throws IOException {
 		VerificationCode code = new VerificationCode();

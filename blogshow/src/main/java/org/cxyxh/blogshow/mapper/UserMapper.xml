@@ -30,7 +30,8 @@
    </select>
 
     <!--注册用户-->
-    <insert id="register">
+    <insert id="register" parameterType="org.cxyxh.blogshow.model.User" useGeneratedKeys="true"
+            keyProperty="iuser">
         insert into t_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="username != null">

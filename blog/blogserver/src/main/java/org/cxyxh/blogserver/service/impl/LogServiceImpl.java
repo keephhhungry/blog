@@ -86,15 +86,16 @@ public class LogServiceImpl implements LogService {
 		}
 		//根据工具类获取数据
 		String ip = UserAgentUtils.getIp(request);
-		Address address = IPConvertUtils.sendGet(ip);
 		String browserName = UserAgentUtils.getBrowserName(request);
 		String browserVersion = UserAgentUtils.getBrowserVersion(request);
 		String osName = UserAgentUtils.getOsName(request);
-		User user = UserUtils.getCurrentUser();
+		Address addr = IPConvertUtils.getAddrByIp(ip);
+		User user =(User) request.getSession().getAttribute("user");
+
 
 		Log log = new Log();
-		log.setProvince(address.getProvince());
-		log.setCity(address.getCity());
+		log.setProvince(addr.getProvince());
+		log.setCity(addr.getCity());
 		log.setIp(ip);
 		log.setBrowserName(browserName);
 		log.setBrowserVersion(browserVersion);
@@ -102,6 +103,7 @@ public class LogServiceImpl implements LogService {
 		if(user!=null){
 			log.setIuser(user.getIuser());
 		}
+		log.setIuser(null);
 		log.setGmtCreate(new Date());
 		log.setGmtModified(new Date());
 		log.setUrl(url);

@@ -1,11 +1,7 @@
-package org.cxyxh.blogserver.Interceptor;
+package org.cxyxh.blogshow.Interceptor;
 
 import org.apache.commons.lang3.StringUtils;
-import org.cxyxh.blogserver.controller.ArticleController;
-import org.cxyxh.blogserver.model.User;
-import org.cxyxh.blogserver.service.LogService;
-import org.cxyxh.blogserver.utils.UserAgentUtils;
-import org.cxyxh.blogserver.utils.UserUtils;
+import org.cxyxh.blogshow.service.LogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * @ahthor : cxyxh
@@ -32,6 +27,7 @@ public class LoginInterceptor implements HandlerInterceptor  {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println("123");
         logService.addLog(request,"访问日志");
 //        User user = UserUtils.getCurrentUser();
 //        if(user==null){
