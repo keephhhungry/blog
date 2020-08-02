@@ -138,8 +138,7 @@
                 <el-table-column
                         prop="articleIntroduction"
                         label="简介"
-                        align="center"
-                        width="180">
+                        align="center">
                 </el-table-column>
                 <el-table-column
                         prop="wordCount"

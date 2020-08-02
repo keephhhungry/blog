@@ -27,6 +27,15 @@ public class RespBean {
     @ApiModelProperty(value = "返回数据")
     private Object obj;
 
+    @Override
+    public String toString() {
+        return "RespBean{" +
+                "status=" + status +
+                ", msg='" + msg + '\'' +
+                ", obj=" + obj +
+                '}';
+    }
+
     public static RespBean ok(String msg) {
         return new RespBean(200, msg, null);
     }

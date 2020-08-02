@@ -349,10 +349,11 @@
                                 <el-switch
                                         v-for="item in roles"
                                         :key="item.irole"
-                                        v-model="value"
+                                        :value="getUserRoleStatus(user,item)"
                                         active-color="#13ce66"
                                         inactive-color="#ff4949"
                                         :active-text="item.nameZh"
+                                        @change="changeUserRoleStatus(user,item)"
                                         style="margin-right: 20px">
                                 </el-switch>
                                 <!--                                </div>-->
@@ -377,7 +378,7 @@
             </div>
             <span slot="footer" class="dialog-footer">
                 <el-button size="mini" @click="dialogVisible=false">取 消</el-button>
-                <el-button size="mini" type="primary" @click="updateUser">确 定</el-button>
+                <el-button size="mini" type="primary" @click="updateUser()">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -423,6 +424,7 @@
                 keyword: '',
                 users: [],
                 total: 0,
+                //弹出框用的
                 user: {
                     username: "",
                     name: "",
@@ -432,6 +434,7 @@
                     email: "",
                     remark: "",
                     enabled: true,
+                    roles: [],
                 },
                 roles: [],
                 rules: {
@@ -450,6 +453,26 @@
             this.initRoles();
         },
         methods: {
+            changeUserRoleStatus(user, role) {
+                //如果遍历完，还是没有删除,说明是添加
+                for (let i = 0; i < user.roles.length; i++) {
+                    if (user.roles[i].irole == role.irole) {
+                        user.roles.splice(i,1);
+                        return;
+                    }
+                }
+                user.roles.push(role);
+            },
+            //编辑用户界面的角色是否选中
+            getUserRoleStatus(user, role) {
+                // let roles[] = user.roles;
+                for (let i = 0; i < user.roles.length; i++) {
+                    if (user.roles[i].irole == role.irole) {
+                        return true;
+                    }
+                }
+                return false;
+            },
             // 打开添加用户的界面
             showAddUserDialog() {
                 this.dialogTitle = '添加用户';

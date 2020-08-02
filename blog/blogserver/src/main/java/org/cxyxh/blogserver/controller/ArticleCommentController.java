@@ -1,14 +1,16 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
-import org.cxyxh.blogserver.model.*;
+import org.cxyxh.blogserver.model.ArticleComment;
+import org.cxyxh.blogserver.model.RespBean;
+import org.cxyxh.blogserver.model.RespPageBean;
+import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.ArticleCommentService;
-import org.cxyxh.blogserver.service.LogService;
 import org.cxyxh.blogserver.utils.UserUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -26,6 +28,8 @@ import java.util.Date;
 @RequestMapping("/article/comment")
 @Api(tags = "文章评论数据接口")
 public class ArticleCommentController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArticleCommentController.class);
 
     @Autowired
     private ArticleCommentService commentService;
@@ -70,19 +74,22 @@ public class ArticleCommentController {
         User user = UserUtils.getCurrentUser();
         String remark = "";
         int num = commentService.getArticleCommentChildrenById(iarticleComment);
-        //如果没有子留言
+        //如果没有子评论
         if (num == 0) {
             if (commentService.deleteArticleCommentById(iarticleComment) == 1) {
                 remark = "删除评论成功，评论ID[{"+iarticleComment+"}],操作人ID[{"+user.getIuser()+"}],操作人名字[{"+user.getUsername()+"}]";
                 request.setAttribute("remark",remark);
+                logger.info(remark);
                 return RespBean.ok("删除成功!");
             }
             remark = "删除评论失败，评论ID[{"+iarticleComment+"}],操作人ID[{"+user.getIuser()+"}],操作人名字[{"+user.getUsername()+"}]";
             request.setAttribute("remark",remark);
+            logger.error(remark);
             return RespBean.error("删除失败!");
         } else {
             remark = "删除评论失败，该评论下有回复，评论ID[{"+iarticleComment+"}],操作人ID[{"+user.getIuser()+"}],操作人名字[{"+user.getUsername()+"}]";
             request.setAttribute("remark",remark);
+            logger.warn(remark);
             return RespBean.error("删除失败，该评论下有回复", -1);
         }
 
@@ -110,10 +117,12 @@ public class ArticleCommentController {
         if (num != 0) {
             remark = "删除评论成功，评论ID[{"+iarticleComment+"}],操作人ID[{"+user.getIuser()+"}],操作人名字[{"+user.getUsername()+"}]";
             request.setAttribute("remark",remark);
+            logger.info(remark);
             return RespBean.ok("成功删除" + num + "条数据");
         }
         remark = "删除评论失败，评论ID[{"+iarticleComment+"}],操作人ID[{"+user.getIuser()+"}],操作人名字[{"+user.getUsername()+"}]";
         request.setAttribute("remark",remark);
+        logger.error(remark);
         return RespBean.error("删除失败!");
     }
 }

@@ -25,6 +25,14 @@ public class RespPageBean {
     @ApiModelProperty(value = "数据")
     private List<?> data;
 
+    @Override
+    public String toString() {
+        return "RespPageBean{" +
+                "total=" + total +
+                ", data=" + data +
+                '}';
+    }
+
     public Long getTotal() {
         return total;
     }

@@ -1,5 +1,6 @@
 package org.cxyxh.blogserver.service;
 
+import org.cxyxh.blogserver.exception.BlogException;
 import org.cxyxh.blogserver.model.Article;
 import org.cxyxh.blogserver.model.RespPageBean;
 
@@ -50,7 +51,7 @@ public interface ArticleService {
 	 * @param article 文章对象
 	 * @return
 	 */
-	Integer addArticle(Article article);
+	Integer addArticle(Article article) throws BlogException;
 
 	/**
 	 * 根据文章id 修改文章

@@ -1,11 +1,14 @@
 package org.cxyxh.blogshow.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogshow.Interceptor.LoginInterceptor;
 import org.cxyxh.blogshow.model.Article;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.ArticleService;
 import org.cxyxh.blogshow.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +28,8 @@ import java.util.List;
 @RequestMapping("/article")
 @Api(tags = "文章数据接口")
 public class ArticleController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @Autowired
     private HttpServletRequest request;
@@ -104,14 +109,6 @@ public class ArticleController {
     })
     @PutMapping("/addLookNum")
     public void addLookNum(Integer iarticle) {
-        User user = UserUtils.getCurrentUser(request);
-        String remark = "";
-        if (articleService.addLookNum(iarticle) == 1) {
-            remark = "新增文章阅读量成功，文章ID[{" + iarticle + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
-            request.setAttribute("remark", remark);
-        } else {
-            remark = "新增文章阅读量失败，文章ID[{" + iarticle + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
-            request.setAttribute("remark", remark);
-        }
+        articleService.addLookNum(iarticle);
     }
 }

@@ -1,7 +1,9 @@
 package org.cxyxh.blogshow.Interceptor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.cxyxh.blogshow.model.Log;
 import org.cxyxh.blogshow.service.LogService;
+import org.cxyxh.blogshow.utils.GenLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +29,6 @@ public class LoginInterceptor implements HandlerInterceptor  {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("123");
-        logService.addLog(request,"访问日志");
-//        User user = UserUtils.getCurrentUser();
-//        if(user==null){
-//            return  false;
-//        }
         return true;
     }
 
@@ -45,8 +41,8 @@ public class LoginInterceptor implements HandlerInterceptor  {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
         String remark = (String)request.getAttribute("remark");
         if(!StringUtils.isBlank(remark)){
-            logger.info(remark);
-            logService.addLog(request, remark);
+            Log log = GenLog.genLog(request);
+            logService.addLog(log);
         }
     }
 

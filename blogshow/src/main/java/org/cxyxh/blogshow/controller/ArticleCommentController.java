@@ -1,12 +1,15 @@
 package org.cxyxh.blogshow.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogshow.Interceptor.LoginInterceptor;
 import org.cxyxh.blogshow.model.ArticleComment;
 import org.cxyxh.blogshow.model.LeaveMessage;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.ArticleCommentService;
 import org.cxyxh.blogshow.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +29,8 @@ import java.util.List;
 @RequestMapping("/comment")
 @Api(tags = "文章评论数据接口")
 public class ArticleCommentController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArticleCommentController.class);
 
     @Autowired
     private HttpServletRequest request;
@@ -71,10 +76,12 @@ public class ArticleCommentController {
         if (commentService.addArticleComment(request, articleComment) == 1) {
             remark = "新增评论成功，评论ID[{" + articleComment.getIarticleComment() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("");
         } else {
             remark = "新增评论失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("系统错误，请稍后再试");
         }
     }

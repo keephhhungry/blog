@@ -1,9 +1,12 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.LeaveMessageService;
 import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +26,8 @@ import java.util.Date;
 @RequestMapping("/system/leavemessage")
 @Api(tags = "留言数据接口")
 public class LeaveMessageController {
+
+	private final static Logger logger = LoggerFactory.getLogger(LeaveMessageController.class);
 
 	@Autowired
 	LeaveMessageService leaveMessageService;
@@ -73,14 +78,17 @@ public class LeaveMessageController {
 			if (leaveMessageService.deleteLeaveMessageById(ileaveMessage) == 1) {
 				remark = "删除留言成功，留言ID[{" + ileaveMessage + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
 				request.setAttribute("remark", remark);
+				logger.info(remark);
 				return RespBean.ok("删除成功!");
 			}
 			remark = "删除留言失败，留言ID[{" + ileaveMessage + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
 			request.setAttribute("remark", remark);
+			logger.error(remark);
 			return RespBean.error("删除失败!");
 		}else{
 			remark = "删除失败，该留言下有回复，留言ID[{" + ileaveMessage + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
 			request.setAttribute("remark", remark);
+			logger.warn(remark);
 			return RespBean.error("删除失败，该留言下有回复",-1);
 		}
 
@@ -107,10 +115,12 @@ public class LeaveMessageController {
 		if (num != 0) {
 			remark = "删除留言成功[{"+num+"}]，父留言ID[{" + ileaveMessage + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
 			request.setAttribute("remark", remark);
+			logger.info(remark);
 			return RespBean.ok("成功删除"+num+"条数据");
 		}
 		remark = "删除留言失败，留言ID[{" + ileaveMessage + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
 		request.setAttribute("remark", remark);
+		logger.error(remark);
 		return RespBean.error("删除失败!");
 	}
 

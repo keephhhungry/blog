@@ -1,12 +1,15 @@
 package org.cxyxh.blogshow.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogshow.Interceptor.LoginInterceptor;
 import org.cxyxh.blogshow.model.LeaveMessage;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.model.RespPageBean;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.LeaveMessageService;
 import org.cxyxh.blogshow.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/leaveMessage")
 @Api(tags = "留言数据接口")
 public class LeaveMessageController {
+
+    private final static Logger logger = LoggerFactory.getLogger(LeaveMessageController.class);
 
     @Autowired
     private HttpServletRequest request;
@@ -72,10 +77,12 @@ public class LeaveMessageController {
         if (leaveMessageService.addLeaveMessage(request, leaveMessage) == 1) {
             remark = "新增留言成功，留言ID[{" + leaveMessage.getIleaveMessage() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("");
         } else {
             remark = "新增留言失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("系统错误，请稍后再试");
         }
     }

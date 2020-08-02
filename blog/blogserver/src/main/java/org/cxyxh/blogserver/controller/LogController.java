@@ -4,12 +4,15 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.DataDownloadService;
 import org.cxyxh.blogserver.service.LogService;
 import org.cxyxh.blogserver.utils.poi.ProvinceDataDownloadUtils;
 import org.cxyxh.blogserver.utils.poi.SingelUserDataDownloadUtils;
 import org.cxyxh.blogserver.utils.poi.UserDataDownloadUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +34,8 @@ import java.util.List;
 @RequestMapping("/system/log")
 @Api(tags = "日志数据接口")
 public class LogController {
+
+    private final static Logger logger = LoggerFactory.getLogger(LogController.class);
 
     @Autowired
     private LogService logService;

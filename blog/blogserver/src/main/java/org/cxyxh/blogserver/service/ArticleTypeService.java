@@ -1,5 +1,6 @@
 package org.cxyxh.blogserver.service;
 
+import org.cxyxh.blogserver.exception.BlogException;
 import org.cxyxh.blogserver.model.ArticleType;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
@@ -38,7 +39,7 @@ public interface ArticleTypeService {
 	 *
 	 * @param iarticleType 文章类型ID
 	 */
-	Boolean enforceDeleteArticleTypeById(Integer iarticleType);
+	Boolean enforceDeleteArticleTypeById(Integer iarticleType) throws BlogException;
 
 	/**
 	 * 根据文章类型对象 新增文章类型

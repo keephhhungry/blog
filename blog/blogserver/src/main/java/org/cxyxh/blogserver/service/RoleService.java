@@ -47,4 +47,5 @@ public interface RoleService {
 	 * @return
 	 */
 	Integer updateRole(Role role);
+
 }

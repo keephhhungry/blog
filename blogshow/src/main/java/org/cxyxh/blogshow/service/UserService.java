@@ -17,7 +17,7 @@ public interface UserService {
      * @param user
      * @return
      */
-	Integer register(User user);
+	Integer register(User user) throws Exception;
 
     /**
      * 修改用户名时测试是否可用

@@ -29,6 +29,9 @@ public class LogServiceImpl implements LogService {
 
 
 	@Autowired
+	private HttpServletRequest request;
+
+	@Autowired
 	private LogMapper logMapper;
 
 
@@ -43,51 +46,5 @@ public class LogServiceImpl implements LogService {
 		return logMapper.addLog(log);
 	}
 
-	/**
-	 * 访问日志 做记录
-	 *
-	 * @param request
-	 * @return
-	 */
-	@Override
-	public Integer addLog(HttpServletRequest request,String remark) {
-		//获取路径
-		String url = request.getScheme()
-				+"://" + request.getServerName()
-				+ ":" +request.getServerPort()
-				+ request.getServletPath();
-		//获取参数
-		String parameter = request.getQueryString();
-		if (parameter != null){
-			url += "?" + parameter;
-		}
-		//根据工具类获取数据
-		String ip = UserAgentUtils.getIp(request);
-		String browserName = UserAgentUtils.getBrowserName(request);
-		String browserVersion = UserAgentUtils.getBrowserVersion(request);
-		String osName = UserAgentUtils.getOsName(request);
-		Address addr = IPConvertUtils.getAddrByIp(ip);
-		User user =(User) request.getSession().getAttribute("user");
 
-		Log log = new Log();
-		log.setProvince(addr.getProvince());
-		log.setCity(addr.getCity());
-		log.setIp(ip);
-		log.setBrowserName(browserName);
-		log.setBrowserVersion(browserVersion);
-		log.setOperatingSystem(osName);
-		if(user!=null){
-			log.setIuser(user.getIuser());
-		}else {
-			log.setIuser(null);
-		}
-		log.setGmtCreate(new Date());
-		log.setGmtModified(new Date());
-		log.setUrl(url);
-		log.setOperationalParameter(parameter);
-		log.setLogType(Log.FRONT_OPERATE_LOG);
-		log.setRemark(remark);
-
-		return addLog(log);
-	}
 }

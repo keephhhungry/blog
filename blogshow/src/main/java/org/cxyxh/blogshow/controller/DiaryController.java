@@ -1,9 +1,12 @@
 package org.cxyxh.blogshow.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogshow.Interceptor.LoginInterceptor;
 import org.cxyxh.blogshow.model.Diary;
 import org.cxyxh.blogshow.model.RespBean;
 import org.cxyxh.blogshow.service.DiaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +28,8 @@ import java.util.List;
 @RequestMapping("/diary")
 @Api(tags = "日记数据接口")
 public class DiaryController {
+
+	private final static Logger logger = LoggerFactory.getLogger(DiaryController.class);
 
 	@Autowired
 	private HttpServletRequest request;

@@ -15,7 +15,6 @@
         <result column="is_original" property="isOriginal" jdbcType="INTEGER"/>
         <result column="is_reptile" property="isReptile" jdbcType="INTEGER"/>
         <result column="look_num" property="lookNum" jdbcType="INTEGER"/>
-        <result column="comment_num" property="commentNum" jdbcType="INTEGER"/>
         <result column="like_num" property="likeNum" jdbcType="INTEGER"/>
         <result column="status" property="status" jdbcType="INTEGER"/>
         <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP"/>
@@ -130,9 +129,6 @@
             <if test="lookNum != null">
                 look_num,
             </if>
-            <if test="commentNum != null">
-                comment_num,
-            </if>
             <if test="likeNum != null">
                 like_num,
             </if>
@@ -170,9 +166,6 @@
             </if>
             <if test="lookNum != null">
                 #{lookNum,jdbcType=INTEGER},
-            </if>
-            <if test="commentNum != null">
-                #{commentNum,jdbcType=INTEGER},
             </if>
             <if test="likeNum != null">
                 #{likeNum,jdbcType=INTEGER},

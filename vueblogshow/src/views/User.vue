@@ -25,7 +25,7 @@
                         auto-complete="off"
                         maxlength="16"
                         minlength="2"
-                        @change="checkUsername"
+                        @change="checkUsername()"
                         show-word-limit
                         placeholder="请输入用户名">
                 </el-input>
@@ -192,16 +192,8 @@
             },
             //检查账户名被使用情况
             checkUsername() {
-                console.log("检查")
                 if (this.modifyForm.username != this.user.username) {
-                    this.getRequest("/user/checkUsernameAvailable?username=" + this.modifyForm.username).then(resp => {
-                        if (resp) {
-                            console.log(resp)
-                            if (resp.obj != 0) {
-                                this.$message.warning("当前账户名已经被占用");
-                            }
-                        }
-                    })
+                    this.getRequest("/user/checkUsernameAvailable?username=" + this.modifyForm.username);
                 }
             },
             //还原

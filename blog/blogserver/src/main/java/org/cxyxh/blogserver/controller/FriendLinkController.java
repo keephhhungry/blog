@@ -1,12 +1,15 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.FriendLink;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.FriendLinkService;
 import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +29,8 @@ import java.util.Date;
 @RequestMapping("/system/friendlink")
 @Api(tags = "友链数据接口")
 public class FriendLinkController {
+
+    private final static Logger logger = LoggerFactory.getLogger(FriendLinkController.class);
 
     @Autowired
     FriendLinkService friendLinkService;
@@ -99,10 +104,12 @@ public class FriendLinkController {
         if (friendLinkService.addFriendLink(friendLink) == 1) {
             remark = "添加友链成功，友链ID[{" + friendLink.getIfriendLink() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("添加成功");
         } else {
             remark = "添加友链失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("添加失败");
         }
     }
@@ -128,10 +135,12 @@ public class FriendLinkController {
         if (friendLinkService.updateFriendLinkById(friendLink) == 1) {
             remark = "修改友链成功，友链ID[{" + friendLink.getIfriendLink() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("修改成功");
         } else {
             remark = "修改友链失败，友链ID[{" + friendLink.getIfriendLink() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("修改失败");
         }
     }

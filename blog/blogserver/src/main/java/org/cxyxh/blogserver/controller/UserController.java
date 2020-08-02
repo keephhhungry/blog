@@ -2,16 +2,20 @@ package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
 import org.apache.ibatis.annotations.Delete;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.model.Role;
 import org.cxyxh.blogserver.model.User;
 import org.cxyxh.blogserver.service.UserService;
 import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.ServerSocket;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +33,8 @@ import java.util.List;
 @RequestMapping("/user/user")
 @Api(tags = "用户数据接口")
 public class UserController {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     UserService userService;
@@ -51,7 +57,10 @@ public class UserController {
     })
     @GetMapping("/")
     public RespPageBean getUserByPage(@RequestParam(defaultValue = "1") Integer page, @RequestParam(defaultValue = "10") Integer size, User user, Date[] createDateScope) {
-        return userService.getUserByPage(page, size, user, createDateScope);
+        RespPageBean userByPage = userService.getUserByPage(page, size, user, createDateScope);
+        System.out.println(""+userByPage.getData().size());
+        System.out.println(""+userByPage.toString());
+        return userByPage;
     }
 
     /**
@@ -75,10 +84,12 @@ public class UserController {
         if (userService.addUser(user) == 1) {
             remark = "添加用户成功，用户ID[{" + currentUser + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("添加成功!");
         }
         remark = "添加用户失败，操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
         request.setAttribute("remark", remark);
+        logger.error(remark);
         return RespBean.error("添加失败!");
     }
 
@@ -103,10 +114,12 @@ public class UserController {
         if (userService.deleteUserById(iuser) == 1) {
             remark = "删除用户成功，用户ID[{" + iuser + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("删除成功!");
         }
         remark = "删除用户失败，用户ID[{" + iuser + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
         request.setAttribute("remark", remark);
+        logger.error(remark);
         return RespBean.error("删除失败!");
     }
 
@@ -131,10 +144,12 @@ public class UserController {
         if (userService.deleteUserByIds(ids) == ids.length) {
             remark = "批量删除用户成功，用户ID[{" + Arrays.toString(ids) + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("删除成功!");
         }
         remark = "批量删除用户失败，用户ID[{" + Arrays.toString(ids) + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
         request.setAttribute("remark", remark);
+        logger.error(remark);
         return RespBean.error("删除失败!");
     }
 
@@ -159,10 +174,12 @@ public class UserController {
         if (userService.resetPasswordById(iuser) == 1) {
             remark = "重置密码成功，用户ID[{" + iuser + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("重置密码成功!");
         }
         remark = "重置密码失败，用户ID[{" + iuser + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
         request.setAttribute("remark", remark);
+        logger.error(remark);
         return RespBean.error("重置密码失败!");
     }
 
@@ -187,10 +204,12 @@ public class UserController {
         if (userService.updateUser(user) == 1) {
             remark = "修改用户信息成功，用户ID[{" + user.getIuser() + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("更新成功!");
         }
         remark = "修改用户信息失败，用户ID[{" + user.getIuser() + "}],操作人ID[{" + currentUser.getIuser() + "}],操作人名字[{" + currentUser.getUsername() + "}]";
         request.setAttribute("remark", remark);
+        logger.error(remark);
         return RespBean.error("更新失败!");
     }
 

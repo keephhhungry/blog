@@ -1,10 +1,10 @@
 package org.cxyxh.blogshow.service.impl;
 
-import org.apache.commons.lang3.StringUtils;
+import org.cxyxh.blogshow.exception.BlogException;
 import org.cxyxh.blogshow.mapper.UserMapper;
 import org.cxyxh.blogshow.model.User;
 import org.cxyxh.blogshow.service.UserService;
-import org.cxyxh.blogshow.utils.DefaultParams;
+import org.cxyxh.blogshow.utils.Const;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,38 +25,36 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-
     @Override
-    public Integer register(User user) {
+    public Integer register(User user) throws BlogException {
+
         //五个正则判断
-        boolean usernameMatches = user.getUsername().matches(DefaultParams.USERNAME_PATTERN);
+        boolean usernameMatches = user.getUsername().matches(Const.USERNAME_PATTERN);
         if (!usernameMatches) {
-            return -2;
+            throw new BlogException("用户名输入不合法");
         }
-        boolean nameMatches = user.getName().matches(DefaultParams.NAME_PATTERN);
+        boolean nameMatches = user.getName().matches(Const.NAME_PATTERN);
         if (!nameMatches) {
-            return -2;
+            throw new BlogException("用户姓名输入不合法");
         }
-        boolean passwordMatches = user.getPassword().matches(DefaultParams.PASSWORD_PATTERN);
+        boolean passwordMatches = user.getPassword().matches(Const.PASSWORD_PATTERN);
         if (!passwordMatches) {
-            return -2;
+            throw new BlogException("用户密码输入不合法");
         }
-        boolean emailMatches = user.getEmail().matches(DefaultParams.EMAIL_PATTERN);
+        boolean emailMatches = user.getEmail().matches(Const.EMAIL_PATTERN);
         if (!emailMatches) {
-            return -2;
+            throw new BlogException("邮件地址输入不合法");
         }
-        boolean telephoneMatches = user.getTelephone().matches(DefaultParams.TELEPHONE_PATTERN);
+        boolean telephoneMatches = user.getTelephone().matches(Const.TELEPHONE_PATTERN);
         if (!telephoneMatches) {
-            return -2;
+            throw new BlogException("电话不输入合法");
         }
         //判断用户名重复问题
         Integer num = userMapper.findUserCountByUsername(user.getUsername());
         if (num != 0) {
-            return -1;
+            throw new BlogException("该用户名已存在");
         }
         //密码加密
-
-
         user.setRemark("");
         user.setEnabled(true);
         user.setGmtCreate(new Date());
@@ -85,19 +83,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer updateUser(User user) {
         //五个正则判断
-        boolean usernameMatches = user.getUsername().matches(DefaultParams.USERNAME_PATTERN);
+        boolean usernameMatches = user.getUsername().matches(Const.USERNAME_PATTERN);
         if (!usernameMatches) {
             return -2;
         }
-        boolean nameMatches = user.getName().matches(DefaultParams.NAME_PATTERN);
+        boolean nameMatches = user.getName().matches(Const.NAME_PATTERN);
         if (!nameMatches) {
             return -2;
         }
-        boolean emailMatches = user.getEmail().matches(DefaultParams.EMAIL_PATTERN);
+        boolean emailMatches = user.getEmail().matches(Const.EMAIL_PATTERN);
         if (!emailMatches) {
             return -2;
         }
-        boolean telephoneMatches = user.getTelephone().matches(DefaultParams.TELEPHONE_PATTERN);
+        boolean telephoneMatches = user.getTelephone().matches(Const.TELEPHONE_PATTERN);
         if (!telephoneMatches) {
             return -2;
         }

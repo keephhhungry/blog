@@ -11,7 +11,7 @@ import java.util.Date;
  * @Package: org.cxyxh.blogserver.model
  * @ClassName: Log
  * @Author: Administrator
- * @Description: ${description}
+ * @Description: ${description} info 正常打印 warn 异常情况 error 特殊情况
  * @Date: 2020/6/4 23:25
  * @Version: 1.0
  */
@@ -64,6 +64,14 @@ public class Log {
     @ApiModelProperty(value = "请求参数")
     private String operationalParameter;
 
+    /* 日志等级 */
+    @ApiModelProperty(value = "日志等级")
+    private String levelString;
+
+    /* 全类名 */
+    @ApiModelProperty(value = "全类名")
+    private String loggerName;
+
     /* 备注 */
     @ApiModelProperty(value = "备注")
     private String remark;
@@ -98,6 +106,8 @@ public class Log {
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
                 ", url='" + url + '\'' +
+                ", levelString='" + levelString + '\'' +
+                ", loggerName='" + loggerName + '\'' +
                 ", operationalParameter='" + operationalParameter + '\'' +
                 ", remark='" + remark + '\'' +
                 ", logType=" + logType +
@@ -225,5 +235,21 @@ public class Log {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getLevelString() {
+        return levelString;
+    }
+
+    public void setLevelString(String levelString) {
+        this.levelString = levelString;
+    }
+
+    public String getLoggerName() {
+        return loggerName;
+    }
+
+    public void setLoggerName(String loggerName) {
+        this.loggerName = loggerName;
     }
 }

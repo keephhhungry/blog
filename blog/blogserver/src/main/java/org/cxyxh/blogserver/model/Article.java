@@ -62,10 +62,6 @@ public class Article {
     @ApiModelProperty(value = "查看数", example = "0")
     private Integer lookNum;
 
-    /* 评论数 */
-    @ApiModelProperty(value = "评论数", example = "0")
-    private Integer commentNum;
-
     /* 点赞数 */
     @ApiModelProperty(value = "点赞数", example = "0")
     private Integer likeNum;
@@ -102,7 +98,6 @@ public class Article {
         sb.append(", isOriginal=").append(isOriginal);
         sb.append(", isReptile=").append(isReptile);
         sb.append(", lookNum=").append(lookNum);
-        sb.append(", commentNum=").append(commentNum);
         sb.append(", likeNum=").append(likeNum);
         sb.append(", status=").append(status);
         sb.append(", gmtCreate=").append(gmtCreate);
@@ -200,14 +195,6 @@ public class Article {
         this.lookNum = lookNum;
     }
 
-    public Integer getCommentNum() {
-        return commentNum;
-    }
-
-    public void setCommentNum(Integer commentNum) {
-        this.commentNum = commentNum;
-    }
-
     public Integer getLikeNum() {
         return likeNum;
     }
@@ -247,4 +234,5 @@ public class Article {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
 }

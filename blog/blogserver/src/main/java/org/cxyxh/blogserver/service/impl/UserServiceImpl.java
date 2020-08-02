@@ -1,9 +1,12 @@
 package org.cxyxh.blogserver.service.impl;
 
+import org.cxyxh.blogserver.mapper.RoleMapper;
 import org.cxyxh.blogserver.mapper.UserMapper;
 import org.cxyxh.blogserver.model.RespPageBean;
 import org.cxyxh.blogserver.model.Role;
 import org.cxyxh.blogserver.model.User;
+import org.cxyxh.blogserver.service.RoleService;
+import org.cxyxh.blogserver.service.UserAndRoleService;
 import org.cxyxh.blogserver.service.UserService;
 import org.cxyxh.blogserver.utils.Const;
 import org.slf4j.Logger;
@@ -33,7 +36,10 @@ public class UserServiceImpl implements UserService,UserDetailsService{
     private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
+
+    @Autowired
+    private UserAndRoleService userAndRoleService;
 
     /**
      * Locates the user based on the username. In the actual implementation, the search
@@ -140,7 +146,11 @@ public class UserServiceImpl implements UserService,UserDetailsService{
     @Override
     public Integer updateUser(User user) {
         user.setGmtModified(new Date());
-        return userMapper.updateUser(user);
+        //更新用户
+        userMapper.updateUser(user);
+        //更新用户角色
+        userAndRoleService.updateRoleById(user.getIuser(),user.getRoles());
+        return 1;
     }
 
     /**

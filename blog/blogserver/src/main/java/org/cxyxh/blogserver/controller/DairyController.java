@@ -1,9 +1,12 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.DiaryService;
 import org.cxyxh.blogserver.utils.UserUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,8 @@ import java.util.Date;
 @RequestMapping("/system/diary")
 @Api(tags = "日记数据接口")
 public class DairyController {
+
+    private final static Logger logger = LoggerFactory.getLogger(DairyController.class);
 
     @Autowired
     DiaryService diaryService;
@@ -72,10 +77,12 @@ public class DairyController {
         if (diaryService.deleteDiaryById(idiary) == 1) {
             remark = "删除日记成功，日记ID[{" + idiary + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("删除成功");
         } else {
             remark = "删除日记失败，日记ID[{" + idiary + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("删除失败");
         }
     }
@@ -101,10 +108,12 @@ public class DairyController {
         if (diaryService.addDiary(diary) == 1) {
             remark = "添加日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("新增成功");
         } else {
             remark = "删添加日记失败，操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("新增失败");
         }
     }
@@ -130,10 +139,12 @@ public class DairyController {
         if (diaryService.updateDiaryById(diary) == 1) {
             remark = "修改日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("修改成功");
         } else {
             remark = "修改日记成功，日记ID[{" + diary.getIdiary() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("修改失败");
         }
     }

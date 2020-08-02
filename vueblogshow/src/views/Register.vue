@@ -198,10 +198,6 @@
                                             this.login();
                                         }
                                     });
-                                }else if(resp.obj==-1){
-                                    this.$message.error("用户名重复，请重新输入");
-                                }else{
-                                    this.$message.error("系统错误，请稍后再试");
                                 }
                             }
                         })

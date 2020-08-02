@@ -1,5 +1,6 @@
 package org.cxyxh.blogserver.service.impl;
 
+import org.cxyxh.blogserver.exception.BlogException;
 import org.cxyxh.blogserver.mapper.ArticleMapper;
 import org.cxyxh.blogserver.mapper.ArticleTypeMapper;
 import org.cxyxh.blogserver.model.*;
@@ -72,17 +73,17 @@ public class ArticleTypeServiceImpl implements ArticleTypeService {
 	 */
 	@Transactional
 	@Override
-	public Boolean enforceDeleteArticleTypeById(Integer iarticleType) {
+	public Boolean enforceDeleteArticleTypeById(Integer iarticleType) throws BlogException {
 		//1.先把该类型下的文章id全部找到
 		List<Integer> ids = articleMapper.getArticelsByTypeId(iarticleType);
 		//2.先把该类型下的文章全部转移到 "其他" 类型下
 		Integer result1 = articleMapper.updateArticleType(ids, Const.DEFAULT_ARTICLE_TYPE);
-		//3.把改类型删除掉
+		//3.把该类型删除掉
 		Integer result2 = deleteArticleTypeById(iarticleType);
 		if (result1 != 0 && result2 == 1) {
 			return true;
 		} else {
-			return false;
+			throw new BlogException("删除失败，请稍后重试");
 		}
 	}
 

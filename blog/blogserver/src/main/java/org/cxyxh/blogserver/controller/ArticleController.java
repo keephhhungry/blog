@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
+import org.cxyxh.blogserver.exception.BlogException;
 import org.cxyxh.blogserver.model.Article;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.model.RespPageBean;
@@ -31,6 +33,8 @@ import java.util.Date;
 @RequestMapping("/article/article")
 @Api(tags = "文章数据接口")
 public class ArticleController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArticleController.class);
 
     @Autowired
     private ArticleService articleService;
@@ -114,10 +118,12 @@ public class ArticleController {
         if (articleService.deleteArticleById(iarticle) == 1) {
             remark = "删除文章成功，评论ID[{" + iarticle + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("删除成功");
         } else {
             remark = "删除文章失败，文章ID[{" + iarticle + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("删除失败");
         }
     }
@@ -140,14 +146,23 @@ public class ArticleController {
     public RespBean addArticle(@RequestBody Article article, HttpServletRequest request) {
         User user = UserUtils.getCurrentUser();
         String remark = "";
-        if (articleService.addArticle(article) == 1) {
-            remark = "添加文章成功，评论ID[{" + article.getIarticle() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+        try {
+            if (articleService.addArticle(article) == 1) {
+                remark = "添加文章成功，评论ID[{" + article.getIarticle() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+                request.setAttribute("remark", remark);
+                logger.info(remark);
+                return RespBean.ok("添加成功");
+            } else {
+                remark = "添加文章失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+                request.setAttribute("remark", remark);
+                logger.error(remark);
+                return RespBean.error("添加失败");
+            }
+        } catch (BlogException e) {
+            remark = "新增文章失败，原因：" + e.getMessage();
+            logger.warn(remark);
             request.setAttribute("remark", remark);
-            return RespBean.ok("添加成功");
-        } else {
-            remark = "添加文章失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
-            request.setAttribute("remark", remark);
-            return RespBean.error("添加失败");
+            return RespBean.error(e.getMessage(), "");
         }
     }
 
@@ -172,10 +187,12 @@ public class ArticleController {
         if (articleService.updateArticleById(article) == 1) {
             remark = "修改文章成功，评论ID[{" + article.getIarticle() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("修改成功");
         } else {
             remark = "修改文章失败，文章ID[{" + article.getIarticle() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("修改失败");
         }
     }

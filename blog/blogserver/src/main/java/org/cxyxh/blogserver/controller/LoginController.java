@@ -4,8 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
 import org.cxyxh.blogserver.model.RespBean;
 import org.cxyxh.blogserver.utils.VerificationCode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +30,8 @@ import java.io.IOException;
 @RestController
 @Api(tags = "登录数据接口")
 public class LoginController {
+
+    private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
     @GetMapping("/login")
     public RespBean login() {

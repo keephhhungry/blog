@@ -1,6 +1,8 @@
 package org.cxyxh.blogserver.controller;
 
 import io.swagger.annotations.*;
+import org.cxyxh.blogserver.Interceptor.LoginInterceptor;
+import org.cxyxh.blogserver.exception.BlogException;
 import org.cxyxh.blogserver.model.*;
 import org.cxyxh.blogserver.service.ArticleService;
 import org.cxyxh.blogserver.service.ArticleTypeService;
@@ -28,6 +30,8 @@ import java.util.List;
 @RequestMapping("/article/type")
 @Api(tags = "文章类型数据接口")
 public class ArticleTypeController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ArticleTypeController.class);
 
     @Autowired
     private ArticleService articleService;
@@ -77,6 +81,7 @@ public class ArticleTypeController {
         if (iarticleType == 1) {
             remark = "删除文章类型失败，该分组为默认类型，无法删除，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.warn(remark);
             return RespBean.error("该分组为默认类型，无法删除");
         } else {
             // 查看该类型下是否有文章
@@ -85,15 +90,18 @@ public class ArticleTypeController {
                 if (articleTypeService.deleteArticleTypeById(iarticleType) == 1) {
                     remark = "删除文章类型成功，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
                     request.setAttribute("remark", remark);
+                    logger.info(remark);
                     return RespBean.ok("删除成功");
                 } else {
                     remark = "删除文章类型失败，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
                     request.setAttribute("remark", remark);
+                    logger.error(remark);
                     return RespBean.error("删除失败");
                 }
             } else {
                 remark = "删除失败，该类型下仍有文章，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
                 request.setAttribute("remark", remark);
+                logger.warn(remark);
                 return RespBean.error("删除失败，该类型下仍有文章", -1);
             }
         }
@@ -117,14 +125,23 @@ public class ArticleTypeController {
     public RespBean enforceDeleteArticleTypeById(@PathVariable Integer iarticleType, HttpServletRequest request) {
         User user = UserUtils.getCurrentUser();
         String remark = "";
-        if (articleTypeService.enforceDeleteArticleTypeById(iarticleType)) {
-            remark = "强制删除文章类型成功，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+        try {
+            if (articleTypeService.enforceDeleteArticleTypeById(iarticleType)) {
+                remark = "强制删除文章类型成功，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+                request.setAttribute("remark", remark);
+                logger.info(remark);
+                return RespBean.ok("强制删除成功");
+            } else {
+                remark = "强制删除文章类型失败，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
+                request.setAttribute("remark", remark);
+                logger.error(remark);
+                return RespBean.ok("强制删除失败");
+            }
+        } catch (BlogException e) {
+            remark = "删除文章类型失败，原因：" + e.getMessage();
+            logger.error(remark);
             request.setAttribute("remark", remark);
-            return RespBean.ok("强制删除成功");
-        } else {
-            remark = "强制删除文章类型失败，文章类型ID[{" + iarticleType + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
-            request.setAttribute("remark", remark);
-            return RespBean.ok("强制删除失败");
+            return RespBean.error(e.getMessage(), "");
         }
     }
 
@@ -149,10 +166,12 @@ public class ArticleTypeController {
         if (articleTypeService.addArticleType(articleType) == 1) {
             remark = "添加文章类型成功，文章类型ID[{" + articleType.getIarticleType() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("添加成功");
         } else {
             remark = "添加文章类型失败,操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("添加失败");
         }
     }
@@ -178,10 +197,12 @@ public class ArticleTypeController {
         if (articleTypeService.updateArticleTypeById(articleType) == 1) {
             remark = "修改文章类型成功，文章类型ID[{" + articleType.getIarticleType() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.info(remark);
             return RespBean.ok("修改成功");
         } else {
             remark = "修改文章类型失败，文章类型ID[{" + articleType.getIarticleType() + "}],操作人ID[{" + user.getIuser() + "}],操作人名字[{" + user.getUsername() + "}]";
             request.setAttribute("remark", remark);
+            logger.error(remark);
             return RespBean.error("修改失败");
         }
     }

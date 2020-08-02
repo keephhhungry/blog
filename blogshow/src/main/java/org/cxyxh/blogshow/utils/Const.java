@@ -9,7 +9,7 @@ package org.cxyxh.blogshow.utils;
  * @Date: 2020/5/29 21:46
  * @Version: 1.0
  */
-public class DefaultParams {
+public class Const {
 
 	//用户名正则表达式
 	public static final String USERNAME_PATTERN = "^[\\u4e00-\\u9fa5_a-zA-Z0-9·-]{2,16}$";

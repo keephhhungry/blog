@@ -43,7 +43,14 @@
             r.NAME AS rname,
             r.name_zh AS rnamezh
         FROM
+            ( SELECT
+            u.i_user,u.username,u.`name`,u.age,u.sex,u.email,u.telephone,u.user_face,u.remark,u.enabled,u.gmt_create,u.gmt_modified
+            FROM
             t_user u
+            <if test="page !=null and size!=null">
+                limit #{page},#{size}
+            </if>
+            ) u
         LEFT JOIN t_user_role ur ON u.i_user = ur.i_user
         LEFT JOIN t_role r ON r.i_role = ur.i_role
         <where>
@@ -74,9 +81,6 @@
                 and u.gmt_create between #{createDateScope[0]} and #{createDateScope[1]}
             </if>
         </where>
-        <if test="page !=null and size!=null">
-            limit #{page},#{size}
-        </if>
     </select>
 
     <!--根据条件分页查询用户  对应的ResultMap-->
